@@ -1,28 +1,28 @@
 ;(function($) {
-/*
- * ui.dropdownchecklist
- *
- * Copyright (c) 2008 Adrian Tosca
- * Dual licensed under the MIT (MIT-LICENSE.txt)
- * and GPL (GPL-LICENSE.txt) licenses.
- * 
- */
+    /*
+    * ui.dropdownchecklist
+    *
+    * Copyright (c) 2008 Adrian Tosca
+    * Dual licensed under the MIT (MIT-LICENSE.txt)
+    * and GPL (GPL-LICENSE.txt) licenses.
+    * 
+    */
     // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list. 
     $.widget("ui.dropdownchecklist", {
         // Creates the drop container that keeps the items and appends it to the document
-        _appendDropContainer: function() { 
+        _appendDropContainer: function() {
             var wrapper = $("<div/>");
             // the container is wrapped in a div
             wrapper.addClass("ui-dropdownchecklist-dropcontainer-wrapper");
             // initially hidden
-            wrapper.css({ 
+            wrapper.css({
                 position: 'absolute',
                 left: "-3300",
                 top: "-3300px",
                 width: '3000px',
                 height: '3000px'
             });
-            var container = $("<div/>");// the actual container
+            var container = $("<div/>"); // the actual container
             container.addClass("ui-dropdownchecklist-dropcontainer")
                 .css("overflow-y", "auto");
             wrapper.append(container);
@@ -35,7 +35,7 @@
         // The control resembles a regular select with single selection
         _appendControl: function() {
             var self = this, options = this.options, sourceSelect = this.sourceSelect;
-            
+
             // the controls is wrapped in a span with inline-block display
             var wrapper = $("<span/>");
             wrapper.addClass("ui-dropdownchecklist-wrapper");
@@ -43,7 +43,7 @@
                 display: "inline-block",
                 cursor: "default"
             });
-            
+
             // the actual control, can be styled to set the border and drop right image
             var control = $("<span/>");
             control.addClass("ui-dropdownchecklist");
@@ -51,7 +51,7 @@
                 display: "inline-block"
             });
             wrapper.append(control);
-            
+
             // the text container keeps the control text that is build from the selected (checked) items
             var textContainer = $("<span/>");
             textContainer.addClass("ui-dropdownchecklist-text")
@@ -79,7 +79,7 @@
                     self._toggleDropContainer();
                 }
             })
-            
+
             wrapper.insertAfter(sourceSelect);
 
             // prevent wrapping
@@ -98,10 +98,10 @@
                 whiteSpace: "nowrap"
             });
             // the checkbox
-            var checkBox = $('<input type="checkbox"/>')
+            var checkedString = checked ? ' checked="checked"' : '';
+            var checkBox = $('<input type="checkbox"' + checkedString + '/>')
                 .attr("index", index)
-                .val(value)
-                .attr("checked", (checked ? "checked" : null));
+                .val(value);
             item.append(checkBox);
             // the text
             var label = $("<span/>");
@@ -113,7 +113,7 @@
                 .text(text);
             item.append(label);
             // firefox or jquery bug prevents chaning style when hover out when over a scrollbar, disable for now
-            if (!$.browser.mozilla) { 
+            if (!$.browser.mozilla) {
                 item.hover(function() {
                     item.toggleClass("ui-dropdownchecklist-item-hover")
                 }, function() {
@@ -141,7 +141,7 @@
         _appendItems: function() {
             var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
-            dropContainerDiv.css({float: "left"}); // to allow getting the actual width of the container
+            dropContainerDiv.css({ float: "left" }); // to allow getting the actual width of the container
             sourceSelect.children("option").each(function(index) {
                 var option = $(this);
                 var value = option.val();
@@ -152,7 +152,7 @@
             })
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
-            dropContainerDiv.css({float: ""});// set it back
+            dropContainerDiv.css({ float: "" }); // set it back
             return { width: divWidth, height: divHeight };
         },
         // Synchronizes the items checked and the source select
@@ -170,7 +170,7 @@
                     var allChecked;
                     allChecked = true;
                     allCheckboxes.each(function(index) {
-                        if (index > 0 ) {
+                        if (index > 0) {
                             var checked = $(this).attr("checked");
                             if (!checked) allChecked = false;
                         }
@@ -182,13 +182,13 @@
                     }
                 }
             }
-            
+
             // do the actual synch with the source select
             var selectOptions = sourceSelect.get(0).options;
             allCheckboxes.each(function(index) {
                 $(selectOptions[index]).attr("selected", $(this).attr("checked"));
             });
-            
+
             // update the text shown in the control
             self._updateControlText();
         },
