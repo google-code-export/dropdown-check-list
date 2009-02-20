@@ -1,0 +1,8 @@
+0.3
+- fixed a problem where checkboxes are not checked when options are initially selected in IE6 (ID3)
+
+0.2
+- works in Chrome and Opera
+
+0.1 
+- initial version
