@@ -88,15 +88,13 @@
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
-        _createDropItem: function(index, value, text, checked) {
+        _createDropItem: function(index, value, text, checked, indent) {
             var self = this;
             // the item contains a div that contains a checkbox input and a span for text
             // the div
             var item = $("<div/>");
             item.addClass("ui-dropdownchecklist-item");
-            item.css({
-                whiteSpace: "nowrap"
-            });
+            item.css({whiteSpace: "nowrap"});
             // the checkbox
             var checkedString = checked ? ' checked="checked"' : '';
             var checkBox = $('<input type="checkbox"' + checkedString + '/>')
@@ -111,6 +109,9 @@
                     width: "100%"
                 })
                 .text(text);
+			if (indent) {
+				item.addClass("ui-dropdownchecklist-indent");
+			}
             item.append(label);
             // firefox or jquery bug prevents chaning style when hover out when over a scrollbar, disable for now
             if (!$.browser.mozilla) {
@@ -136,25 +137,51 @@
             item.click(checkItem);
             return item;
         },
+		_createGroupItem: function(text) {
+			var self = this;
+			var group = $("<div />")
+			group.addClass("ui-dropdownchecklist-group");
+			group.css({whiteSpace: "nowrap"});
+            var label = $("<span/>");
+            label.addClass("ui-dropdownchecklist-text")
+                .css({
+                    cursor: "default",
+                    width: "100%"
+                })
+                .text(text);
+			group.append(label);
+			return group;
+		},
         // Creates the drop items and appends them to the drop container
         // Also calculates the size needed by the drop container and returns it
         _appendItems: function() {
             var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
             dropContainerDiv.css({ float: "left" }); // to allow getting the actual width of the container
-            sourceSelect.children("option").each(function(index) {
-                var option = $(this);
-                var value = option.val();
-                var text = option.text();
-                var selected = option.attr("selected");
-                var item = self._createDropItem(index, value, text, selected);
-                dropContainerDiv.append(item);
-            })
+			sourceSelect.children("optgroup").each(function(index) { // when the select has groups
+				var optgroup = $(this);
+				var text = optgroup.attr("label");
+				var group = self._createGroupItem(text);
+				dropContainerDiv.append(group);
+				self._appendOptions(optgroup, dropContainerDiv, true);
+			});
+			self._appendOptions(sourceSelect, dropContainerDiv, false); // when no groups
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
             dropContainerDiv.css({ float: "" }); // set it back
             return { width: divWidth, height: divHeight };
         },
+		_appendOptions : function(parent, container, indent) {
+			var self = this;
+            parent.children("option").each(function(index) {
+                var option = $(this);
+				var text = option.text();
+				var value = option.val();
+				var selected = option.attr("selected");
+				var item = self._createDropItem(index, value, text, selected, indent);
+				container.append(item);
+            })
+		},
         // Synchronizes the items checked and the source select
         // When firstItemChecksAll option is active also synchronizes the checked items
         // senderCheckbox parameters is the checkbox input that generated the synchronization
@@ -301,7 +328,7 @@
         // Initializes the plugin
         _init: function() {
             var self = this, options = this.options;
-
+			
             // sourceSelect is the select on which the plugin is applied
             var sourceSelect = self.element;
             self.initialDisplay = sourceSelect.css("display");

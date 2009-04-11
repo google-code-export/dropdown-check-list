@@ -26,10 +26,26 @@
 
 .ui-dropdownchecklist-item
 {
+	
 }
 
 .ui-dropdownchecklist-item-hover
 {
 	background-color: #39f;
+}
+
+.ui-dropdownchecklist-item-hover .ui-dropdownchecklist-text
+{
 	color: #fff;
+}
+
+.ui-dropdownchecklist-group
+{
+	font-weight: bold;
+	font-style: italic;
+}
+
+.ui-dropdownchecklist-indent
+{
+	padding-left: 20px;
 }
