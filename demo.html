@@ -15,6 +15,7 @@
             $("#s3").dropdownchecklist({ width: 100 });
             $("#s4").dropdownchecklist({ maxDropHeight: 120 });
             $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
+			$("#s6").dropdownchecklist();
         });
     </script>
     <meta name="description" content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
@@ -168,6 +169,29 @@
             <option>Vanilla</option>
         </select>
     </p>
+    <h2>Select with groups</h2>
+    <p>
+        The existing select element with id 's6' has groups (optgroup elements). The options are indented in groups as with original select element. 
+    </p>
+    <p>
+        <code>
+            $("#s6").dropdownchecklist();
+        </code>
+    </p>
+    <p>
+        <select id="s6" multiple="multiple">
+			<optgroup label="Letters">
+				<option>A</option>
+				<option>B</option>
+				<option selected="selected">C</option>
+			</optgroup>
+            <optgroup label="Numbers">
+				<option>1</option>
+				<option>2</option>
+				<option selected="selected">3</option>
+			</optgroup>
+        </select>
+    </p>
     <h2>Style</h2>
     <p>
         <ul>
@@ -176,8 +200,10 @@
             <li><code>.ui-dropdownchecklist-active</code> allows to add aditional style to the control when the items in the drop container are collapsed</li>
             <li><code>.ui-dropdownchecklist-text</code> allows to modify the style of the text that is shown in the control</li>
             <li><code>.ui-dropdownchecklist-dropcontainer</code> allows to modify the style of the drop container</li>
-            <li><code>.ui-dropdownchecklist-item</code>allows to modify the style of each dropdown item</li>
-            <li><code>.ui-dropdownchecklist-item-hover</code>allows to add additional style to the dropdown items when the mouse is over them</li>
+            <li><code>.ui-dropdownchecklist-item</code> allows to modify the style of each dropdown item</li>
+            <li><code>.ui-dropdownchecklist-item-hover</code> allows to add additional style to the dropdown items when the mouse is over them</li>
+			<li><code>.ui-dropdownchecklist-group</code> allows to modify the style of group items</li>
+			<li><code>.ui-dropdownchecklist-indent</code> allows to modify the style of indented items when they are in a group</li>
         </ul>
     </p>
     <p>For more details see <a href="ui.dropdownchecklist.css">the example style sheet</a>.</p>
