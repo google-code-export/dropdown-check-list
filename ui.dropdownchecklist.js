@@ -363,6 +363,7 @@
             this.disabled = true;
         },
         destroy: function() {
+            $.widget.prototype.destroy.apply(this, arguments);
             this.sourceSelect.css("display", this.initialDisplay);
             this.sourceSelect.attr("multiple", this.initialMultiple);
             this.controlWrapper.unbind().remove();
