@@ -122,6 +122,7 @@
             checkBox.click(function(event) {
                 event.stopPropagation();
                 self._syncSelected($(this));
+                self.sourceSelect.trigger("change");
             });
             // check/uncheck the item on clicks on the entire item div
             var checkItem = function(event) {
@@ -261,7 +262,7 @@
                     instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
                     instance.dropWrapper.drop = false;
                     $.ui.dropdownchecklist.drop = null;
-                    $(document).unbind("click", hide);
+                    $(document).unbind("click", hide);                    
                 }
             }
             // shows the given drop container instance
