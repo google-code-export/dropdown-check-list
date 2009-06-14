@@ -4,7 +4,6 @@
 	border: 1px solid #ddd;
 	border-right: 0;
 	background: #fff url(dropdown.png) no-repeat center right;
-	padding-right: 17px; /* background dropdown.png image */
 }
 .ui-dropdownchecklist-hover, .ui-dropdownchecklist-active
 {
@@ -17,6 +16,7 @@
 	font-size: 14px;
 	height: 20px;
 	line-height: 20px;
+	margin-right: 17px; /* background dropdown.png image */
 }
 
 .ui-dropdownchecklist-dropcontainer
