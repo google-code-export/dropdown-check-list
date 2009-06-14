@@ -15,7 +15,8 @@
 .ui-dropdownchecklist-text
 {
 	font-size: 14px;
-	line-height: 20px;    
+	height: 20px;
+	line-height: 20px;
 }
 
 .ui-dropdownchecklist-dropcontainer

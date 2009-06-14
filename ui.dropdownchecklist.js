@@ -82,9 +82,6 @@
 
             wrapper.insertAfter(sourceSelect);
 
-            // prevent wrapping
-            textContainer.css("height", control.height());
-
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
