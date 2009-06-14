@@ -110,14 +110,11 @@
 				item.addClass("ui-dropdownchecklist-indent");
 			}
             item.append(label);
-            // firefox or jquery bug prevents chaning style when hover out when over a scrollbar, disable for now
-            //if (!$.browser.mozilla) {
-                item.hover(function() {
-                    item.addClass("ui-dropdownchecklist-item-hover")
-                }, function() {
-                    item.removeClass("ui-dropdownchecklist-item-hover")
-                });
-            //}
+            item.hover(function() {
+                item.addClass("ui-dropdownchecklist-item-hover")
+            }, function() {
+                item.removeClass("ui-dropdownchecklist-item-hover")
+            });
             // clicking on the checkbox synchronizes the source select
             checkBox.click(function(event) {
                 event.stopPropagation();
@@ -220,9 +217,9 @@
         // Updates the text shown in the control depending on the checked (selected) items
         _updateControlText: function() {
             var self = this, sourceSelect = this.sourceSelect, options = this.options, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
-            var firstSelect = sourceSelect.children("option:first");
+            var firstSelect = sourceSelect.find("option:first");
             var allSelected = null != firstSelect && firstSelect.attr("selected");
-            var selectOptions = sourceSelect.children("option");
+            var selectOptions = sourceSelect.find("option");
             var text = self._formatText(selectOptions, options.firstItemChecksAll, allSelected);
             var controlLabel = controlWrapper.find(".ui-dropdownchecklist-text");
             controlLabel.text(text);
