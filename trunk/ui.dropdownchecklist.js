@@ -111,13 +111,13 @@
 			}
             item.append(label);
             // firefox or jquery bug prevents chaning style when hover out when over a scrollbar, disable for now
-            if (!$.browser.mozilla) {
+            //if (!$.browser.mozilla) {
                 item.hover(function() {
-                    item.toggleClass("ui-dropdownchecklist-item-hover")
+                    item.addClass("ui-dropdownchecklist-item-hover")
                 }, function() {
-                    item.toggleClass("ui-dropdownchecklist-item-hover")
+                    item.removeClass("ui-dropdownchecklist-item-hover")
                 });
-            }
+            //}
             // clicking on the checkbox synchronizes the source select
             checkBox.click(function(event) {
                 event.stopPropagation();
