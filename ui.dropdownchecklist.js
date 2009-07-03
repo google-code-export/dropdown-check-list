@@ -127,6 +127,7 @@
                 var checked = checkBox.attr("checked");
                 checkBox.attr("checked", !checked)
                 self._syncSelected(checkBox);
+                self.sourceSelect.trigger("change");
             }
             label.click(checkItem);
             item.click(checkItem);
