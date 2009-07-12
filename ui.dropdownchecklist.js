@@ -153,7 +153,7 @@
         _appendItems: function() {
             var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
-            dropContainerDiv.css({ float: "left" }); // to allow getting the actual width of the container
+            dropContainerDiv.css({ "float": "left" }); // to allow getting the actual width of the container
 			sourceSelect.children("optgroup").each(function(index) { // when the select has groups
 				var optgroup = $(this);
 				var text = optgroup.attr("label");
@@ -164,7 +164,7 @@
 			self._appendOptions(sourceSelect, dropContainerDiv, false); // when no groups
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
-            dropContainerDiv.css({ float: "" }); // set it back
+            dropContainerDiv.css({ "float": "" }); // set it back
             return { width: divWidth, height: divHeight };
         },
 		_appendOptions : function(parent, container, indent) {
@@ -260,7 +260,8 @@
                     instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
                     instance.dropWrapper.drop = false;
                     $.ui.dropdownchecklist.drop = null;
-                    $(document).unbind("click", hide);                    
+                    $(document).unbind("click", hide);
+					self.sourceSelect.trigger("blur");
                 }
             }
             // shows the given drop container instance
@@ -276,6 +277,7 @@
                 instance.dropWrapper.drop = true;
                 $.ui.dropdownchecklist.drop = instance;
                 $(document).bind("click", hide);
+				self.sourceSelect.trigger("focus");
             }
             if (dropWrapper.drop) {
                 hide(self);
