@@ -154,30 +154,39 @@
             var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
             dropContainerDiv.css({ "float": "left" }); // to allow getting the actual width of the container
-			sourceSelect.children("optgroup").each(function(index) { // when the select has groups
-				var optgroup = $(this);
-				var text = optgroup.attr("label");
-				var group = self._createGroupItem(text);
-				dropContainerDiv.append(group);
-				self._appendOptions(optgroup, dropContainerDiv, true);
+			sourceSelect.children().each(function(index) { // when the select has groups
+				var opt = $(this);
+                if (opt.is("option")) {
+                    self._appendOption(opt, dropContainerDiv, index, false);
+                } else {
+                    var text = opt.attr("label");
+                    var group = self._createGroupItem(text);
+                    dropContainerDiv.append(group);
+                    self._appendOptions(opt, dropContainerDiv, index, true);
+                }
 			});
-			self._appendOptions(sourceSelect, dropContainerDiv, false); // when no groups
+			//self._appendOptions(sourceSelect, dropContainerDiv, false); // when no groups
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
             dropContainerDiv.css({ "float": "" }); // set it back
             return { width: divWidth, height: divHeight };
         },
-		_appendOptions : function(parent, container, indent) {
+		_appendOptions: function(parent, container, parentIndex, indent) {
 			var self = this;
             parent.children("option").each(function(index) {
                 var option = $(this);
-				var text = option.text();
-				var value = option.val();
-				var selected = option.attr("selected");
-				var item = self._createDropItem(index, value, text, selected, indent);
-				container.append(item);
+                var childIndex = (parentIndex + "." + index);
+                self._appendOption(option, container, childIndex, indent);
             })
 		},
+        _appendOption: function(option, container, index, indent) {
+            var self = this;
+            var text = option.text();
+            var value = option.val();
+            var selected = option.attr("selected");
+            var item = self._createDropItem(index, value, text, selected, indent);
+            container.append(item);            
+        },
         // Synchronizes the items checked and the source select
         // When firstItemChecksAll option is active also synchronizes the checked items
         // senderCheckbox parameters is the checkbox input that generated the synchronization
