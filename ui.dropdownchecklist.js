@@ -5,9 +5,9 @@
     * Copyright (c) 2008 Adrian Tosca
     * Dual licensed under the MIT (MIT-LICENSE.txt)
     * and GPL (GPL-LICENSE.txt) licenses.
-    * 
+    *
     */
-    // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list. 
+    // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list.
     $.widget("ui.dropdownchecklist", {
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function() {
@@ -173,7 +173,7 @@
         },
 		_appendOptions: function(parent, container, parentIndex, indent) {
 			var self = this;
-            parent.children("option").each(function(index) {
+			parent.children("option").each(function(index) {
                 var option = $(this);
                 var childIndex = (parentIndex + "." + index);
                 self._appendOption(option, container, childIndex, indent);
@@ -185,7 +185,7 @@
             var value = option.val();
             var selected = option.attr("selected");
             var item = self._createDropItem(index, value, text, selected, indent);
-            container.append(item);            
+            container.append(item);
         },
         // Synchronizes the items checked and the source select
         // When firstItemChecksAll option is active also synchronizes the checked items
@@ -314,7 +314,7 @@
                 width: controlWidth + "px"
             });
 
-            // for the drop container get the actual (outer) width of the control. 
+            // for the drop container get the actual (outer) width of the control.
             // this can be different than the set one depening on paddings, borders etc set on the control
             var controlOuterWidth = controlWrapper.outerWidth();
 
@@ -335,7 +335,7 @@
         // Initializes the plugin
         _init: function() {
             var self = this, options = this.options;
-			
+
             // sourceSelect is the select on which the plugin is applied
             var sourceSelect = self.element;
             self.initialDisplay = sourceSelect.css("display");
