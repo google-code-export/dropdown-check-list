@@ -2,7 +2,7 @@
     /*
     * ui.dropdownchecklist
     *
-    * Copyright (c) 2008 Adrian Tosca
+    * Copyright (c) 2008-2009 Adrian Tosca
     * Dual licensed under the MIT (MIT-LICENSE.txt)
     * and GPL (GPL-LICENSE.txt) licenses.
     *
