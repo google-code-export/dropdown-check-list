@@ -16,6 +16,7 @@
             $("#s4").dropdownchecklist({ maxDropHeight: 120 });
             $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
 			$("#s6").dropdownchecklist();
+			$("#s7").dropdownchecklist();
         });
     </script>
     <meta name="description" content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
@@ -45,10 +46,10 @@
     </p>
     <h2>Example</h2>
     <p>
-        The existing select element with id 's1' is replaced by a dropdown checkbox list widget. 
+        The existing select element with id 's1' is replaced by a dropdown checkbox list widget.
         The widget will set hide the existing select element by modifying its <code>display</code> attribute to <code>none</code>.
         The new widget will keep the replaced select options synchronized with the checkbox list so the postback is not affected in any way.
-        The text of the control is composed on the concatenated text of selected options in the list. 
+        The text of the control is composed on the concatenated text of selected options in the list.
         Because the width of the control will not allways accomodate all selected options, the control will show the full text on hover by setting its title attribute.
     </p>
     <p>
@@ -65,7 +66,7 @@
     </p>
     <h2>Some option items from original select initially selected</h2>
     <p>
-        The existing select element with id 's2' already has some options selected. 
+        The existing select element with id 's2' already has some options selected.
         In this case the widget will take over the selection automatically on initialization.
     </p>
     <p>
@@ -82,7 +83,7 @@
     </p>
     <h2>Long text, shorter control</h2>
     <p>
-        An option allow to set a fixed width on the control even if the dropdown list is wider. 
+        An option allow to set a fixed width on the control even if the dropdown list is wider.
         The dropdown will keep its size so the items in the list are correctly visible.
     </p>
     <p>
@@ -101,7 +102,7 @@
     </p>
     <h2>Long list of options, with scroll</h2>
     <p>
-        Another option allow to set a fixed height of the dropdown list. 
+        Another option allow to set a fixed height of the dropdown list.
         This is usefull when there is a big number of items. The dropdown list is scrollable to allow selection of all the items.
     </p>
     <p>
@@ -128,7 +129,7 @@
     </p>
     <h2>Option to let the first item in list check all items</h2>
     <p>
-        The firstItemChecksAll option allow to set attach a special behavior to the first item in the list. 
+        The firstItemChecksAll option allow to set attach a special behavior to the first item in the list.
         If the item is checked, all items in the list are checked.
     </p>
     <p>
@@ -171,7 +172,7 @@
     </p>
     <h2>Select with groups</h2>
     <p>
-        The existing select element with id 's6' has groups (optgroup elements). The options are indented in groups as with original select element. 
+        The existing select element with id 's6' has groups (optgroup elements). The options are indented in groups as with original select element.
     </p>
     <p>
         <code>
@@ -190,6 +191,32 @@
 				<option>2</option>
 				<option selected="selected">3</option>
 			</optgroup>
+        </select>
+    </p>
+    <h2>Single select with radio buttons instead of checkboxes</h2>
+    <p>
+        If the select element does not have an multiple attribute then the plugin will display radiobuttons in the list.
+    </p>
+    <p>
+        <code>
+            $("#s7").dropdownchecklist();
+        </code>
+    </p>
+    <p>
+        <select id="s7">
+            <option>Aries</option>
+            <option>Taurus</option>
+            <option>Gemini</option>
+            <option>Cancer</option>
+            <option>Leo	Leo</option>
+            <option>Virgo</option>
+            <option>Libra</option>
+            <option>Scorpius</option>
+            <option>Ophiuchus</option>
+            <option>Sagittarius</option>
+            <option>Capricornus</option>
+            <option>Aquarius</option>
+            <option>Pisces</option>
         </select>
     </p>
     <h2>Style</h2>

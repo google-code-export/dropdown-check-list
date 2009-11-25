@@ -92,12 +92,21 @@
             var item = $("<div/>");
             item.addClass("ui-dropdownchecklist-item");
             item.css({whiteSpace: "nowrap"});
-            // the checkbox
             var checkedString = checked ? ' checked="checked"' : '';
-            var checkBox = $('<input type="checkbox"' + checkedString + '/>')
+            var checkBox;
+            if (self.initialMultiple) {
+                // the checkbox
+                checkBox = $('<input type="checkbox"' + checkedString + '/>')
                 .attr("index", index)
                 .val(value);
-            item.append(checkBox);
+                item.append(checkBox);
+            } else {
+                // the radiobutton
+                checkBox = $('<input type="radio" name="' + self.sourceSelect.attr("id") + '"' + checkedString + '/>')
+                .attr("index", index)
+                .val(value);
+                item.append(checkBox);
+            }
             // the text
             var label = $("<span/>");
             label.addClass("ui-dropdownchecklist-text")
@@ -360,7 +369,7 @@
 
             // set the sizes of control and drop container
             self._setSize(dropCalculatedSize);
-            
+
             // BGIFrame for IE6
 			if (options.bgiframe && typeof self.dropWrapper.bgiframe == "function") {
 				self.dropWrapper.bgiframe();
