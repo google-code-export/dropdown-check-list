@@ -1,0 +1,29 @@
+Index: ui.dropdownchecklist.js
+===================================================================
+--- ui.dropdownchecklist.js	(revision 31)
++++ ui.dropdownchecklist.js	(working copy)
+@@ -92,12 +92,21 @@
+             var item = $("<div/>");
+             item.addClass("ui-dropdownchecklist-item");
+             item.css({whiteSpace: "nowrap"});
+-            // the checkbox
+             var checkedString = checked ? ' checked="checked"' : '';
+-            var checkBox = $('<input type="checkbox"' + checkedString + '/>')
++            var checkBox;
++            if (self.initialMultiple) {
++                // the checkbox
++                checkBox = $('<input type="checkbox"' + checkedString + '/>')
+                 .attr("index", index)
+                 .val(value);
+-            item.append(checkBox);
++                item.append(checkBox);
++            } else {
++                // the radiobutton
++                checkBox = $('<input type="radio" name="group1"' + checkedString + '/>')
++                .attr("index", index)
++                .val(value);
++                item.append(checkBox);
++            }
+             // the text
+             var label = $("<span/>");
+             label.addClass("ui-dropdownchecklist-text")

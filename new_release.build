@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="dropdown-check-list" default="run">
-    <property name="version" value="0.6"/>
+    <property name="version" value="0.7"/>
     <property name="outdir" value="../${version}"/>
 
     <target name="clean">
