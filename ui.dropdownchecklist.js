@@ -360,6 +360,11 @@
 
             // set the sizes of control and drop container
             self._setSize(dropCalculatedSize);
+            
+            // BGIFrame for IE6
+			if (options.bgiframe && typeof self.dropWrapper.bgiframe == "function") {
+				self.dropWrapper.bgiframe();
+			}
         },
         enable: function() {
             this.controlWrapper.find(".ui-dropdownchecklist").removeClass("ui-dropdownchecklist-disabled");
@@ -383,7 +388,8 @@
             width: null,
             maxDropHeight: null,
             firstItemChecksAll: false,
-            minWidth: 50
+            minWidth: 50,
+            bgiframe: false
         }
     });
 
