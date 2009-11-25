@@ -226,10 +226,12 @@
 	<h2>Changing the original select element content or selection</h2>
 	<p>
 	 	The plugin does not automatically syncronizes the changes to the original select to the plugin checkboxes after the initial creation. If the original select needs to change, for example by adding some options or selecting values, the plugin must be destroyed then recreated to merge the changes:
+	</p>
+	<p>
   	 	<code>
-		 	$("#s1").dropdownchecklist("destroy");
-			$("#s1").val(...) // do something to the original select, for example select some options or change the options
-			$("#s1").dropdownchecklist();
+		 	$("#s1").dropdownchecklist("destroy");<br />
+			$("#s1").val(...) // do something to the original select, for example select some options or change the options<br />
+			$("#s1").dropdownchecklist();<br />
 		</code>
 	</p>
     <h2>Style</h2>
