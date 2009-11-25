@@ -16,7 +16,7 @@
             $("#s4").dropdownchecklist({ maxDropHeight: 120 });
             $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
 			$("#s6").dropdownchecklist();
-			$("#s7").dropdownchecklist();
+			$("#s7").dropdownchecklist({ maxDropHeight: 200 });
         });
     </script>
     <meta name="description" content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
@@ -26,7 +26,7 @@
 <div id="content">
     <h1>jQuery <em>Dropdown Check List</em></h1>
     <p>
-        The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list.
+        The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list. The plugin is hosted on <a href="http://code.google.com/p/dropdown-check-list/">google code<a>
     </p>
     <p>
         <img src="demo.png" alt="Dropdown Check List" title="The widget transforms a regular select html element into a dropdown checkbox list" />
@@ -39,11 +39,15 @@
     </p>
     <h2>Download</h2>
     <p>
-        Download current version can be downloaded from <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. This page including all required files to run the examples can be downloaded as zip package from the same location.
+        The current version can be downloaded from <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. This page, including all required files to run the examples, can be downloaded as zip package from the same location.
     </p>
     <p>
         Dropdown check list requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> and <a href="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js">ui.core.js</a> and has been tested with jquery version 1.2.6. The widget has been tested with IE 7, Firefox 3, Opera 9.6, Safari 3.1 (for windows) and Chrome 0.3 browsers.
     </p>
+	<h2>How does it work?</h2>
+	<p>
+	 	DDCL uses the existing structure of the html select elements on which it is applied to dynamically build a container with checkboxes and labels then hides the original select element. The plugin does not change in any way the existing select element, only syncronize the checked values from the new container to the original select. This approach has the added benefit to allow the use of the plugin with any server technology.
+	</p>
     <h2>Example</h2>
     <p>
         The existing select element with id 's1' is replaced by a dropdown checkbox list widget.
@@ -199,7 +203,7 @@
     </p>
     <p>
         <code>
-            $("#s7").dropdownchecklist();
+            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
         </code>
     </p>
     <p>
@@ -219,6 +223,15 @@
             <option>Pisces</option>
         </select>
     </p>
+	<h2>Changing the original select element content or selection</h2>
+	<p>
+	 	The plugin does not automatically syncronizes the changes to the original select to the plugin checkboxes after the initial creation. If the original select needs to change, for example by adding some options or selecting values, the plugin must be destroyed then recreated to merge the changes:
+  	 	<code>
+		 	$("#s1").dropdownchecklist("destroy");
+			$("#s1").val(...) // do something to the original select, for example select some options or change the options
+			$("#s1").dropdownchecklist();
+		</code>
+	</p>
     <h2>Style</h2>
     <p>
         <ul>
@@ -234,6 +247,10 @@
         </ul>
     </p>
     <p>For more details see <a href="ui.dropdownchecklist.css">the example style sheet</a>.</p>
+	<h2>Have problems using the plugin?</h2>
+	<p>
+	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list">issue list</a>.
+	</p>
 </div>
 </body>
 </html>
