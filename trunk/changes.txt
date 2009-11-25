@@ -1,3 +1,7 @@
+0.7
+- merged patch from bishiboosh for bgiframe integration (#34)
+- merged patch from neil.anthony.owen to display radio buttons instead of checkboxes when the select does not have a multiple attribute (#25)
+
 0.6
 - fixed a problem when the text is not shown when using groups (#17)
 - change event is now rises when the checkbox is clicked, the previous version only rised the event on label click (#18)
