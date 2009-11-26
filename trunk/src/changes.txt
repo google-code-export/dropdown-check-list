@@ -1,3 +1,6 @@
+0.8
+- changed zip structure to provide minified version
+
 0.7
 - merged patch from bishiboosh for bgiframe integration (#34)
 - merged patch from neil.anthony.owen to display radio buttons instead of checkboxes when the select does not have a multiple attribute (#25)
