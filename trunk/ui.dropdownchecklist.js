@@ -289,8 +289,19 @@
                 }
                 instance.dropWrapper.css({
                     top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
-                    left: instance.controlWrapper.offset().left + "px"
+                    left: instance.controlWrapper.offset().left + "px",
                 })
+				var ancestorsZIndexes = controlWrapper.parents().map(
+					function() {
+						var zIndex = $(this).css("z-index");
+						return isNaN(zIndex) ? 0 : zIndex}
+					).get();
+				var parentZIndex = Math.max.apply(Math, ancestorsZIndexes);
+				if (parentZIndex > 0) {
+					instance.dropWrapper.css({
+						zIndex: (parentZIndex+1)
+					})
+				}
                 instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
                 instance.dropWrapper.drop = true;
                 $.ui.dropdownchecklist.drop = instance;
