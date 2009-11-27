@@ -1,5 +1,5 @@
 <project name="dropdown-check-list" default="zip" basedir=".">
-	
+
 	<property name="version" value="0.8"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="yui-compressor.jar" location="ant_lib/yuicompressor-2.4.2.jar" />
@@ -12,18 +12,18 @@
 	<taskdef name="yui-compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
 		<classpath refid="task.classpath" />
 	</taskdef>
-	
+
 	<target name="clean">
 		<delete dir="${dist.dir}"/>
 	</target>
-		
+
 	<target name="init">
 		<mkdir dir="${dist.dir}/js"/>
 		<mkdir dir="${dist.dir}/css"/>
 		<mkdir dir="${dist.dir}/src"/>
 		<mkdir dir="${dist.dir}/zip"/>
 	</target>
-	
+
 	<target name="copy">
 		<copy todir="${dist.dir}/src">
 			<fileset dir="src"/>
@@ -33,13 +33,13 @@
 			<fileset dir="src" includes="*.png" excludes="demo.png"/>
 		</copy>
 	</target>
-	
+
 	<target name="minify">
 		<yui-compressor warn="false" munge="true" preserveallsemicolons="false" fromdir="src" todir="${dist.dir}/js" includes="*.js"/>
 	</target>
-	
-	<target name="zip" depends="init, copy, minify">
+
+	<target name="zip" depends="clean, init, copy, minify">
 		<zip destfile="${dist.dir}/zip/dropdown-check-list.${version}.zip" basedir="${dist.dir}" excludes="zip"/>
 	</target>
-	
+
 </project>
