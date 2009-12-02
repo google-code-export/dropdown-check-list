@@ -289,7 +289,7 @@
                 }
                 instance.dropWrapper.css({
                     top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
-                    left: instance.controlWrapper.offset().left + "px",
+                    left: instance.controlWrapper.offset().left + "px"
                 })
 				var ancestorsZIndexes = controlWrapper.parents().map(
 					function() {
