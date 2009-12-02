@@ -26,11 +26,28 @@
             container.addClass("ui-dropdownchecklist-dropcontainer")
                 .css("overflow-y", "auto");
             wrapper.append(container);
-            $(document.body).append(wrapper);
+			//$(document.body).append(wrapper);
+			wrapper.insertAfter(this.sourceSelect);
             // flag that tells if the drop container is shown or not
             wrapper.drop = false;
             return wrapper;
         },
+		_isDropDownKeyShortcut: function(e) {
+			return e.altKey && ($.ui.keyCode.DOWN == (e.keyCode || e.which));// Alt + Down Arrow
+		},
+		_isDroDownCloseKey: function(e) {
+			return $.ui.keyCode.ESCAPE == (e.keyCode || e.which);
+		},
+		_handleKeyboard: function(e) {
+			var self = this;
+			if (self._isDropDownKeyShortcut(e)) {
+				e.stopPropagation();
+				self._toggleDropContainer();
+				self.dropWrapper.find("input:first").focus();
+			} else if (self.dropWrapper.drop && self._isDroDownCloseKey(e)) {
+				self._toggleDropContainer();
+			}
+		},
         // Creates the control that will replace the source select and appends it to the document
         // The control resembles a regular select with single selection
         _appendControl: function() {
@@ -50,6 +67,8 @@
             control.css({
                 display: "inline-block"
             });
+			control.attr("tabIndex", 0);
+			control.keyup(function(e) {self._handleKeyboard(e)});
             wrapper.append(control);
 
             // the text container keeps the control text that is build from the selected (checked) items
@@ -93,22 +112,20 @@
             item.addClass("ui-dropdownchecklist-item");
             item.css({whiteSpace: "nowrap"});
             var checkedString = checked ? ' checked="checked"' : '';
+			var idBase = (self.sourceSelect.attr("id") || "ddcl");
+			var id = idBase + index;
             var checkBox;
             if (self.initialMultiple) {
                 // the checkbox
-                checkBox = $('<input type="checkbox"' + checkedString + '/>')
-                .attr("index", index)
-                .val(value);
-                item.append(checkBox);
+                checkBox = $('<input type="checkbox" id="' + id + '"' + checkedString + '/>');
             } else {
                 // the radiobutton
-                checkBox = $('<input type="radio" name="' + self.sourceSelect.attr("id") + '"' + checkedString + '/>')
-                .attr("index", index)
-                .val(value);
-                item.append(checkBox);
+                checkBox = $('<input type="radio" id="' + id + '" name="' + idBase + '"' + checkedString + '/>');
             }
+            checkBox = checkBox.attr("index", index).val(value);
+            item.append(checkBox);
             // the text
-            var label = $("<span/>");
+            var label = $("<label for=" + id + "/>");
             label.addClass("ui-dropdownchecklist-text")
                 .css({
                     cursor: "default",
@@ -125,21 +142,22 @@
                 item.removeClass("ui-dropdownchecklist-item-hover")
             });
             // clicking on the checkbox synchronizes the source select
-            checkBox.click(function(event) {
-                event.stopPropagation();
+            checkBox.click(function(e) {
+                e.stopPropagation();
                 self._syncSelected($(this));
                 self.sourceSelect.trigger("change");
             });
             // check/uncheck the item on clicks on the entire item div
-            var checkItem = function(event) {
-                event.stopPropagation();
+            var checkItem = function(e) {
+                e.stopPropagation();
                 var checked = checkBox.attr("checked");
                 checkBox.attr("checked", !checked)
                 self._syncSelected(checkBox);
                 self.sourceSelect.trigger("change");
             }
-            label.click(checkItem);
+            label.click(function(e) {e.stopPropagation()});
             item.click(checkItem);
+			item.keyup(function(e) {self._handleKeyboard(e)});
             return item;
         },
 		_createGroupItem: function(text) {
@@ -276,6 +294,7 @@
                         left: "-3300px"
                     });
                     instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
+					instance.dropWrapper.find("input").attr("tabIndex", -1);
                     instance.dropWrapper.drop = false;
                     $.ui.dropdownchecklist.drop = null;
                     $(document).unbind("click", hide);
@@ -303,6 +322,7 @@
 					})
 				}
                 instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
+				instance.dropWrapper.find("input").attr("tabIndex", 0);
                 instance.dropWrapper.drop = true;
                 $.ui.dropdownchecklist.drop = instance;
                 $(document).bind("click", hide);
