@@ -313,9 +313,16 @@
                 if (null != $.ui.dropdownchecklist.drop) {
                     hide();
                 }
+                var controlWrapperOffset = instance.controlWrapper.offset();
+                var controlWrapperOffsetParent = instance.controlWrapper.offsetParent();
+                if (!controlWrapperOffsetParent.is('body')) {
+                    var controlWrapperParentOffset = controlWrapperOffsetParent.offset();
+                    controlWrapperOffset.top = Math.abs(controlWrapperParentOffset.top - controlWrapperOffset.top);
+                    controlWrapperOffset.left = Math.abs(controlWrapperParentOffset.left - controlWrapperOffset.left);
+                }
                 instance.dropWrapper.css({
-                    top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
-                    left: instance.controlWrapper.offset().left + "px"
+                    top: controlWrapperOffset.top + instance.controlWrapper.outerHeight() + "px",
+                    left: controlWrapperOffset.left + "px"
                 })
 				var ancestorsZIndexes = controlWrapper.parents().map(
 					function() {

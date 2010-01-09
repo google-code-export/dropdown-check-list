@@ -1,0 +1,21 @@
+--- dropdown-check-list.0.8/src/ui.dropdownchecklist.js	2009-12-02 19:51:50.000000000 -0800
++++ dropdown-check-list.0.8-offset-patch/src/ui.dropdownchecklist.js	2009-12-08 15:06:39.000000000 -0800
+@@ -306,9 +306,16 @@
+                 if (null != $.ui.dropdownchecklist.drop) {
+                     hide();
+                 }
++                var controlWrapperOffset = instance.controlWrapper.offset();
++                var controlWrapperOffsetParent = instance.controlWrapper.offsetParent();
++                if (!controlWrapperOffsetParent.is('body')) {
++                  var controlWrapperParentOffset = controlWrapperOffsetParent.offset();
++                  controlWrapperOffset.top = Math.abs(controlWrapperParentOffset.top - controlWrapperOffset.top);
++                  controlWrapperOffset.left = Math.abs(controlWrapperParentOffset.left - controlWrapperOffset.left);
++                }
+                 instance.dropWrapper.css({
+-                    top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
+-                    left: instance.controlWrapper.offset().left + "px"
++                    top: controlWrapperOffset.top + instance.controlWrapper.outerHeight() + "px",
++                    left: controlWrapperOffset.left + "px"
+                 })
+ 				var ancestorsZIndexes = controlWrapper.parents().map(
+ 					function() {
