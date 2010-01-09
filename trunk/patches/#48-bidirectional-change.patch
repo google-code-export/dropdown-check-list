@@ -1,0 +1,50 @@
+--- orig/src/ui.dropdownchecklist.js	2009-12-02 19:51:50.000000000 -0800
++++ bidirectional-change/src/ui.dropdownchecklist.js	2009-12-09 11:48:30.000000000 -0800
+@@ -145,7 +145,7 @@
+             checkBox.click(function(e) {
+                 e.stopPropagation();
+                 self._syncSelected($(this));
+-                self.sourceSelect.trigger("change");
++                self.sourceSelect.trigger("change", 'dropdownchecklist_internal');
+             });
+             // check/uncheck the item on clicks on the entire item div
+             var checkItem = function(e) {
+@@ -153,7 +153,7 @@
+                 var checked = checkBox.attr("checked");
+                 checkBox.attr("checked", !checked)
+                 self._syncSelected(checkBox);
+-                self.sourceSelect.trigger("change");
++                self.sourceSelect.trigger("change", 'dropdownchecklist_internal');
+             }
+             label.click(function(e) {e.stopPropagation()});
+             item.click(checkItem);
+@@ -251,6 +251,13 @@
+             // update the text shown in the control
+             self._updateControlText();
+         },
++        _sourceSelectChangeHandler: function(event) {
++          var self = this, dropWrapper = this.dropWrapper;
++          dropWrapper.find("input").val(self.sourceSelect.val());
++        
++        	// update the text shown in the control
++        	self._updateControlText();
++        },
+         // Updates the text shown in the control depending on the checked (selected) items
+         _updateControlText: function() {
+             var self = this, sourceSelect = this.sourceSelect, options = this.options, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
+@@ -405,6 +412,15 @@
+ 			if (options.bgiframe && typeof self.dropWrapper.bgiframe == "function") {
+ 				self.dropWrapper.bgiframe();
+ 			}
++
++          // listen for change events on the source select element
++          // ensure we avoid processing internally triggered changes
++          self.sourceSelect.change(function(event) {
++            if (arguments.length == 2 && arguments[1] == 'dropdownchecklist_internal') {
++              return;
++            }
++            self._sourceSelectChangeHandler(event);
++          });
+         },
+         enable: function() {
+             this.controlWrapper.find(".ui-dropdownchecklist").removeClass("ui-dropdownchecklist-disabled");
