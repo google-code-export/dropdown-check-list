@@ -145,7 +145,7 @@
             checkBox.click(function(e) {
                 e.stopPropagation();
                 self._syncSelected($(this));
-                self.sourceSelect.trigger("change");
+                self.sourceSelect.trigger("change", 'ddcl_internal');
             });
             // check/uncheck the item on clicks on the entire item div
             var checkItem = function(e) {
@@ -153,7 +153,7 @@
                 var checked = checkBox.attr("checked");
                 checkBox.attr("checked", !checked)
                 self._syncSelected(checkBox);
-                self.sourceSelect.trigger("change");
+                self.sourceSelect.trigger("change", 'ddcl_internal');
             }
             label.click(function(e) {e.stopPropagation()});
             item.click(checkItem);
@@ -250,6 +250,13 @@
 
             // update the text shown in the control
             self._updateControlText();
+        },
+        _sourceSelectChangeHandler: function(event) {
+            var self = this, dropWrapper = this.dropWrapper;
+            dropWrapper.find("input").val(self.sourceSelect.val());
+        
+        	// update the text shown in the control
+        	self._updateControlText();
         },
         // Updates the text shown in the control depending on the checked (selected) items
         _updateControlText: function() {
@@ -405,6 +412,14 @@
 			if (options.bgiframe && typeof self.dropWrapper.bgiframe == "function") {
 				self.dropWrapper.bgiframe();
 			}
+
+          // listen for change events on the source select element
+          // ensure we avoid processing internally triggered changes
+          self.sourceSelect.change(function(event, eventName) {
+            if (eventName != 'ddcl_internal') {
+                self._sourceSelectChangeHandler(event);
+            }
+          });
         },
         enable: function() {
             this.controlWrapper.find(".ui-dropdownchecklist").removeClass("ui-dropdownchecklist-disabled");
