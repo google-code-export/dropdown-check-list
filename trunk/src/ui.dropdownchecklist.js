@@ -51,7 +51,7 @@
         // Creates the control that will replace the source select and appends it to the document
         // The control resembles a regular select with single selection
         _appendControl: function() {
-            var self = this, options = this.options, sourceSelect = this.sourceSelect;
+            var self = this, sourceSelect = this.sourceSelect;
 
             // the controls is wrapped in a span with inline-block display
             var wrapper = $("<span/>");
@@ -161,7 +161,6 @@
             return item;
         },
 		_createGroupItem: function(text) {
-			var self = this;
 			var group = $("<div />")
 			group.addClass("ui-dropdownchecklist-group");
 			group.css({whiteSpace: "nowrap"});
@@ -178,7 +177,7 @@
         // Creates the drop items and appends them to the drop container
         // Also calculates the size needed by the drop container and returns it
         _appendItems: function() {
-            var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
+            var self = this, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
             dropContainerDiv.css({ "float": "left" }); // to allow getting the actual width of the container
 			sourceSelect.children().each(function(index) { // when the select has groups
@@ -218,7 +217,7 @@
         // When firstItemChecksAll option is active also synchronizes the checked items
         // senderCheckbox parameters is the checkbox input that generated the synchronization
         _syncSelected: function(senderCheckbox) {
-            var self = this, options = this.options, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
+            var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             var allCheckboxes = dropWrapper.find("input");
             if (options.firstItemChecksAll) {
                 // if firstItemChecksAll is true, check all checkboxes if the first one is checked
@@ -260,7 +259,7 @@
         },
         // Updates the text shown in the control depending on the checked (selected) items
         _updateControlText: function() {
-            var self = this, sourceSelect = this.sourceSelect, options = this.options, controlWrapper = this.controlWrapper, dropWrapper = this.dropWrapper;
+            var self = this, sourceSelect = this.sourceSelect, options = this.options, controlWrapper = this.controlWrapper;
             var firstSelect = sourceSelect.find("option:first");
             var allSelected = null != firstSelect && firstSelect.attr("selected");
             var selectOptions = sourceSelect.find("option");
