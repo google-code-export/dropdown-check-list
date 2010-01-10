@@ -26,8 +26,8 @@
             container.addClass("ui-dropdownchecklist-dropcontainer")
                 .css("overflow-y", "auto");
             wrapper.append(container);
-			//$(document.body).append(wrapper);
-			wrapper.insertAfter(this.sourceSelect);
+			$(document.body).append(wrapper);
+			//wrapper.insertAfter(this.sourceSelect);
             // flag that tells if the drop container is shown or not
             wrapper.drop = false;
             return wrapper;
@@ -312,16 +312,9 @@
                 if (null != $.ui.dropdownchecklist.drop) {
                     hide();
                 }
-                var controlWrapperOffset = instance.controlWrapper.offset();
-                var controlWrapperOffsetParent = instance.controlWrapper.offsetParent();
-                if (!controlWrapperOffsetParent.is('body')) {
-                    var controlWrapperParentOffset = controlWrapperOffsetParent.offset();
-                    controlWrapperOffset.top = Math.abs(controlWrapperParentOffset.top - controlWrapperOffset.top);
-                    controlWrapperOffset.left = Math.abs(controlWrapperParentOffset.left - controlWrapperOffset.left);
-                }
                 instance.dropWrapper.css({
-                    top: controlWrapperOffset.top + instance.controlWrapper.outerHeight() + "px",
-                    left: controlWrapperOffset.left + "px"
+                    top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
+                    left: instance.controlWrapper.offset().left + "px"
                 })
 				var ancestorsZIndexes = controlWrapper.parents().map(
 					function() {
