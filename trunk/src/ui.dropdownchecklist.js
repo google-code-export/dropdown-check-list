@@ -104,7 +104,7 @@
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
-        _createDropItem: function(index, value, text, checked, indent) {
+        _createDropItem: function(index, value, text, checked, disabled, indent) {
             var self = this;
             // the item contains a div that contains a checkbox input and a span for text
             // the div
@@ -112,15 +112,14 @@
             item.addClass("ui-dropdownchecklist-item");
             item.css({whiteSpace: "nowrap"});
             var checkedString = checked ? ' checked="checked"' : '';
+			var disabledString = disabled ? ' disabled="disabled"' : '';
 			var idBase = (self.sourceSelect.attr("id") || "ddcl");
 			var id = idBase + index;
             var checkBox;
-            if (self.initialMultiple) {
-                // the checkbox
-                checkBox = $('<input type="checkbox" id="' + id + '"' + checkedString + '/>');
-            } else {
-                // the radiobutton
-                checkBox = $('<input type="radio" id="' + id + '" name="' + idBase + '"' + checkedString + '/>');
+            if (self.initialMultiple) { // the checkbox
+                checkBox = $('<input type="checkbox" id="' + id + '"' + checkedString + disabledString + '/>');
+            } else { // the radiobutton
+                checkBox = $('<input type="radio" id="' + id + '" name="' + idBase + '"' + checkedString + disabledString + '/>');
             }
             checkBox = checkBox.attr("index", index).val(value);
             item.append(checkBox);
@@ -135,6 +134,9 @@
 			if (indent) {
 				item.addClass("ui-dropdownchecklist-indent");
 			}
+			if (disabled) {
+				item.addClass("ui-dropdownchecklist-item-disabled");
+			}
             item.append(label);
             item.hover(function() {
                 item.addClass("ui-dropdownchecklist-item-hover")
@@ -142,21 +144,25 @@
                 item.removeClass("ui-dropdownchecklist-item-hover")
             });
             // clicking on the checkbox synchronizes the source select
-            checkBox.click(function(e) {
-                e.stopPropagation();
-                self._syncSelected($(this));
-                self.sourceSelect.trigger("change", 'ddcl_internal');
-            });
+	        checkBox.click(function(e) {
+				e.stopPropagation();
+				if (!disabled) {
+	                self._syncSelected($(this));
+	                self.sourceSelect.trigger("change", 'ddcl_internal');
+				}
+	        });
             // check/uncheck the item on clicks on the entire item div
             var checkItem = function(e) {
                 e.stopPropagation();
-                var checked = checkBox.attr("checked");
-                checkBox.attr("checked", !checked)
-                self._syncSelected(checkBox);
-                self.sourceSelect.trigger("change", 'ddcl_internal');
+				if (!disabled) {
+	                var checked = checkBox.attr("checked");
+	                checkBox.attr("checked", !checked)
+	                self._syncSelected(checkBox);
+	                self.sourceSelect.trigger("change", 'ddcl_internal');
+				}
             }
-            label.click(function(e) {e.stopPropagation()});
-            item.click(checkItem);
+	        label.click(function(e) {e.stopPropagation()});
+	        item.click(checkItem);
 			item.keyup(function(e) {self._handleKeyboard(e)});
             return item;
         },
@@ -210,7 +216,8 @@
             var text = option.text();
             var value = option.val();
             var selected = option.attr("selected");
-            var item = self._createDropItem(index, value, text, selected, indent);
+			var disabled = option.attr("disabled");
+            var item = self._createDropItem(index, value, text, selected, disabled, indent);
             container.append(item);
         },
         // Synchronizes the items checked and the source select
@@ -218,7 +225,7 @@
         // senderCheckbox parameters is the checkbox input that generated the synchronization
         _syncSelected: function(senderCheckbox) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
-            var allCheckboxes = dropWrapper.find("input");
+            var allCheckboxes = dropWrapper.find("input:not([disabled])");
             if (options.firstItemChecksAll) {
                 // if firstItemChecksAll is true, check all checkboxes if the first one is checked
                 if (senderCheckbox.attr("index") == 0) {
@@ -253,7 +260,7 @@
         _sourceSelectChangeHandler: function(event) {
             var self = this, dropWrapper = this.dropWrapper;
             dropWrapper.find("input").val(self.sourceSelect.val());
-        
+
         	// update the text shown in the control
         	self._updateControlText();
         },
