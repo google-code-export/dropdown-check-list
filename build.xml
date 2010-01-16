@@ -1,6 +1,6 @@
 <project name="dropdown-check-list" default="zip" basedir=".">
 
-	<property name="version" value="0.8"/>
+	<property name="version" value="0.9"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="yui-compressor.jar" location="ant_lib/yuicompressor-2.4.2.jar" />
 	<property name="yui-compressor-ant-task.jar" location="ant_lib/yui-compressor-ant-task-0.4.jar"/>
