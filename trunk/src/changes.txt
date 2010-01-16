@@ -1,3 +1,10 @@
+0.9
+- fixed some warnings for unused variabled with yui processor (#52)
+- added patch from munkyboy to aoutomatically syncronize with the source select value changes (#48)
+- fixed a problem with positioning and z-index (#47, #53, #54, #56)
+- disabled options are not transformed in disabled checkboxes; the disabled checkboxes are displayed but ignored (#42)
+- !known issue: keyboard handling is broken
+
 0.8
 - changed zip structure to provide minified version and modified to ant build (#40)
 - fixed a problem where dropdown is not visible if displayed in modal dialog with z-index above some value (#41)
