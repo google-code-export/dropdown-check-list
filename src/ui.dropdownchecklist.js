@@ -17,10 +17,10 @@
             // initially hidden
             wrapper.css({
                 position: 'absolute',
-                left: "-3300",
-                top: "-3300px",
+                left: "-33000",
+                top: "-33000px",
                 width: '3000px',
-                height: '3000px'
+                height: '30000px'
             });
             var container = $("<div/>"); // the actual container
             container.addClass("ui-dropdownchecklist-dropcontainer")
@@ -310,8 +310,8 @@
                 var instance = $.ui.dropdownchecklist.drop;
                 if (null != instance) {
                     instance.dropWrapper.css({
-                        top: "-3300px",
-                        left: "-3300px"
+                        top: "-33000px",
+                        left: "-33000px"
                     });
                     instance.controlWrapper.find(".ui-dropdownchecklist").toggleClass("ui-dropdownchecklist-active");
 					instance.dropWrapper.find("input").attr("tabIndex", -1);
