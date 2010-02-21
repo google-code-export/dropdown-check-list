@@ -101,6 +101,12 @@
 
             wrapper.insertAfter(sourceSelect);
 
+            $(window).resize(function() {
+                if (!self.disabled && self.dropWrapper.drop) {
+                    self._toggleDropContainer();
+                }
+            })
+            
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
