@@ -15,8 +15,9 @@
             $("#s3").dropdownchecklist({ width: 100 });
             $("#s4").dropdownchecklist({ maxDropHeight: 120 });
             $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
-			$("#s6").dropdownchecklist();
-			$("#s7").dropdownchecklist({ maxDropHeight: 200 });
+            $("#s6").dropdownchecklist();
+            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
+            $("#s8").dropdownchecklist({ emptyText: "[Level ...]" });
         });
     </script>
     <meta name="description" content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
@@ -221,6 +222,22 @@
             <option>Capricornus</option>
             <option>Aquarius</option>
             <option>Pisces</option>
+        </select>
+    </p>
+    <h2>Empty default text</h2>
+    <p>
+        When no items are checked a default empty text can be displayed.
+    </p>
+    <p>
+        <code>
+            $("#s8").dropdownchecklist({ emptyText: "Please select ..." });
+        </code>
+    </p>
+    <p>
+        <select id="s8" multiple="multiple">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
         </select>
     </p>
 	<h2>Changing the original select element content or selection</h2>
