@@ -300,6 +300,7 @@
                     text = text.substring(0, text.length - 2);
                 }
             }
+            if (text == "") text = this.options.emptyText;
             return text;
         },
         // Shows and hides the drop container
@@ -457,7 +458,8 @@
             maxDropHeight: null,
             firstItemChecksAll: false,
             minWidth: 50,
-            bgiframe: false
+            bgiframe: false,
+            emptyText: ""
         }
     });
 
