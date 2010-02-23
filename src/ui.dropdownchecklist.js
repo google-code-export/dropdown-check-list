@@ -285,7 +285,9 @@
         // Formats the text that is shown in the control
         _formatText: function(selectOptions, firstItemChecksAll, allSelected) {
             var text;
-            if (firstItemChecksAll && allSelected) {
+            if (null != this.options.textFormatFunction) {
+                return this.options.textFormatFunction(selectOptions);
+            } else if (firstItemChecksAll && allSelected) {
                 // just set the text from the first item
                 text = selectOptions.filter(":first").text();
             } else {
@@ -459,7 +461,8 @@
             firstItemChecksAll: false,
             minWidth: 50,
             bgiframe: false,
-            emptyText: ""
+            emptyText: "",
+            textFormatFunction: null
         }
     });
 

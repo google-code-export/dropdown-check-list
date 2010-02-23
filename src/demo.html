@@ -18,6 +18,16 @@
             $("#s6").dropdownchecklist();
             $("#s7").dropdownchecklist({ maxDropHeight: 200 });
             $("#s8").dropdownchecklist({ emptyText: "[Level ...]" });
+            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
+                var selectedOptions = options.filter(":selected");
+                var countOfSelected = selectedOptions.size();
+                switch(countOfSelected) {
+                    case 0: return "Nobody";
+                    case 1: return selectedOptions.text();
+                    case options.size(): return "Everybody";
+                    default: return countOfSelected + " People";
+                }
+            } });
         });
     </script>
     <meta name="description" content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
@@ -238,6 +248,35 @@
             <option>Low</option>
             <option>Medium</option>
             <option>High</option>
+        </select>
+    </p>
+    <h2>Function for formatting the displayed text</h2>
+    <p>
+        A formatting function can be used to display the control text.
+    </p>
+    <p>
+        <code>
+        <pre>
+            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
+                var selectedOptions = options.filter(":selected");
+                var countOfSelected = selectedOptions.size();
+                var size = options.size();
+                switch(countOfSelected) {
+                    case 0: return "Nobody";
+                    case 1: return selectedOptions.text();
+                    case size: return "Everybody";
+                    default: return countOfSelected + " People";
+                }
+            } });
+        </pre>
+        </code>
+    </p>
+    <p>
+        <select id="s9" multiple="multiple">
+            <option>Alice</option>
+            <option>Bob</option>
+            <option>Christian</option>
+            <option>Daniel</option>
         </select>
     </p>
 	<h2>Changing the original select element content or selection</h2>
