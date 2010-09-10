@@ -19,7 +19,7 @@
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-dropcontainer-wrapper");
             wrapper.addClass("ui-widget");
             // initially hidden
-            wrapper.css({ position: 'absolute', left: "-3300", top: "-3300px"  });
+            wrapper.css({ position: 'absolute', left: "-33000", top: "-33000px"  });
             
             var container = $("<div/>"); // the actual container
             container.addClass("ui-dropdownchecklist-dropcontainer ui-widget-content");
@@ -160,6 +160,13 @@
             });
             wrapper.insertAfter(sourceSelect);
 
+			// Watch for a window resize and adjust the control if open
+            $(window).resize(function() {
+                if (!self.disabled && self.dropWrapper.isOpen) {
+                	// Reopen yourself to get the position right
+                    self._toggleDropContainer(true);
+                }
+            })            
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
@@ -346,7 +353,14 @@
         // Formats the text that is shown in the control
         _formatText: function(selectOptions, firstItemChecksAll, firstOption) {
             var text;
-            if (firstItemChecksAll && (firstOption != null) && firstOption.attr("selected")) {
+            if ( $.isFunction(this.options.textFormatFunction) ) {
+            	// let the callback do the formatting, but do not allow it to fail
+            	try {
+                	text = this.options.textFormatFunction(selectOptions);
+                } catch(ex) {
+                	alert( 'textFormatFunction failed: ' + ex );
+                }
+            } else if (firstItemChecksAll && (firstOption != null) && firstOption.attr("selected")) {
                 // just set the text from the first item
                 text = firstOption.text();
             } else {
