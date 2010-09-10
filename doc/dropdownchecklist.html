@@ -21,10 +21,10 @@
             $("#s2").dropdownchecklist();
             $("#s3").dropdownchecklist({ width: 100 });
             $("#s4").dropdownchecklist({ maxDropHeight: 120 });
-            $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
+            $("#s5").dropdownchecklist({ firstItemChecksAll: true });
             $("#s6").dropdownchecklist();
-            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
-            $("#s8").dropdownchecklist({ emptyText: "[Level ...]" });
+            $("#s7").dropdownchecklist();
+            $("#s8").dropdownchecklist({ emptyText: "Please Select..." });
             $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
                 var selectedOptions = options.filter(":selected");
                 var countOfSelected = selectedOptions.size();
@@ -109,7 +109,7 @@
       	<td colspan='2'>
     		<h3>Simple Multi-selector</h3>
     		<div>Nothing originally selected, no special options for id 's1'
-		        <code>
+		    <br><code>
 		            $("#s1").dropdownchecklist();
 		        </code>
 	        </div>
@@ -137,7 +137,7 @@
 		    <div>
 		        The existing select element (with id 's2') already has some options selected.
 		        In this case the widget will take over the selection automatically on initialization.
-		        <code>
+		    <br><code>
 		            $("#s2").dropdownchecklist();
 		        </code>
 		    </div>
@@ -166,7 +166,7 @@
 		        The 'width' option allows you to set a fixed width on the control even if the 
 		        dropdown list is wider. The dropdown will keep its size so the items in the list 
 		        are correctly visible. (id is 's3')
-		        <code>
+		    <br><code>
 		            $("#s3").dropdownchecklist({ width: 150 });
 		        </code>
 		    </div>
@@ -199,7 +199,7 @@
         		The 'maxDropHeight' option allows you to set a fixed height of the dropdown list.
         		This is usefull when there is a big number of items. The dropdown list is scrollable 
         		to allow selection of all the items. Some select options have been disabled.
-		        <code>
+		    <br><code>
 		            $("#s4").dropdownchecklist({ maxDropHeight: 100 });
 		        </code>
    			</div>
@@ -241,143 +241,248 @@
 	        </select>
    		</td>
    	  </tr>
-    <h2>Option to let the first item in list check all items</h2>
-    <p>
-        The firstItemChecksAll option allow to set attach a special behavior to the first item in the list.
-        If the item is checked, all items in the list are checked. Also demonstrates disabled options.
-    </p>
-    <p>
-        <code>
-            $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
-        </code>
-    </p>
-    <p>
-        <select id="s5" multiple="multiple">
-            <option>(all)</option>
-            <option>Banana Nut</option>
-            <option disabled="disabled">Black Walnut</option>
-            <option disabled="disabled">Burgundy Cherry</option>
-            <option>Butter Pecan</option>
-            <option>Chocolate Chip</option>
-            <option>Chocolate Fudge Truffle</option>
-            <option>Chocolate Mint Chip</option>
-            <option>Chocolate Peanut Butter</option>
-            <option>Coconut-Pineapple</option>
-            <option>Coffee</option>
-            <option>Coffee Caramel</option>
-            <option>Coffee Chip</option>
-            <option>Cookie Dough</option>
-            <option>Cookies 'n Cream</option>
-            <option>Dutch Chocolate</option>
-            <option>English Toffee</option>
-            <option>Fudgee Peanut Butter Cup</option>
-            <option>Macadamia Nut</option>
-            <option>Mocha Almond Fudge</option>
-            <option>Nutty Coconut</option>
-            <option>Pistachio Nut</option>
-            <option>Pralines and Cream</option>
-            <option>Rocky Road</option>
-            <option>Root Beer Float</option>
-            <option>Strawberry</option>
-            <option>Strawberry Cheesecake</option>
-            <option>Turkish Coffee</option>
-            <option>Vanilla</option>
-        </select>
-    </p>
-    <h2>Select with groups</h2>
-    <p>
-        The existing select element with id 's6' has groups (optgroup elements). The options are indented in groups as with original select element.
-    </p>
-    <p>
-        <code>
-            $("#s6").dropdownchecklist();
-        </code>
-    </p>
-    <p>
-        <select id="s6" multiple="multiple">
-			<optgroup label="Letters">
-				<option>A</option>
-				<option>B</option>
-				<option selected="selected">C</option>
-			</optgroup>
-            <optgroup label="Numbers">
-				<option>1</option>
-				<option>2</option>
-				<option selected="selected">3</option>
-			</optgroup>
-        </select>
-    </p>
-    <h2>Single select with radio buttons instead of checkboxes</h2>
-    <p>
-        If the select element does not have an multiple attribute then the plugin will display radiobuttons in the list.
-    </p>
-    <p>
-        <code>
-            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
-        </code>
-    </p>
-    <p>
-        <select id="s7">
-            <option>Aries</option>
-            <option>Taurus</option>
-            <option>Gemini</option>
-            <option>Cancer</option>
-            <option>Leo	Leo</option>
-            <option>Virgo</option>
-            <option>Libra</option>
-            <option>Scorpius</option>
-            <option>Ophiuchus</option>
-            <option>Sagittarius</option>
-            <option>Capricornus</option>
-            <option>Aquarius</option>
-            <option>Pisces</option>
-        </select>
-    </p>
-    <h2>Empty default text</h2>
-    <p>
-        When no items are checked a default empty text can be displayed.
-    </p>
-    <p>
-        <code>
-            $("#s8").dropdownchecklist({ emptyText: "Please select ..." });
-        </code>
-    </p>
-    <p>
-        <select id="s8" multiple="multiple">
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-        </select>
-    </p>
-    <h2>Function for formatting the displayed text</h2>
-    <p>
-        A formatting function can be used to display the control text.
-    </p>
-    <p>
-        <code>
-        <pre>
-            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
-                var selectedOptions = options.filter(":selected");
-                var countOfSelected = selectedOptions.size();
-                var size = options.size();
-                switch(countOfSelected) {
-                    case 0: return "Nobody";
-                    case 1: return selectedOptions.text();
-                    case size: return "Everybody";
-                    default: return countOfSelected + " People";
-                }
-            } });
-        </pre>
-        </code>
-    </p>
-    <p>
-        <select id="s9" multiple="multiple">
-            <option>Alice</option>
-            <option>Bob</option>
-            <option>Christian</option>
-            <option>Daniel</option>
-        </select>
-    </p>
+   	  <tr>
+   	  	<td colspan='2'>
+		    <h3>Option to let the first item in list check all items</h3>
+		    <div>
+		        The 'firstItemChecksAll' option allows you to attach a special behavior to the first item 
+		        in the list. If the item is checked, all items in the list are checked. 
+		    <br><code>
+		            $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
+		        </code>
+		    </div>
+    	</td>
+      </tr>
+      <tr>
+      	<td>
+	        <select multiple="multiple">
+	            <option>(all)</option>
+	            <option>Banana Nut</option>
+	            <option disabled="disabled">Black Walnut</option>
+	            <option disabled="disabled">Burgundy Cherry</option>
+	            <option>Butter Pecan</option>
+	            <option>Chocolate Chip</option>
+	            <option>Chocolate Fudge Truffle</option>
+	            <option>Chocolate Mint Chip</option>
+	            <option>Chocolate Peanut Butter</option>
+	            <option>Coconut-Pineapple</option>
+	            <option>Coffee</option>
+	            <option>Coffee Caramel</option>
+	            <option>Coffee Chip</option>
+	            <option>Cookie Dough</option>
+	            <option>Cookies 'n Cream</option>
+	            <option>Dutch Chocolate</option>
+	            <option>English Toffee</option>
+	            <option>Fudgee Peanut Butter Cup</option>
+	            <option>Macadamia Nut</option>
+	            <option>Mocha Almond Fudge</option>
+	            <option>Nutty Coconut</option>
+	            <option>Pistachio Nut</option>
+	            <option>Pralines and Cream</option>
+	            <option>Rocky Road</option>
+	            <option>Root Beer Float</option>
+	            <option>Strawberry</option>
+	            <option>Strawberry Cheesecake</option>
+	            <option>Turkish Coffee</option>
+	            <option>Vanilla</option>
+	        </select>
+	    </td>
+      	<td>
+	        <select id="s5" multiple="multiple">
+	            <option>(all)</option>
+	            <option>Banana Nut</option>
+	            <option disabled="disabled">Black Walnut</option>
+	            <option disabled="disabled">Burgundy Cherry</option>
+	            <option>Butter Pecan</option>
+	            <option>Chocolate Chip</option>
+	            <option>Chocolate Fudge Truffle</option>
+	            <option>Chocolate Mint Chip</option>
+	            <option>Chocolate Peanut Butter</option>
+	            <option>Coconut-Pineapple</option>
+	            <option>Coffee</option>
+	            <option>Coffee Caramel</option>
+	            <option>Coffee Chip</option>
+	            <option>Cookie Dough</option>
+	            <option>Cookies 'n Cream</option>
+	            <option>Dutch Chocolate</option>
+	            <option>English Toffee</option>
+	            <option>Fudgee Peanut Butter Cup</option>
+	            <option>Macadamia Nut</option>
+	            <option>Mocha Almond Fudge</option>
+	            <option>Nutty Coconut</option>
+	            <option>Pistachio Nut</option>
+	            <option>Pralines and Cream</option>
+	            <option>Rocky Road</option>
+	            <option>Root Beer Float</option>
+	            <option>Strawberry</option>
+	            <option>Strawberry Cheesecake</option>
+	            <option>Turkish Coffee</option>
+	            <option>Vanilla</option>
+	        </select>
+	    </td>
+	  </tr>
+      <tr>
+      	<td colspan='2'>
+		    <h3>Select with groups</h3>
+		    <div>
+		        The existing select element has groups (optgroup elements). The options are listed 
+		        in groups as with original select element.
+		    <br><code>
+		            $("#s6").dropdownchecklist();
+		        </code>
+		    </div>
+    	</td>
+      </tr>
+      <tr>
+      	<td>
+	        <select multiple="multiple">
+				<optgroup label="Letters">
+					<option>A</option>
+					<option>B</option>
+					<option selected="selected">C</option>
+				</optgroup>
+	            <optgroup label="Numbers">
+					<option>1</option>
+					<option>2</option>
+					<option selected="selected">3</option>
+				</optgroup>
+	        </select>
+	    </td>
+      	<td>
+	        <select id="s6" multiple="multiple">
+				<optgroup label="Letters">
+					<option>A</option>
+					<option>B</option>
+					<option selected="selected">C</option>
+				</optgroup>
+	            <optgroup label="Numbers">
+					<option>1</option>
+					<option>2</option>
+					<option selected="selected">3</option>
+				</optgroup>
+	        </select>
+	    </td>
+	  </tr>
+      <tr>
+      	<td colspan='2'>
+		    <h3>Single select with radio buttons instead of checkboxes</h3>
+		    <div>
+		        If the select element does not have an multiple attribute then the plugin will 
+		        display radiobuttons in the list.
+		    <br><code>
+		            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
+		        </code>
+		    </div>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+	        <select>
+	            <option>Aries</option>
+	            <option>Taurus</option>
+	            <option>Gemini</option>
+	            <option>Cancer</option>
+	            <option>Leo	Leo</option>
+	            <option>Virgo</option>
+	            <option>Libra</option>
+	            <option>Scorpius</option>
+	            <option>Ophiuchus</option>
+	            <option>Sagittarius</option>
+	            <option>Capricornus</option>
+	            <option>Aquarius</option>
+	            <option>Pisces</option>
+	        </select>
+	    </td>
+      	<td>
+	        <select id="s7">
+	            <option>Aries</option>
+	            <option>Taurus</option>
+	            <option>Gemini</option>
+	            <option>Cancer</option>
+	            <option>Leo	Leo</option>
+	            <option>Virgo</option>
+	            <option>Libra</option>
+	            <option>Scorpius</option>
+	            <option>Ophiuchus</option>
+	            <option>Sagittarius</option>
+	            <option>Capricornus</option>
+	            <option>Aquarius</option>
+	            <option>Pisces</option>
+	        </select>
+	    </td>
+	  </tr>
+	  <tr>
+	  	<td colspan='2'>
+		    <h3>Empty default text</h3>
+		    <div>
+		        The 'emptyText' options allows you to set the text can be displayed when no items are selected
+		    <br><code>
+		            $("#s8").dropdownchecklist({ emptyText: "Please select ..." });
+		        </code>
+		    </div>
+		</td>
+	  </tr>
+	  <tr>
+    	<td>
+	        <select multiple="multiple">
+	            <option>Low</option>
+	            <option>Medium</option>
+	            <option>High</option>
+	        </select>
+	    </td>
+    	<td>
+	        <select id="s8" multiple="multiple">
+	            <option>Low</option>
+	            <option>Medium</option>
+	            <option>High</option>
+	        </select>
+	    </td>
+	  </tr>
+      <tr>
+      	<td colspan='2'>
+		    <h3>Function for formatting the displayed text</h3>
+		    <div>
+		        The 'textFormatFunction' allows you to supply a formatting function can be used to 
+		        display the control text. You can then customize the text display in any way you
+		        wish. The callback function is run with a single argument that is the list of 
+		        selector options.
+		    </p>
+		    <br><code>
+		        <pre>
+		            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
+		                var selectedOptions = options.filter(":selected");
+		                var countOfSelected = selectedOptions.size();
+		                var size = options.size();
+		                switch(countOfSelected) {
+		                    case 0: return "Nobody";
+		                    case 1: return selectedOptions.text();
+		                    case size: return "Everybody";
+		                    default: return countOfSelected + " People";
+		                }
+		            } });
+		        </pre>
+		        </code>
+		    </div>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+	        <select multiple="multiple">
+	            <option>Alice</option>
+	            <option>Bob</option>
+	            <option>Christian</option>
+	            <option>Daniel</option>
+	        </select>
+	     </td>
+      	<td>
+	        <select id="s9" multiple="multiple">
+	            <option>Alice</option>
+	            <option>Bob</option>
+	            <option>Christian</option>
+	            <option>Daniel</option>
+	        </select>
+	     </td>
+	   </tr>
     </table>
     
 	<h2>Changing the original select element content or selection</h2>
