@@ -6,15 +6,6 @@
     * Dual licensed under the MIT (MIT-LICENSE.txt)
     * and GPL (GPL-LICENSE.txt) licenses.
     *
-    * Ittrium, LLC changes as of 03Sept2010: 
-    *		option for onComplete function  (standard onBlur does not seem to fire as expected)
-    *		option for forceMultiple
-    *		option for noSelection
-    *		option for icon control  
-    * icon: { placement: 'left', toOpen: 'ui-icon-triangle-1-e', toClose: 'ui-icon-triangle-1-s' }
-    *		adapt for ui-widget class names
-    *		styling based on JQuery ThemeRoller
-    *		attempt to tidy up keyboard handling/tabs/focus
     */
     // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list.
     $.widget("ui.dropdownchecklist", {
@@ -368,7 +359,7 @@
                     }
                 });
                 if ( text == "" ) {
-                    text = (this.options.noSelection != null) ? this.options.noSelection : "&nbsp;";
+                    text = (this.options.emptyText != null) ? this.options.emptyText : "&nbsp;";
                 }
             }
             return text;

@@ -6,6 +6,9 @@
     <!-- Use a JQuery ThemeRoller theme, in this case 'smoothness' -->
     <link rel="stylesheet" type="text/css" href="smoothness/jquery-ui-1.7.3.custom.css">
     <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.themeroller.css">
+    <style>
+table td { vertical-align: top }
+    </style>
     
     <!-- Include the basic JQuery support (core and ui) -->
     <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
@@ -18,14 +21,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#s1").dropdownchecklist();
-            $("#s2").dropdownchecklist();
-            $("#s3").dropdownchecklist({ width: 100 });
-            $("#s4").dropdownchecklist({ maxDropHeight: 120 });
-            $("#s5").dropdownchecklist({ firstItemChecksAll: true });
+            $("#s2").dropdownchecklist( {icon: {}, width: 150 } );
+            $("#s3").dropdownchecklist( { width: 150 } );
+            $("#s4").dropdownchecklist( { maxDropHeight: 120 } );
+            $("#s5").dropdownchecklist( { firstItemChecksAll: true } );
             $("#s6").dropdownchecklist();
             $("#s7").dropdownchecklist();
-            $("#s8").dropdownchecklist({ emptyText: "Please Select..." });
-            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
+            $("#s8").dropdownchecklist( { emptyText: "Please Select..." } );
+            $("#s9").dropdownchecklist( { textFormatFunction: function(options) {
                 var selectedOptions = options.filter(":selected");
                 var countOfSelected = selectedOptions.size();
                 switch(countOfSelected) {
@@ -76,8 +79,9 @@
         been tested with jquery core version 1.3.2 and ui version 1.7.3.  For CSS styling, it can run
         as a standalone with custom CSS that you provide, or the preferred method is to leverage the 
         JQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
-        by ThemeRoller. 
-    <br>
+        by ThemeRoller. This page is styled with the ThemeRoller "smoothness" theme.
+    </p>
+    <p>
         The widget has been tested with brosers
         <ul>
         <li>IE 6 / 7 / 8</li>
@@ -108,11 +112,12 @@
       <tr>
       	<td colspan='2'>
     		<h3>Simple Multi-selector</h3>
-    		<div>Nothing originally selected, no special options for id 's1'
-		    <br><code>
+    		<div>Nothing originally selected, no special options for id 's1'</div>
+		    <blockquote>
+		    	<code>
 		            $("#s1").dropdownchecklist();
 		        </code>
-	        </div>
+	        </blockquote>
     	</td>
       </tr>
       <tr>
@@ -133,14 +138,19 @@
       </tr>
       <tr>
       	<td colspan='2'>
-		    <h3>Multi-selector with initially selected options</h3>
+		    <h3>Multi-selector with initially selected options and icons</h3>
 		    <div>
 		        The existing select element (with id 's2') already has some options selected.
 		        In this case the widget will take over the selection automatically on initialization.
-		    <br><code>
-		            $("#s2").dropdownchecklist();
-		        </code>
+		    <br>
+		    	In addition, the ThemeRoller icon support is leveraged to include graphical markers on
+		    	the widget.
 		    </div>
+		    <blockquote>
+		    	<code>
+		            $("#s2").dropdownchecklist( {icon: {}, width: 150 } );
+		        </code>
+		    </blockquote>
 		</td>
 	  </tr>
 	  <tr>
@@ -166,10 +176,12 @@
 		        The 'width' option allows you to set a fixed width on the control even if the 
 		        dropdown list is wider. The dropdown will keep its size so the items in the list 
 		        are correctly visible. (id is 's3')
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s3").dropdownchecklist({ width: 150 });
 		        </code>
-		    </div>
+		    </blockquote>
 		</td>
 	  </tr>
 	  <tr>
@@ -199,10 +211,12 @@
         		The 'maxDropHeight' option allows you to set a fixed height of the dropdown list.
         		This is usefull when there is a big number of items. The dropdown list is scrollable 
         		to allow selection of all the items. Some select options have been disabled.
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s4").dropdownchecklist({ maxDropHeight: 100 });
 		        </code>
-   			</div>
+   			</blockquote>
    		</td>
    	  </tr>
    	  <tr>
@@ -247,10 +261,12 @@
 		    <div>
 		        The 'firstItemChecksAll' option allows you to attach a special behavior to the first item 
 		        in the list. If the item is checked, all items in the list are checked. 
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s5").dropdownchecklist({ firstItemChecksAll: true, maxDropHeight: 100 });
 		        </code>
-		    </div>
+		    </blockquote>
     	</td>
       </tr>
       <tr>
@@ -327,10 +343,12 @@
 		    <div>
 		        The existing select element has groups (optgroup elements). The options are listed 
 		        in groups as with original select element.
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s6").dropdownchecklist();
 		        </code>
-		    </div>
+		    </blockquote>
     	</td>
       </tr>
       <tr>
@@ -369,10 +387,12 @@
 		    <div>
 		        If the select element does not have an multiple attribute then the plugin will 
 		        display radiobuttons in the list.
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s7").dropdownchecklist({ maxDropHeight: 200 });
 		        </code>
-		    </div>
+		    </blockquote>
 		</td>
 	  </tr>
       <tr>
@@ -416,10 +436,12 @@
 		    <h3>Empty default text</h3>
 		    <div>
 		        The 'emptyText' options allows you to set the text can be displayed when no items are selected
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		            $("#s8").dropdownchecklist({ emptyText: "Please select ..." });
 		        </code>
-		    </div>
+		    </blockquote>
 		</td>
 	  </tr>
 	  <tr>
@@ -446,8 +468,9 @@
 		        display the control text. You can then customize the text display in any way you
 		        wish. The callback function is run with a single argument that is the list of 
 		        selector options.
-		    </p>
-		    <br><code>
+		    </div>
+		    <blockquote>
+		    	<code>
 		        <pre>
 		            $("#s9").dropdownchecklist({ textFormatFunction: function(options) {
 		                var selectedOptions = options.filter(":selected");
@@ -462,7 +485,7 @@
 		            } });
 		        </pre>
 		        </code>
-		    </div>
+		    </blockquote>
 		</td>
 	  </tr>
       <tr>
@@ -489,28 +512,20 @@
 	<p>
 	 	The plugin does not automatically syncronizes the changes to the original select to the plugin checkboxes after the initial creation. If the original select needs to change, for example by adding some options or selecting values, the plugin must be destroyed then recreated to merge the changes:
 	</p>
-	<p>
+	<blockquote>
   	 	<code>
 		 	$("#s1").dropdownchecklist("destroy");<br />
 			$("#s1").val(...) // do something to the original select, for example select some options or change the options<br />
 			$("#s1").dropdownchecklist();<br />
 		</code>
-	</p>
+	</blockquote>
     <h2>Style</h2>
     <p>
-        <ul>
-            <li><code>.ui-dropdownchecklist</code> allows to modify the style of the control</li>
-            <li><code>.ui-dropdownchecklist-hover</code> allows to add additional style when the mouse is over the control</li>
-            <li><code>.ui-dropdownchecklist-active</code> allows to add aditional style to the control when the items in the drop container are collapsed</li>
-            <li><code>.ui-dropdownchecklist-text</code> allows to modify the style of the text that is shown in the control</li>
-            <li><code>.ui-dropdownchecklist-dropcontainer</code> allows to modify the style of the drop container</li>
-            <li><code>.ui-dropdownchecklist-item</code> allows to modify the style of each dropdown item</li>
-            <li><code>.ui-dropdownchecklist-item-hover</code> allows to add additional style to the dropdown items when the mouse is over them</li>
-			<li><code>.ui-dropdownchecklist-group</code> allows to modify the style of group items</li>
-			<li><code>.ui-dropdownchecklist-indent</code> allows to modify the style of indented items when they are in a group</li>
-        </ul>
+    	All components constructed by <i>Dropdown CheckList</i> are 'well named' in terms of classes
+    	for CSS styling. You can choose to develop your own CSS, but the recommended method of applying
+    	style is to leverage the settings provided by JQuery ThemeRoller. By including the CSS for
+    	a given ThemeRoller theme, the <i>Dropdown CheckList</i> widget will match that theme's look.
     </p>
-    <p>For more details see <a href="ui.dropdownchecklist.css">the example style sheet</a>.</p>
 	<h2>Have problems using the plugin?</h2>
 	<p>
 	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list">issue list</a>.
