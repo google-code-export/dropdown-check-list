@@ -107,10 +107,12 @@
     <table>
       <tr>
       	<td colspan='2'>
-    		<h2>Simple Multi-selector (id = s1)</h2>
-	        <code>
-	            $("#s1").dropdownchecklist();
-	        </code>
+    		<h3>Simple Multi-selector</h3>
+    		<div>Nothing originally selected, no special options for id 's1'
+		        <code>
+		            $("#s1").dropdownchecklist();
+		        </code>
+	        </div>
     	</td>
       </tr>
       <tr>
@@ -129,70 +131,116 @@
 	        </select>
     	</td>
       </tr>
-    </table>
-    <h2>Some option items from original select initially selected</h2>
-    <p>
-        The existing select element with id 's2' already has some options selected.
-        In this case the widget will take over the selection automatically on initialization.
-    </p>
-    <p>
-        <code>
-            $("#s2").dropdownchecklist();
-        </code>
-    </p>
-    <p>
-        <select id="s2" multiple="multiple">
-            <option>Low</option>
-            <option selected="selected">Medium</option>
-            <option selected="selected">High</option>
-        </select>
-    </p>
-    <h2>Long text, shorter control</h2>
-    <p>
-        An option allow to set a fixed width on the control even if the dropdown list is wider.
-        The dropdown will keep its size so the items in the list are correctly visible.
-    </p>
-    <p>
-        <code>
-            $("#s3").dropdownchecklist({ width: 100 });
-        </code>
-    </p>
-    <p>
-        <select id="s3" multiple="multiple">
-            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
-            <option>Pseudopseudohypoparathyroidism</option>
-            <option>Floccinaucinihilipilification</option>
-            <option>Antidisestablishmentarianism</option>
-            <option>Honorificabilitudinitatibus</option>
-        </select>
-    </p>
-    <h2>Long list of options, with scroll</h2>
-    <p>
-        Another option allow to set a fixed height of the dropdown list.
-        This is usefull when there is a big number of items. The dropdown list is scrollable to allow selection of all the items. Also demonstrates disabled options.
-    </p>
-    <p>
-        <code>
-            $("#s4").dropdownchecklist({ maxDropHeight: 100 });
-        </code>
-    </p>
-    <p>
-        <select id="s4" multiple="multiple">
-            <option>Aries</option>
-            <option>Taurus</option>
-            <option disabled="disabled">Gemini</option>
-            <option disabled="disabled">Cancer</option>
-            <option>Leo	Leo</option>
-            <option>Virgo</option>
-            <option>Libra</option>
-            <option>Scorpius</option>
-            <option>Ophiuchus</option>
-            <option>Sagittarius</option>
-            <option>Capricornus</option>
-            <option>Aquarius</option>
-            <option>Pisces</option>
-        </select>
-    </p>
+      <tr>
+      	<td colspan='2'>
+		    <h3>Multi-selector with initially selected options</h3>
+		    <div>
+		        The existing select element (with id 's2') already has some options selected.
+		        In this case the widget will take over the selection automatically on initialization.
+		        <code>
+		            $("#s2").dropdownchecklist();
+		        </code>
+		    </div>
+		</td>
+	  </tr>
+	  <tr>
+	  	<td>
+	        <select multiple="multiple">
+	            <option>Low</option>
+	            <option selected="selected">Medium</option>
+	            <option selected="selected">High</option>
+	        </select>
+	  	</td>
+	  	<td>
+	        <select id="s2" multiple="multiple">
+	            <option>Low</option>
+	            <option selected="selected">Medium</option>
+	            <option selected="selected">High</option>
+	        </select>
+	  	</td>
+	  </tr>
+	  <tr>
+	  	<td colspan='2'>
+		    <h3>Long text, shorter control</h3>
+		    <div>
+		        The 'width' option allows you to set a fixed width on the control even if the 
+		        dropdown list is wider. The dropdown will keep its size so the items in the list 
+		        are correctly visible. (id is 's3')
+		        <code>
+		            $("#s3").dropdownchecklist({ width: 150 });
+		        </code>
+		    </div>
+		</td>
+	  </tr>
+	  <tr>
+	  	<td>
+	        <select multiple="multiple">
+	            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
+	            <option>Pseudopseudohypoparathyroidism</option>
+	            <option>Floccinaucinihilipilification</option>
+	            <option>Antidisestablishmentarianism</option>
+	            <option>Honorificabilitudinitatibus</option>
+	        </select>
+	  	</td>
+	  	<td>
+	        <select id="s3" multiple="multiple">
+	            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
+	            <option>Pseudopseudohypoparathyroidism</option>
+	            <option>Floccinaucinihilipilification</option>
+	            <option>Antidisestablishmentarianism</option>
+	            <option>Honorificabilitudinitatibus</option>
+	        </select>
+	  	</td>
+	  </tr>
+	  <tr>
+	  	<td colspan='2'>
+		    <h3>Long list of options, with scroll and disabled items</h3>
+    		<div>
+        		The 'maxDropHeight' option allows you to set a fixed height of the dropdown list.
+        		This is usefull when there is a big number of items. The dropdown list is scrollable 
+        		to allow selection of all the items. Some select options have been disabled.
+		        <code>
+		            $("#s4").dropdownchecklist({ maxDropHeight: 100 });
+		        </code>
+   			</div>
+   		</td>
+   	  </tr>
+   	  <tr>
+   	  	<td>
+	        <select multiple="multiple">
+	            <option>Aries</option>
+	            <option>Taurus</option>
+	            <option disabled="disabled">Gemini</option>
+	            <option disabled="disabled">Cancer</option>
+	            <option>Leo</option>
+	            <option>Virgo</option>
+	            <option>Libra</option>
+	            <option>Scorpius</option>
+	            <option>Ophiuchus</option>
+	            <option>Sagittarius</option>
+	            <option>Capricornus</option>
+	            <option>Aquarius</option>
+	            <option>Pisces</option>
+	        </select>
+   		</td>
+   	  	<td>
+	        <select id="s4" multiple="multiple">
+	            <option>Aries</option>
+	            <option>Taurus</option>
+	            <option disabled="disabled">Gemini</option>
+	            <option disabled="disabled">Cancer</option>
+	            <option>Leo</option>
+	            <option>Virgo</option>
+	            <option>Libra</option>
+	            <option>Scorpius</option>
+	            <option>Ophiuchus</option>
+	            <option>Sagittarius</option>
+	            <option>Capricornus</option>
+	            <option>Aquarius</option>
+	            <option>Pisces</option>
+	        </select>
+   		</td>
+   	  </tr>
     <h2>Option to let the first item in list check all items</h2>
     <p>
         The firstItemChecksAll option allow to set attach a special behavior to the first item in the list.
@@ -330,6 +378,8 @@
             <option>Daniel</option>
         </select>
     </p>
+    </table>
+    
 	<h2>Changing the original select element content or selection</h2>
 	<p>
 	 	The plugin does not automatically syncronizes the changes to the original select to the plugin checkboxes after the initial creation. If the original select needs to change, for example by adding some options or selecting values, the plugin must be destroyed then recreated to merge the changes:
