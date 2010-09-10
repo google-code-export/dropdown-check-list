@@ -55,7 +55,7 @@ table td { vertical-align: top }
         <img src="demo.png" alt="Dropdown Check List" title="The widget transforms a regular select 
         html element into a dropdown checkbox list" />
     <br>
-    	The widget uses standard JQuery processing to select the target &lt;SELECT&gt; elements (matching on 
+    	The widget uses standard jQuery processing to select the target &lt;SELECT&gt; elements (matching on 
     	class or id or whatever) and replacing them with a single line text display that supports a dropdown
     	list of options. The dropdown list is composed of <i>checkboxes</i> for multi-select elements, and
     	<i>radio buttons</i> for single-select elements. Option groups are supported as well.
@@ -79,7 +79,7 @@ table td { vertical-align: top }
         and <a href="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js">ui.core.js</a> and has 
         been tested with jquery core version 1.3.2 and ui version 1.7.3.  For CSS styling, it can run
         as a standalone with custom CSS that you provide, or the preferred method is to leverage the 
-        JQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
+        jQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
         by ThemeRoller. This page is styled with the ThemeRoller "smoothness" theme.
     </p>
     <p>
@@ -94,16 +94,16 @@ table td { vertical-align: top }
 	<h2>How does it work?</h2>
 	<p>
 	 	<i>Dropdown CheckList</i> uses the existing structure of the html select elements on which it is 
-	 	applied to dynamically build a container with checkboxes and labels then hides the original 
-	 	select element. The plugin does not change in any way the existing select element, it only syncronizes 
+	 	applied to dynamically build a container with checkboxes and labels, then hides the original 
+	 	select element. The plugin does not change in any way the existing select element, it only synchronizes 
 	 	the checked values from the new container to the original select. This approach has the added 
 	 	benefit to allow the use of the plugin with any server technology.
 	</p>
     <p>
-        The widget will set hide the existing select element by modifying its <code>display</code> 
+        The widget will hide the existing select element by modifying its <code>display</code> 
         attribute to <code>none</code>.
         The new widget will keep the replaced select options synchronized with the checkbox list so 
-        the postback is not affected in any way.
+        the postback is not affected.
         The text of the control is composed on the concatenated text of selected options in the list.
         Because the width of the control will not allways accomodate all selected options, the control 
         will show the full text on hover by setting its title attribute.
@@ -532,10 +532,73 @@ table td { vertical-align: top }
     </p>
     <h2>Configuration Options</h2>
     <dl>
-    	<dt>term
-    	</dt>
-    	<dd>definition
+    	<dt>bgiframe: function(options) {}</dt>
+    	<dd>
+    		I have no real idea what this does, but it is a function called during widget initialization,
+    		with a comment about IE 6. You could use it as a callout to affect the widget setup.
     	</dd>
+    	<dt>emptyText: 'string'</dt>
+    	<dd>
+    		The <b>emptyText</b> options supplies the string to display if no options are currently
+    		selected.
+    	</dd>
+    	<dt>firstItemChecksAll: true/false</dt>
+    	<dd>
+    		The <b>firstItemChecksAll</b> option is a boolean that indicates if the first item in 
+    		the list acts as the all/nothing option.
+    	</dd>
+    	<dt>forceMultiple: true/false</dt>
+    	<dd>
+    		The <b>forceMultiple</b> option, when true, will treat the selector as having multiple selections
+    		even if the underlying html is not so marked.
+    	</dd>
+    	<dt>icon: { keyed-list }</dt>
+    	<dd>
+    		The <b>icon</b> option allows you to include a ThemeRoller icon in the text display area.
+    		An empty list activates the icon with all default values, which are left placement, and
+    		the east/south triangles as the icons. The allowed options in the keyed-list are:
+    		<ul>
+    			<li>placement: 'left' or 'right'</li>
+    			<li>toOpen: 'string name of ThemeRoller icon' (default is 'ui-icon-triangle-1-e')
+    			<li>toClose: 'string name of ThemeRoller icon' (default is 'ui-icon-triangle-1-s')
+    		</ul>
+    	</dd>
+    	<dt>maxDropHeight: integerValue</dt>
+    	<dd>
+    		The <b>maxDropHeight</b> option specifies the maximum height in pixels that the dropdown
+    		display is allowed to reach. Dropdowns taller than this maximum will have scrolling 
+    		activated.
+    		<br>
+    		NOTE that it is best to include a 'width' when using maxDropHeight to leave space for
+    	    vertical scroll bars.
+    	</dd>
+    	<dt>minWidth: integerVaue</dt>
+    	<dd>
+    		The <b>minWidth</b> option specifies the minimum width in pixels of the text display area.
+    		The width is only applied if there is no explicit 'width' value and if the calculated
+    		width of the option items is less than the minimum.
+    	</dd>
+    	<dt>onComplete: function(selector) {}</dt>
+    	<dd>
+    		The <b>onComplete</b> option defines a callback function invoked when the user is 
+    		finished making their selections and then closes the dropdown.  It is called with a 
+    		single argument which is the underlying html &lt;SELECT&gt; element.
+    		<br>
+    		It would be desirable to use the standard 'blur' processing on the selector, but I
+    		have not been able to get blur to fire. If anyone has insight into this issue, please
+    		post an issue to help me out.
+    	</dd>
+    	<dt>textFormatFunction: function(options) { return 'string'; }</dt>
+    	<dd>
+    		The <b>textFormatFunction</b> option defines a callback function used to format the display
+    		text. It is called with a single argument that is the list selector options.
+    	</dd>
+    	<dt>width: integerValue</dt>
+    	<dd>
+    		The <b>width</b> option specifies the desired width in pixels of the text display area.
+    		If not given, the width is calculated from the width of the option items. The width may
+    		be wider than the items, to provide extra room for icons or the display of multiple items.
+    		The width may be narrower than the items to account for dropdowns with very long names.
     </dl>
 	<h2>Have problems using the plugin?</h2>
 	<p>
