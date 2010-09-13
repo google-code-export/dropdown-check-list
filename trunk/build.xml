@@ -1,6 +1,6 @@
 <project name="dropdown-check-list" default="zip" basedir=".">
 
-	<property name="version" value="0.9"/>
+	<property name="version" value="1.0"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="yui-compressor.jar" location="ant_lib/yuicompressor-2.4.2.jar" />
 	<property name="yui-compressor-ant-task.jar" location="ant_lib/yui-compressor-ant-task-0.4.jar"/>
@@ -21,6 +21,7 @@
 		<mkdir dir="${dist.dir}/js"/>
 		<mkdir dir="${dist.dir}/css"/>
 		<mkdir dir="${dist.dir}/src"/>
+		<mkdir dir="${dist.dir}/doc"/>
 		<mkdir dir="${dist.dir}/zip"/>
 	</target>
 
@@ -29,17 +30,23 @@
 			<fileset dir="src"/>
 		</copy>
 		<copy todir="${dist.dir}/css">
-			<fileset dir="src" includes="*.css" excludes="demo.css"/>
-			<fileset dir="src" includes="*.png" excludes="demo.png"/>
+			<fileset dir="src" includes="*.css"/>
+		</copy>
+		<copy todir="${dist.dir}/doc">
+			<fileset dir="doc"/>
 		</copy>
 	</target>
 
 	<target name="minify">
-		<yui-compressor warn="false" munge="true" preserveallsemicolons="false" fromdir="src" todir="${dist.dir}/js" includes="*.js"/>
+		<yui-compressor warn="false" munge="true" preserveallsemicolons="false" 
+						fromdir="src" todir="${dist.dir}/js" includes="ui.dropdownchecklist.js"/>
+	    <move file="${dist.dir}/js/ui.dropdownchecklist-min.js"
+	    	  tofile="${dist.dir}/js/ui.dropdownchecklist-${version}-min.js"/>
 	</target>
 
 	<target name="zip" depends="clean, init, copy, minify">
-		<zip destfile="${dist.dir}/zip/dropdown-check-list.${version}.zip" basedir="${dist.dir}" excludes="zip"/>
+		<zip destfile="${dist.dir}/zip/dropdown-check-list.${version}.zip" 
+			 basedir="${dist.dir}" excludes="zip"/>
 	</target>
 
 </project>
