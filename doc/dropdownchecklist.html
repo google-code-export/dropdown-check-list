@@ -526,10 +526,12 @@ dd { padding-bottom: 15px }
 		        when the user completes their selection and closes the dropdown. It is passed
 		        a single argument which is the original selector element.
 		    </div>
+		    <div></div>
 		    <div>
 		    	Also, you can force the target selector into <i>multiple</i> selection mode
-		    	by using the 'forceMultiple' option, even if the underlying &lt;SELECT&gt: is
+		    	by using the 'forceMultiple' option, even if the underlying &lt;SELECT&gt; is
 		    	not marked as multiple.
+		    	-- <i>The forceMultiple option does NOT work with IE 6</i> --
 		    <blockquote>
 		    	<code>
 <pre>
@@ -610,6 +612,7 @@ dd { padding-bottom: 15px }
     	<dd>
     		The <b>forceMultiple</b> option, when true, will treat the selector as having multiple selections
     		even if the underlying html is not so marked.
+    		<br><i>This option does NOT work with IE 6</i>
     	</dd>
     	<dt>icon: { keyed-list }</dt>
     	<dd>
