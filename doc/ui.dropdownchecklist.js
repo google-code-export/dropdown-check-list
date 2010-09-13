@@ -19,7 +19,7 @@
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-dropcontainer-wrapper");
             wrapper.addClass("ui-widget");
             // initially hidden
-            wrapper.css({ position: 'absolute', left: "-33000", top: "-33000px"  });
+            wrapper.css({ position: 'absolute', left: "-33000px", top: "-33000px"  });
             
             var container = $("<div/>"); // the actual container
             container.addClass("ui-dropdownchecklist-dropcontainer ui-widget-content");
@@ -166,7 +166,7 @@
                 	// Reopen yourself to get the position right
                     self._toggleDropContainer(true);
                 }
-            })            
+            });       
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
@@ -180,7 +180,8 @@
             var checkedString = checked ? ' checked="checked"' : '';
 			var classString = disabled ? ' class="inactive"' : ' class="active"';
 			var idBase = (self.sourceSelect.attr("id") || "ddcl");
-			var id = idBase + index;
+			// generated id must be a bit unique to keep from colliding
+			var id = idBase + '-i' + index;
             var checkBox;
             
             // all items start out disabled to keep them out of the tab order
@@ -311,7 +312,7 @@
                     allCheckboxes.each(function(index) {
                         if (index > 0) {
                             var checked = $(this).attr("checked");
-                            if (!checked) allChecked = false;
+                            if (!checked) { allChecked = false; }
                         }
                     });
                     var firstCheckbox = allCheckboxes.filter(":first");
@@ -368,7 +369,7 @@
                 text = "";
                 selectOptions.each(function() {
                     if ($(this).attr("selected")) {
-                        if ( text != "" ) text += ", ";
+                        if ( text != "" ) { text += ", "; }
                         text += $(this).text();
                     }
                 });
@@ -389,8 +390,8 @@
 
 	            	var config = instance.options;
                     instance.dropWrapper.css({
-                        top: "-3300px",
-                        left: "-3300px"
+                        top: "-33000px",
+                        left: "-33000px"
                     });
                     var aControl = instance.controlWrapper.find(".ui-dropdownchecklist-selector");
 	                aControl.removeClass("ui-state-active");
@@ -409,11 +410,11 @@
                     // the following blur just does not fire???  because it is hidden???  because it does not have focus???
 			  		//instance.sourceSelect.trigger("blur");
 			  		//instance.sourceSelect.triggerHandler("blur");
-			  		if($.isFunction(config.onComplete)) try {
+			  		if($.isFunction(config.onComplete)) { try {
 			     		config.onComplete.call(instance,instance.sourceSelect.get(0));
                     } catch(ex) {
                     	alert( 'callback failed: ' + ex );
-                    }
+                    }}
                 }
             };
             // shows the given drop container instance
@@ -522,7 +523,7 @@
             sourceSelect.css("display", "none");
             self.initialMultiple = sourceSelect.attr("multiple");
             self.isMultiple = self.initialMultiple;
-            if (options.forceMultiple != null) self.isMultiple = options.forceMultiple;
+            if (options.forceMultiple != null) { self.isMultiple = options.forceMultiple; }
             sourceSelect.attr("multiple", true);
             self.sourceSelect = sourceSelect;
 

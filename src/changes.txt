@@ -1,3 +1,19 @@
+1.0
+- rework CSS tagging to utilize jQuery ThemeRoller settings
+- added onComplete callback option (blur does not fire)
+- added forceMultiple option (known restriction for IE6)
+- added icon option (ThemeRoller based)
+- explicit open/close rather than toggle to keep dropdown state correct
+- limited use of inline-block (known cross-browser issues)
+- try/catch to protect against callback failures
+- various cleanup to suppress cross-talk between multiple dropdowns on same page
+- made generated item ids more unique to keep from colliding with parent ids
+- fixed many keyboard handling issues -- but tab out of the dropdown is still incomplete
+  (radiobuttons, checkboxes must be disabled to keep them out of tab order)
+- created 'doc' as independent directory under version control
+  (easier to keep doc page reflecting current release rather than pending work-in-progress)
+- callout to explicit versions of jquery core and ui to better track testing environment
+
 0.9
 - fixed some warnings for unused variabled with yui processor (#52)
 - added patch from munkyboy to aoutomatically syncronize with the source select value changes (#48)

@@ -1,0 +1,61 @@
+With version 1.0, I have purposefully changed the directory and build structure of
+the project to hopefully make it clearer about which components are part of the
+build, and to keep the documentation (tied to the current release) separate from
+the rest of the widget source (which may be under active development).
+
+1)	The documentation page has been removed from 'src' and included in its own
+	'doc' directory. The 'doc' directory includes its own copies of the components
+	needed to render the documentation html page and is no longer tied directly to
+	the version active in 'src'. This means that changes can be made in 'src' as 
+	part of pending development, but the on-line documentation will continue to
+	reflect the released version.
+	
+2)	The 'src' directory now contains the bare minimum needed to support the widget.
+
+3)	References to generic versions of jQuery and jQuery-ui have been replaced
+	with explicit callouts to those versions used in development and testing.
+	
+3)	A 'releases' directory has been included within SVN to support a history of
+	release zip files that are created.
+	
+4)	The build.xml script has been changed to include the 'doc' directory and to
+	construct a min.js that is named with the target version.
+	
+	
+Development for a new release:
+
+1)	Leave the 'doc' and its corresponding .zip file alone while you are in active
+	development of the new release.
+	Make a local copy of 'doc' to serve as your test environment.
+	
+2)	Document your changes in 'src/changes.txt'
+
+3)	You can check your work-in-progress changes into SVN within the 'src' 
+	directory. But do NOT touch 'doc' until you are ready for a new release.
+
+3)	When you are ready to cut the new release:
+	a)	Update the version number in build.xml
+	b)	Use ANT to create the new release 'dist' directory and new zip file
+	
+3)	MANUALLY copy the latest ui.dropdownchecklist.js and ui.dropdownchecklist-X.X-min.js into
+	the 'doc' directory.  You will want to remove the old version of the min.js file.
+	
+	**** IMPORTANT ****
+		At this point, the uncompressed and minimized .js files in the 'doc' section of 
+		the .zip file is out of date.
+		
+		In the .zip file, the 'js' and 'src' directories are correct.  
+		
+		Therefore, once you have done the manual copy back into 'doc', 
+			*** RERUN THE ANT SCRIPT *** 
+		to generate a newer .zip file that includes new components in the 'doc' directory.
+	**** IMPORTANT ****
+	
+4)	MANUALLY copy the generated .zip file into the 'releases' directory.  It should have
+	its own name and not conflict with anything already present.
+	
+5)	If the on-line documentation needs to change, update 'dropdownchecklist.html'
+
+6)	Check your changes into SVN
+
+7)	Update the google code project page with the new release
