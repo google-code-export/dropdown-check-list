@@ -39,6 +39,16 @@ dd { padding-bottom: 15px }
                     default: return countOfSelected + " People";
                 }
             } });
+            $("#s10").dropdownchecklist( { forceMultiple: true, onComplete: function(selector) {
+			  	var values = "";
+			  	for( i=0; i < selector.options.length; i++ ) {
+			    	if (selector.options[i].selected && (selector.options[i].value != "")) {
+			      		if ( values != "" ) values += ";";
+			      		values += selector.options[i].value;
+			    	}
+			  	}
+			  	alert( values );
+            } });
         });
     </script>
     <meta name="description" 
@@ -86,10 +96,10 @@ dd { padding-bottom: 15px }
     <p>
         The widget has been tested with brosers
         <ul>
-        <li>IE 6 / 7 / 8</li>
-        <li>Firefox 3</li>
-        <li>Safari 5</li>
-        <li>Chrome 6</li>
+	        <li>IE 6 / 7 / 8</li>
+	        <li>Firefox 3</li>
+	        <li>Safari 5</li>
+	        <li>Chrome 6</li>
         </ul>
     </p>
 	<h2>How does it work?</h2>
@@ -466,7 +476,7 @@ dd { padding-bottom: 15px }
       	<td colspan='2'>
 		    <h3>Function for formatting the displayed text</h3>
 		    <div>
-		        The 'textFormatFunction' allows you to supply a formatting function can be used to 
+		        The 'textFormatFunction' option allows you to supply a formatting function used to 
 		        display the control text. You can then customize the text display in any way you
 		        wish. The callback function is run with a single argument that is the list of 
 		        selector options.
@@ -505,6 +515,54 @@ dd { padding-bottom: 15px }
 	            <option>Bob</option>
 	            <option>Christian</option>
 	            <option>Daniel</option>
+	        </select>
+	     </td>
+	   </tr>
+      <tr>
+      	<td colspan='2'>
+		    <h3>Callback handling when user completes their selection</h3>
+		    <div>
+		        The 'onComplete' option allows you to supply a callback function that is invoked
+		        when the user completes their selection and closes the dropdown. It is passed
+		        a single argument which is the original selector element.
+		    </div>
+		    <div>
+		    	Also, you can force the target selector into <i>multiple</i> selection mode
+		    	by using the 'forceMultiple' option, even if the underlying &lt;SELECT&gt: is
+		    	not marked as multiple.
+		    <blockquote>
+		    	<code>
+<pre>
+    $("#s10").dropdownchecklist( { forceMultiple: true, onComplete: function(selector) {
+        var values = "";
+        for( i=0; i < selector.options.length; i++ ) {
+            if (selector.options[i].selected && (selector.options[i].value != "")) {
+                if ( values != "" ) values += ";";
+                values += selector.options[i].value;
+            }
+        }
+	  	alert( values );
+    } });
+</pre>
+		        </code>
+		    </blockquote>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+	        <select>
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
+	        </select>
+	     </td>
+      	<td>
+	        <select id="s10">
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
 	        </select>
 	     </td>
 	   </tr>

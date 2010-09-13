@@ -2,7 +2,7 @@
     /*
     * ui.dropdownchecklist
     *
-    * Copyright (c) 2008-2009 Adrian Tosca, Copyright (c) 2010 Ittrium LLC
+    * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010 Ittrium LLC
     * Dual licensed under the MIT (MIT-LICENSE.txt)
     * and GPL (GPL-LICENSE.txt) licenses.
     *
@@ -522,8 +522,8 @@
             sourceSelect.css("display", "none");
             self.initialMultiple = sourceSelect.attr("multiple");
             self.isMultiple = self.initialMultiple;
-            if (options.forceMultiple != null) self.isMultiple = true;
-            sourceSelect.attr("multiple", "multiple");
+            if (options.forceMultiple != null) self.isMultiple = options.forceMultiple;
+            sourceSelect.attr("multiple", true);
             self.sourceSelect = sourceSelect;
 
             // create the drop container where the items are shown
