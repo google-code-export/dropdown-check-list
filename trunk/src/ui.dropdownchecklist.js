@@ -300,25 +300,25 @@
         // senderCheckbox parameters is the checkbox input that generated the synchronization
         _syncSelected: function(senderCheckbox) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
-            var allCheckboxes = dropWrapper.find("input:not([disabled])");
+            var allCheckboxes = dropWrapper.find("input.active");
             if (options.firstItemChecksAll) {
                 // if firstItemChecksAll is true, check all checkboxes if the first one is checked
-                if (senderCheckbox.attr("index") == 0) {
+                if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
                     allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
-                } else {
+                } else  {
                     // check the first checkbox if all the other checkboxes are checked
-                    var allChecked;
-                    allChecked = true;
+                    var allChecked = true;
+                    var firstCheckbox = null;
                     allCheckboxes.each(function(index) {
                         if (index > 0) {
                             var checked = $(this).attr("checked");
                             if (!checked) { allChecked = false; }
+                        } else {
+                        	firstCheckbox = $(this);
                         }
                     });
-                    var firstCheckbox = allCheckboxes.filter(":first");
-                    firstCheckbox.attr("checked", false);
-                    if (allChecked) {
-                        firstCheckbox.attr("checked", true);
+                    if ( firstCheckbox != null ) {
+                    	firstCheckbox.attr("checked", allChecked );
                     }
                 }
             }
@@ -332,7 +332,7 @@
             self._updateControlText();
         	
         	// Ensure the focus stays pointing where the user is working
-        	senderCheckbox.focus();
+        	if ( senderCheckbox != null) { senderCheckbox.focus(); }
         },
         _sourceSelectChangeHandler: function(event) {
             var self = this, dropWrapper = this.dropWrapper;
@@ -499,8 +499,11 @@
             controlWidth = controlWrapper.outerWidth();
             
             // the drop container height can be set from options
-            var dropHeight = (options.maxDropHeight != null)
-            					? parseInt(options.maxDropHeight) 
+            var maxDropHeight = (options.maxDropHeight != null)
+            					? parseInt(options.maxDropHeight)
+            					: -1;
+            var dropHeight = ((maxDropHeight > 0) && (dropCalculatedSize.height > maxDropHeight))
+            					? maxDropHeight 
             					: dropCalculatedSize.height;
             // ensure the drop container is not less than the control width (would be ugly)
             var dropWidth = dropCalculatedSize.width < controlWidth ? controlWidth : dropCalculatedSize.width;
@@ -543,7 +546,11 @@
 
             // set the sizes of control and drop container
             self._setSize(dropCalculatedSize);
-
+            
+            // look for possible auto-check needed on first item
+			if ( options.firstItemChecksAll ) {
+				self._syncSelected(null);
+			}
             // BGIFrame for IE6
 			if (options.bgiframe && typeof self.dropWrapper.bgiframe == "function") {
 				self.dropWrapper.bgiframe();
