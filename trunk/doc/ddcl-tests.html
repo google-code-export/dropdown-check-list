@@ -72,6 +72,9 @@ dd { padding-bottom: 15px }
     <h2>TestCases</h2>
     <p>
     	This page contains various test cases used to exercise DDCL.
+    	<br>
+    	<b>Please Note</b> that this page directly references the latest version checked into SVN, not
+    	the current release point contained in the download .zip
     </p>
     <p>
         The widget has been tested with brosers
@@ -96,6 +99,7 @@ dd { padding-bottom: 15px }
       </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
@@ -103,6 +107,7 @@ dd { padding-bottom: 15px }
 	        </select>
     	</td>
       	<td>
+	  		<span>Nothing preselected</span><br>
 	        <select id="s1" class="s1" multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
@@ -110,6 +115,7 @@ dd { padding-bottom: 15px }
 	        </select>
     	</td>
 	  	<td>
+	  		<span>Medium and High are preselectedr</span><br>
 	        <select id="s1a" class="s1" multiple="multiple">
 	            <option>Low</option>
 	            <option selected="selected">Medium</option>
@@ -136,6 +142,7 @@ dd { padding-bottom: 15px }
 	  </tr>
 	  <tr>
 	  	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 	            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
 	            <option>Pseudopseudohypoparathyroidism</option>
@@ -145,6 +152,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	  	</td>
 	  	<td>
+	  		<span>Narrow text, Wide items</span><br>
 	        <select id="s3" class="s3" multiple="multiple">
 	            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
 	            <option>Pseudopseudohypoparathyroidism</option>
@@ -232,6 +240,7 @@ dd { padding-bottom: 15px }
       </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 	            <option>(all)</option>
 	            <option>Banana Nut</option>
@@ -265,6 +274,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
+	  		<span>All as first option</span><br>
 	        <select id="s5" class="s5" multiple="multiple">
 	            <option>(all)</option>
 	            <option>Banana Nut</option>
@@ -314,6 +324,7 @@ dd { padding-bottom: 15px }
       </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 				<optgroup label="Letters">
 					<option>A</option>
@@ -328,6 +339,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
+	  		<span>With option groups</span><br>
 	        <select id="s6" class="s6" multiple="multiple">
 				<optgroup label="Letters">
 					<option>A</option>
@@ -358,6 +370,7 @@ dd { padding-bottom: 15px }
 	  </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select>
 	            <option>Aries</option>
 	            <option>Taurus</option>
@@ -375,6 +388,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
+	  		<span>As radio buttons</span><br>
 	        <select id="s7" class="s7">
 	            <option>Aries</option>
 	            <option>Taurus</option>
@@ -407,6 +421,7 @@ dd { padding-bottom: 15px }
 	  </tr>
 	  <tr>
     	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
@@ -414,6 +429,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
     	<td>
+	  		<span>Explicit empty text</span><br>
 	        <select id="s8" class="s8" multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
@@ -451,6 +467,7 @@ dd { padding-bottom: 15px }
 	  </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
 	            <option>Alice</option>
 	            <option>Bob</option>
@@ -459,6 +476,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	     </td>
       	<td>
+	  		<span>Custom display text handling</span><br>
 	        <select id="s9" class="s9" multiple="multiple">
 	            <option>Alice</option>
 	            <option>Bob</option>
@@ -501,6 +519,7 @@ dd { padding-bottom: 15px }
 	  </tr>
       <tr>
       	<td>
+	  		<span>Naked Selector</span><br>
 	        <select>
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
@@ -509,6 +528,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	     </td>
       	<td>
+	  		<span>With values and an alert on complete</span><br>
 	        <select id="s10" class="s10">
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
@@ -576,7 +596,7 @@ dd { padding-bottom: 15px }
 		</td>
 	  </tr>
 	  <tr>
-	  	<td>
+	  	<td colspan='3'>
 			<script type="text/javascript">
 		      function handleSubmit( theForm ) {
 		         theForm.action=theForm.elements['postwhere'].value;
