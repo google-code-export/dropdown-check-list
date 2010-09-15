@@ -23,7 +23,11 @@ dd { padding-bottom: 15px }
         $(document).ready(function() {
             $(".s1").dropdownchecklist();
             $(".s3").dropdownchecklist( { icon: {}, width: 150 } );
-            $(".s4").dropdownchecklist( { maxDropHeight: 150 } );
+            $(".s3a").dropdownchecklist( { width: 150 } );
+            $(".s4").dropdownchecklist( { icon: {}, maxDropHeight: 150, width: 150 } );
+            $(".s4a").dropdownchecklist( { icon: { placement: 'right', toOpen: 'ui-icon-arrowthick-1-s'
+                                            , toClose: 'ui-icon-arrowthick-1-n' }
+            								, maxDropHeight: 150, width: 150 } );
             $(".s5").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s6").dropdownchecklist();
             $(".s7").dropdownchecklist();
@@ -199,7 +203,7 @@ dd { padding-bottom: 15px }
 	        </select>
    		</td>
    	  	<td>
-	  		<span>Drop down list taller than the maximum</span><br>
+	  		<span>Drop down list taller than the maximum, default icon</span><br>
 	        <select id="s4" class="s4" multiple="multiple">
 	            <option>Aries</option>
 	            <option>Taurus</option>
@@ -217,8 +221,8 @@ dd { padding-bottom: 15px }
 	        </select>
    		</td>
    	  	<td>
-	  		<span>Drop down list shorter that the maximum</span><br>
-	        <select id="s4a" class="s4" multiple="multiple">
+	  		<span>Drop down list shorter that the maximum, custom icon</span><br>
+	        <select id="s4a" class="s4a" multiple="multiple">
 	            <option>Aries</option>
 	            <option>Taurus</option>
 	        </select>
