@@ -5,7 +5,9 @@
     <title>jQuery Dropdown CheckList - TESTING</title>
     <!-- Use a JQuery ThemeRoller theme, in this case 'smoothness' -->
     <link rel="stylesheet" type="text/css" href="smoothness/jquery-ui-1.7.3.custom.css">
-    <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.themeroller.css">
+    <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.themeroller.css">
+    <!--  <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.standalone.css">  -->
+    
     <style>
 table td { vertical-align: top }
 dd { padding-bottom: 15px }
@@ -54,6 +56,7 @@ dd { padding-bottom: 15px }
             } });
             $(".s11").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s12").dropdownchecklist( { width: 250 } );
+            $(".s13").dropdownchecklist( { width: 150 } );
         });
     </script>
     <meta name="description" 
@@ -620,14 +623,14 @@ dd { padding-bottom: 15px }
 		        </select>
 	  		<br>
 	  			<span>DDCL: </span>
-		        <select name='selector2' multiple="multiple" class='s12'>
+		        <select name='selector2' multiple="multiple" id='s12' class='s12'>
 		            <option selected="selected">Low</option>
 		            <option selected="selected">Medium</option>
 		            <option selected="selected">High</option>
 		        </select>
 	  		<br>
 	  			<span>DDCL (with values): </span>
-		        <select name='selector3' multiple="multiple" class='s12'>
+		        <select name='selector3' multiple="multiple" id='s12a' class='s12'>
 		            <option value='l' selected="selected">Low</option>
 		            <option value='m' selected="selected">Medium</option>
 		            <option value='h' selected="selected">High</option>
@@ -635,6 +638,53 @@ dd { padding-bottom: 15px }
 		    <br>
 		    	<input type='submit' value='post'>
 		    </form>
+	  	</td>
+	  </tr>
+      <tr>
+      	<td colspan='3'>
+		    <h3>Rebuild of the control</h3>
+		    <div>
+		        Press the button to destroy the control and rebuild it
+		    </div>
+		    <blockquote>
+		    	<code>
+		            $(".s13").dropdownchecklist( width: 150 } );
+		        </code>
+		    </blockquote>
+		</td>
+	  </tr>
+	  <tr>
+	  	<td>
+	  		<span>Naked Selector</span><br>
+	        <select multiple="multiple">
+	        	<option>All</option>
+	            <option selected="selected">Low</option>
+	            <option selected="selected">Medium</option>
+	            <option selected="selected">High</option>
+	        </select>
+	  	</td>
+	  	<td>
+			<script type="text/javascript">
+		      function doRebuild() {
+      			$("#s13").dropdownchecklist("destroy");
+    			alert('Change the underlying SELECT here');
+    			var selectOptions = $("#s13").get(0).options;
+    			for( i=0; i < selectOptions.length; i++ ) {
+            		if (selectOptions[i].selected) {
+            			selectOptions[i].text = 'Selection ' + i;
+            		} else {
+            			selectOptions[i].text = 'NonSelection ' + i;
+            		}
+            	}
+    			$("#s13").dropdownchecklist();
+		      }
+			</script>
+	  		<input type='button' value='rebuild' onClick='doRebuild();'><br>
+	        <select id="s13" class="s13" multiple="multiple">
+	            <option>Low</option>
+	            <option>Medium</option>
+	            <option>High</option>
+	        </select>
 	  	</td>
 	  </tr>
     </table>
