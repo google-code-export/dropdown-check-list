@@ -13,7 +13,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	
         // Creates the drop container that keeps the items and appends it to the document
-        _appendDropContainer: function() {
+        _appendDropContainer: function( controlItem ) {
             var wrapper = $("<div/>");
             // the container is wrapped in a div
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-dropcontainer-wrapper");
@@ -25,7 +25,11 @@
             container.addClass("ui-dropdownchecklist-dropcontainer ui-widget-content");
             container.css("overflow-y", "auto");
             wrapper.append(container);
-			$(document.body).append(wrapper);
+            
+            // insert the dropdown after the master control to try to keep the tab order intact
+            // if you just add it to the end, tabbing out of the drop down takes focus off the page
+			//$(document.body).append(wrapper);
+            wrapper.insertAfter(controlItem);
 
             // flag that tells if the drop container is shown or not
             wrapper.isOpen = false;
@@ -82,23 +86,28 @@
            }
 		},
 		// Look for change of focus ON AN ITEM
-		_handleFocus: function(e,focusIn) {
-			if (!this.dropWrapper.isOpen) {
+		_handleFocus: function(e,focusIn,onDropdown) {
+			var self = this;
+			if (onDropdown && !self.dropWrapper.isOpen) {
 				// if the focus changes when the control is NOT open, mark it to show where the focus is/is not
 				e.stopImmediatePropagation();
 				if (focusIn) {
-					this.controlWrapper.find(".ui-dropdownchecklist-selector").addClass("ui-state-hover");
+					self.controlWrapper.find(".ui-dropdownchecklist-selector").addClass("ui-state-hover");
 					if ($.ui.dropdownchecklist.gLastOpened != null) {
 						$.ui.dropdownchecklist.gLastOpened._toggleDropContainer( false );
 					}
 				} else {
-					this.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
+					self.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
 				}
+           	} else if (!onDropdown && !focusIn) {
+           		// The dropdown is open, and an item (NOT the dropdown) has just lost the focus.
+           		// we really need a reliable method to see who has the focus as we process the blur,
+           		// but that mechanism does not seem to exist.  Instead we rely on a delay before
+           		// posting the blur, with a focus event cancelling it before the delay expires.
+				e.stopImmediatePropagation();
+				this.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
+				self._toggleDropContainer( false );	        	
            	}
-       		// If would be nice to detect the control losing focus to a different item on the screen,
-       		// but the blur is likely to be delivered to the input items.
-       		// Currently, I have no simple way to detect when the control should be closed due to
-       		// loss of focus.
 		},
         // Creates the control that will replace the source select and appends it to the document
         // The control resembles a regular select with single selection
@@ -118,8 +127,8 @@
             // Setting a tab index means we are interested in the tab sequence
 			control.attr("tabIndex", 0);
 			control.keyup(function(e) {self._handleKeyboard(e);});
-			control.focus(function(e) {self._handleFocus(e,true);});
-			control.blur(function(e) {self._handleFocus(e,false);});
+			control.focus(function(e) {self._handleFocus(e,true,true);});
+			control.blur(function(e) {self._handleFocus(e,false,true);});
             wrapper.append(control);
 
 			// the optional icon (which is inherently a block)
@@ -226,6 +235,22 @@
 		                self.sourceSelect.trigger("change", 'ddcl_internal');
 					}
 		        });
+		        // we are interested in the focus leaving the check box
+		        // but we need to detect the focus leaving one check box but
+		        // entering another. There is no reliable way to detect who
+		        // received the focus on a blur, so post the blur in the future,
+		        // knowing we will cancel it if we capture the focus in a timely manner
+				checkBox.blur(function(e) { 
+				    self.blurEvent = e;
+					self.blurring = setTimeout( function() {self._handleFocus(self.blurEvent,false,false);},200); 
+				});
+				checkBox.focus(function(e) { 
+					if (self.blurring != null) {
+						clearTimeout(self.blurring);
+						self.blurring = null;
+						self.blurEvent = null;
+					} 
+				});
 	            // check/uncheck the item on clicks on the entire item div
 	            checkItem = function(e) {
 	                e.stopPropagation();
@@ -530,16 +555,16 @@
             sourceSelect.attr("multiple", true);
             self.sourceSelect = sourceSelect;
 
+            // append the control that resembles a single selection select
+            var controlWrapper = self._appendControl();
+            self.controlWrapper = controlWrapper;
+
             // create the drop container where the items are shown
-            var dropWrapper = self._appendDropContainer();
+            var dropWrapper = self._appendDropContainer(controlWrapper);
             self.dropWrapper = dropWrapper;
 
             // append the items from the source select element
             var dropCalculatedSize = self._appendItems();
-
-            // append the control that resembles a single selection select
-            var controlWrapper = self._appendControl();
-            self.controlWrapper = controlWrapper;
 
             // updates the text shown in the control
             self._updateControlText(controlWrapper, dropWrapper, sourceSelect);
