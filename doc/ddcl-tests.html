@@ -57,6 +57,7 @@ dd { padding-bottom: 15px }
             $(".s11").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s12").dropdownchecklist( { width: 250 } );
             $(".s13").dropdownchecklist( { width: 150 } );
+            $(".s14").dropdownchecklist( { width: 150 } );
         });
     </script>
     <meta name="description" 
@@ -81,7 +82,8 @@ dd { padding-bottom: 15px }
     	This page contains various test cases used to exercise DDCL.
     	<br>
     	<b>Please Note</b> that this page directly references the latest version checked into SVN, not
-    	the current release point contained in the download .zip
+    	the current release point contained in the download .zip. It is used to test pending changes 
+    	and the samples here may not work on the stable release.
     </p>
     <p>
         The widget has been tested with brosers
@@ -163,7 +165,7 @@ dd { padding-bottom: 15px }
 	        <select id="s3" class="s3" multiple="multiple">
 	            <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
 	            <option>Pseudopseudohypoparathyroidism</option>
-	            <option>Floccinaucinihilipilification</option>
+	            <option disabled>Floccinaucinihilipilification</option>
 	            <option>Antidisestablishmentarianism</option>
 	            <option>Honorificabilitudinitatibus</option>
 	        </select>
@@ -644,7 +646,7 @@ dd { padding-bottom: 15px }
       	<td colspan='3'>
 		    <h3>Rebuild of the control</h3>
 		    <div>
-		        Press the button to destroy the control and rebuild it
+		        Press the button to destroy the control and rebuild it, or enable/disable it
 		    </div>
 		    <blockquote>
 		    	<code>
@@ -681,6 +683,24 @@ dd { padding-bottom: 15px }
 			</script>
 	  		<input type='button' value='rebuild' onClick='doRebuild();'><br>
 	        <select id="s13" class="s13" multiple="multiple">
+	            <option>Low</option>
+	            <option>Medium</option>
+	            <option>High</option>
+	        </select>
+	  	</td>
+	  	<td>
+			<script type="text/javascript">
+		      function doEnable( enable ) {
+		        if ( enable ) {
+	      			$("#s13a").dropdownchecklist("enable");		        
+		        } else {
+	      			$("#s13a").dropdownchecklist("disable");		        
+		        }
+		      }
+			</script>
+	  		<input type='button' value='Enable' onClick='doEnable(true);'><br>
+	  		<input type='button' value='Disable' onClick='doEnable(false);'><br>
+	        <select id="s13a" class="s13" multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
 	            <option>High</option>

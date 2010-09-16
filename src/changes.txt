@@ -1,3 +1,8 @@
+1.1
+- if firstItemChecksAll is true and all items EXCEPT the first are checked, then autocheck the first (#62)
+- treat maxDropHeight as a 'max', not as 'fixed' (#77)
+- account for tab out of open dropdown control
+
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
 - added onComplete callback option (blur does not fire)
