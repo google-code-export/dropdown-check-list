@@ -108,7 +108,7 @@
            		// we really need a reliable method to see who has the focus as we process the blur,
            		// but that mechanism does not seem to exist.  Instead we rely on a delay before
            		// posting the blur, with a focus event cancelling it before the delay expires.
-				e.stopImmediatePropagation();
+				if ( e != null ) { e.stopImmediatePropagation(); }
 				this.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
 				self._toggleDropContainer( false );	        	
            	}
@@ -244,17 +244,13 @@
 		        // entering another. There is no reliable way to detect who
 		        // received the focus on a blur, so post the blur in the future,
 		        // knowing we will cancel it if we capture the focus in a timely manner
+				var timerFunction = function(){ 
+					// I had a hell of a time getting setTimeout to fire this, do not try to
+					// define it within the blur function
+					try { self._handleFocus(null,false,false); } catch(ex){ alert('timer failed: '+ex);}
+				};
 				checkBox.blur(function(e) { 
-				    var self = this;
-					var timerFunction = function(){ 
-						try {
-							// IE 6 seems to blow here, propably not understanding 'self'
-							self._handleFocus(e,false,false);
-						} catch(e) {
-							alert('timer failed');
-						}
-					};
-					self.blurringItem = setTimeout( timerFunction, 2000 ); 
+					self.blurringItem = setTimeout( timerFunction, 200 ); 
 				});
 				checkBox.focus(function(e) { 
 					if (self.blurringItem != null) {
