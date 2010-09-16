@@ -66,14 +66,18 @@
 			var self = this;
 			var keyCode = (e.keyCode || e.which);
 			if (!self.dropWrapper.isOpen && self._isDropDownKeyShortcut(e, keyCode)) {
+				// Key command to open the dropdown
 				e.stopImmediatePropagation();
 				self._toggleDropContainer(true);
 			} else if (self.dropWrapper.isOpen && self._isDropDownCloseKey(e, keyCode)) {
+				// Key command to close the dropdown (but we retain focus in the control)
 				e.stopImmediatePropagation();
 				self._toggleDropContainer(false);
+				self.controlWrapper.find(".ui-dropdownchecklist-selector").focus();
 			} else if (self.dropWrapper.isOpen 
 					&& (e.target.type == 'checkbox')
 					&& ((keyCode == $.ui.keyCode.DOWN) || (keyCode == $.ui.keyCode.UP)) ) {
+				// Up/Down to cycle throught the open items
 				e.stopImmediatePropagation();
 				self._keyFocusChange(e.target, (keyCode == $.ui.keyCode.DOWN) ? 1 : -1, true);
 			} else if (self.dropWrapper.isOpen && (keyCode == $.ui.keyCode.TAB) ) {
@@ -85,10 +89,10 @@
 				//self._keyFocusChange(e.target, (e.shiftKey) ? -1 : 1, true);
            }
 		},
-		// Look for change of focus ON AN ITEM
-		_handleFocus: function(e,focusIn,onDropdown) {
+		// Look for change of focus
+		_handleFocus: function(e,focusIn,forDropdown) {
 			var self = this;
-			if (onDropdown && !self.dropWrapper.isOpen) {
+			if (forDropdown && !self.dropWrapper.isOpen) {
 				// if the focus changes when the control is NOT open, mark it to show where the focus is/is not
 				e.stopImmediatePropagation();
 				if (focusIn) {
@@ -99,7 +103,7 @@
 				} else {
 					self.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
 				}
-           	} else if (!onDropdown && !focusIn) {
+           	} else if (!forDropdown && !focusIn) {
            		// The dropdown is open, and an item (NOT the dropdown) has just lost the focus.
            		// we really need a reliable method to see who has the focus as we process the blur,
            		// but that mechanism does not seem to exist.  Instead we rely on a delay before
@@ -241,14 +245,21 @@
 		        // received the focus on a blur, so post the blur in the future,
 		        // knowing we will cancel it if we capture the focus in a timely manner
 				checkBox.blur(function(e) { 
-				    self.blurEvent = e;
-					self.blurring = setTimeout( function() {self._handleFocus(self.blurEvent,false,false);},200); 
+				    var self = this;
+					var timerFunction = function(){ 
+						try {
+							// IE 6 seems to blow here, propably not understanding 'self'
+							self._handleFocus(e,false,false);
+						} catch(e) {
+							alert('timer failed');
+						}
+					};
+					self.blurringItem = setTimeout( timerFunction, 2000 ); 
 				});
 				checkBox.focus(function(e) { 
-					if (self.blurring != null) {
-						clearTimeout(self.blurring);
-						self.blurring = null;
-						self.blurEvent = null;
+					if (self.blurringItem != null) {
+						clearTimeout(self.blurringItem);
+						self.blurringItem = null;
 					} 
 				});
 	            // check/uncheck the item on clicks on the entire item div
@@ -544,6 +555,9 @@
         // Initializes the plugin
         _init: function() {
             var self = this, options = this.options;
+            
+            // item blurring relies on a cancelable timer
+            self.blurringItem = null;
 
             // sourceSelect is the select on which the plugin is applied
             var sourceSelect = self.element;
