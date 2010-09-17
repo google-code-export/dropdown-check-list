@@ -1,7 +1,9 @@
 1.1 (PENDING, not yet released)
+- updated jquery to 1.4.2, ui to 1.8.4 (which fixes the 'destroy problem: #94, #114, #115, #121)
 - if firstItemChecksAll is true and all items EXCEPT the first are checked, then autocheck the first (#62)
 - treat maxDropHeight as a 'max', not as 'fixed' (#77)
-- account for tab out of open dropdown control
+- include simple vertical alignment css to try to address field positioning (#110)
+- account for tab out of open dropdown control, and various other key issues (#84)
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
