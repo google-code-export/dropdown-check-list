@@ -9,6 +9,7 @@
 - copy the tabindex of the underlying select if provided (#100)
 - provide option to auto-close dropdown when a singleton radio button is clicked (#57, #120)
 - if optgroup is disabled, all child items are disabled (#72)
+- optgroup without a label (#59)
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings

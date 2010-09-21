@@ -322,9 +322,10 @@
                     self._appendOption(opt, dropContainerDiv, index, false, false);
                 } else if (opt.is("optgroup")) {
                     var text = opt.attr("label");
-                    var group = self._createGroupItem(text);
-                    dropContainerDiv.append(group);
-                    
+                    if (text != "") {
+	                    var group = self._createGroupItem(text);
+	                    dropContainerDiv.append(group);
+	                }
 					var disabled = opt.attr("disabled");
                     self._appendOptions(opt, dropContainerDiv, index, true, disabled);
                 }
