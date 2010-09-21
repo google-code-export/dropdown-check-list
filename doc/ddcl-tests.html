@@ -256,8 +256,8 @@ dd { padding-bottom: 15px }
 	        <select multiple="multiple">
 	            <option>(all)</option>
 	            <option>Banana Nut</option>
-	            <option disabled="disabled">Black Walnut</option>
-	            <option disabled="disabled">Burgundy Cherry</option>
+	            <option disabled>Black Walnut</option>
+	            <option disabled>Burgundy Cherry</option>
 	            <option>Butter Pecan</option>
 	            <option>Chocolate Chip</option>
 	            <option>Chocolate Fudge Truffle</option>
@@ -290,8 +290,8 @@ dd { padding-bottom: 15px }
 	        <select id="s5" class="s5" multiple="multiple">
 	            <option>(all)</option>
 	            <option>Banana Nut</option>
-	            <option disabled="disabled">Black Walnut</option>
-	            <option disabled="disabled">Burgundy Cherry</option>
+	            <option disabled>Black Walnut</option>
+	            <option disabled>Burgundy Cherry</option>
 	            <option>Butter Pecan</option>
 	            <option>Chocolate Chip</option>
 	            <option>Chocolate Fudge Truffle</option>
@@ -348,6 +348,11 @@ dd { padding-bottom: 15px }
 					<option>2</option>
 					<option selected="selected">3</option>
 				</optgroup>
+	            <optgroup disabled label="Disabled">
+					<option>x</option>
+					<option>y</option>
+					<option>z</option>
+				</optgroup>
 	        </select>
 	    </td>
       	<td>
@@ -362,6 +367,26 @@ dd { padding-bottom: 15px }
 					<option>1</option>
 					<option>2</option>
 					<option selected="selected">3</option>
+				</optgroup>
+	        </select>
+	    </td>
+      	<td>
+	  		<span>With option groups (disabled)</span><br>
+	        <select id="s6" class="s6" multiple="multiple">
+				<optgroup label="Letters">
+					<option>A</option>
+					<option>B</option>
+					<option selected="selected">C</option>
+				</optgroup>
+	            <optgroup label="Numbers">
+					<option>1</option>
+					<option>2</option>
+					<option selected="selected">3</option>
+				</optgroup>
+	            <optgroup disabled label="Disabled">
+					<option>x</option>
+					<option>y</option>
+					<option>z</option>
 				</optgroup>
 	        </select>
 	    </td>

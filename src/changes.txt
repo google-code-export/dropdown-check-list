@@ -8,6 +8,7 @@
   unique (#97, #107, #111)
 - copy the tabindex of the underlying select if provided (#100)
 - provide option to auto-close dropdown when a singleton radio button is clicked (#57, #120)
+- if optgroup is disabled, all child items are disabled (#72)
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
