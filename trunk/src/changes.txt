@@ -7,6 +7,7 @@
 - assign ids to the generated elements for access by other jQuery processing, and keep the various ids
   unique (#97, #107, #111)
 - copy the tabindex of the underlying select if provided (#100)
+- provide option to auto-close dropdown when a singleton radio button is clicked (#57, #120)
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
