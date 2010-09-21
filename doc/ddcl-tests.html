@@ -119,7 +119,7 @@ dd { padding-bottom: 15px }
     	</td>
       	<td>
 	  		<span>Nothing preselected</span><br>
-	        <select id="s1" class="s1" multiple="multiple">
+	        <select id="s1" class="s1" multiple="multiple" tabindex='3'>
 	            <option>Low</option>
 	            <option>Medium</option>
 	            <option>High</option>
@@ -598,6 +598,8 @@ dd { padding-bottom: 15px }
 		    <br>
 		        Enter the url of a form to post to in the "Post to:" field.  The items
 		        returned with the form are named "selector1", "selector2", and "selector3"
+		    <br>
+		        We are also testing multiple selectors that do NOT have uniquely assigned ids.
 		    </div>
 		    <blockquote>
 		    	<code>
@@ -627,14 +629,14 @@ dd { padding-bottom: 15px }
 		        </select>
 	  		<br>
 	  			<span>DDCL: </span>
-		        <select name='selector2' multiple="multiple" id='s12' class='s12'>
+		        <select name='selector2' multiple="multiple" class='s12'>
 		            <option selected="selected">Low</option>
 		            <option selected="selected">Medium</option>
 		            <option selected="selected">High</option>
 		        </select>
 	  		<br>
 	  			<span>DDCL (with values): </span>
-		        <select name='selector3' multiple="multiple" id='s12a' class='s12'>
+		        <select name='selector3' multiple="multiple" class='s12'>
 		            <option value='l' selected="selected">Low</option>
 		            <option value='m' selected="selected">Medium</option>
 		            <option value='h' selected="selected">High</option>
