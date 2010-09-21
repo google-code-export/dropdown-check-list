@@ -319,32 +319,34 @@
 			sourceSelect.children().each(function(index) { // when the select has groups
 				var opt = $(this);
                 if (opt.is("option")) {
-                    self._appendOption(opt, dropContainerDiv, index, false);
+                    self._appendOption(opt, dropContainerDiv, index, false, false);
                 } else if (opt.is("optgroup")) {
                     var text = opt.attr("label");
                     var group = self._createGroupItem(text);
                     dropContainerDiv.append(group);
-                    self._appendOptions(opt, dropContainerDiv, index, true);
+                    
+					var disabled = opt.attr("disabled");
+                    self._appendOptions(opt, dropContainerDiv, index, true, disabled);
                 }
 			});
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
             return { width: divWidth, height: divHeight };
         },
-		_appendOptions: function(parent, container, parentIndex, indent) {
+		_appendOptions: function(parent, container, parentIndex, indent, forceDisabled) {
 			var self = this;
 			parent.children("option").each(function(index) {
                 var option = $(this);
                 var childIndex = (parentIndex + "." + index);
-                self._appendOption(option, container, childIndex, indent);
+                self._appendOption(option, container, childIndex, indent, forceDisabled);
             });
 		},
-        _appendOption: function(option, container, index, indent) {
+        _appendOption: function(option, container, index, indent, forceDisabled) {
             var self = this;
             var text = option.text();
             var value = option.val();
             var selected = option.attr("selected");
-			var disabled = option.attr("disabled");
+			var disabled = (forceDisabled || option.attr("disabled"));
             var item = self._createDropItem(index, value, text, selected, disabled, indent);
             container.append(item);
         },
