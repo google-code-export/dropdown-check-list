@@ -198,7 +198,7 @@
         },
         // Creates a drop item that coresponds to an option element in the source select
         _createDropItem: function(index, value, text, checked, disabled, indent) {
-            var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
+            var self = this, options = this.options, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
             // the item contains a div that contains a checkbox input and a lable for the text
             // the div
             var item = $("<div/>");
@@ -252,6 +252,9 @@
 					if (!disabled) {
 		                self._syncSelected($(this));
 		                self.sourceSelect.trigger("change", 'ddcl_internal');
+		                if (!self.isMultiple && options.closeRadioOnClick) {
+		                	self._toggleDropContainer(false);
+		                }
 					}
 		        });
 		        // we are interested in the focus leaving the check box
@@ -281,6 +284,9 @@
 		                checkBox.attr("checked", !checked);
 		                self._syncSelected(checkBox);
 		                self.sourceSelect.trigger("change", 'ddcl_internal');
+		                if (!checked && !self.isMultiple && options.closeRadioOnClick) {
+		                	self._toggleDropContainer(false);
+		                }
 					}
 	            };
 	        } else {
@@ -637,6 +643,7 @@
             width: null,
             maxDropHeight: null,
             firstItemChecksAll: false,
+            closeRadioOnClick: false,
             minWidth: 50,
             bgiframe: false
         }

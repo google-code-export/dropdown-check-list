@@ -599,6 +599,14 @@ dd { padding-bottom: 15px }
     		I have no real idea what this does, but it is a function called during widget initialization,
     		with a comment about IE 6. You could use it as a callout to affect the widget setup.
     	</dd>
+    	<dt>closeRadioOnClick: true/false  <i>(pending version 1.1)</i></dt>
+    	<dd>
+    		When true, a single selector with radio button display will close the dropdown when
+    		any radio button is clicked.
+    		<br>
+    		For backwards compatibility, the default is 'false' so you must explicitly include this
+    		option in your configuration as 'true' if you want the control to auto-close.
+    	</dd>
     	<dt>emptyText: 'string'</dt>
     	<dd>
     		The <b>emptyText</b> options supplies the string to display if no options are currently

@@ -32,7 +32,8 @@ dd { padding-bottom: 15px }
             								, maxDropHeight: 150, width: 150 } );
             $(".s5").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s6").dropdownchecklist();
-            $(".s7").dropdownchecklist();
+            $("#s7").dropdownchecklist();
+            $("#s7a").dropdownchecklist( { closeRadioOnClick: true } );
             $(".s8").dropdownchecklist( { emptyText: "Please Select...", width: 150 } );
             $(".s9").dropdownchecklist( { textFormatFunction: function(options) {
                 var selectedOptions = options.filter(":selected");
@@ -374,7 +375,8 @@ dd { padding-bottom: 15px }
 		    </div>
 		    <blockquote>
 		    	<code>
-		            $(".s7").dropdownchecklist();
+		            $("#s7").dropdownchecklist();
+		            $("#s7a").dropdownchecklist({closeRadioOnClick: true });
 		        </code>
 		    </blockquote>
 		</td>
@@ -401,6 +403,24 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>As radio buttons</span><br>
 	        <select id="s7" class="s7">
+	            <option>Aries</option>
+	            <option>Taurus</option>
+	            <option>Gemini</option>
+	            <option>Cancer</option>
+	            <option>Leo	Leo</option>
+	            <option>Virgo</option>
+	            <option>Libra</option>
+	            <option>Scorpius</option>
+	            <option>Ophiuchus</option>
+	            <option>Sagittarius</option>
+	            <option>Capricornus</option>
+	            <option>Aquarius</option>
+	            <option>Pisces</option>
+	        </select>
+	    </td>
+      	<td>
+	  		<span>Close on Click</span><br>
+	        <select id="s7a" class="s7">
 	            <option>Aries</option>
 	            <option>Taurus</option>
 	            <option>Gemini</option>
