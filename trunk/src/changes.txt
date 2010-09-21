@@ -4,6 +4,9 @@
 - treat maxDropHeight as a 'max', not as 'fixed' (#77)
 - include simple vertical alignment css to try to address field positioning (#110)
 - account for tab out of open dropdown control, and various other key issues (#84)
+- assign ids to the generated elements for access by other jQuery processing, and keep the various ids
+  unique (#97, #107, #111)
+- copy the tabindex of the underlying select if provided (#100)
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
