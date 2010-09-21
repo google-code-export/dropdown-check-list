@@ -663,6 +663,31 @@ dd { padding-bottom: 15px }
     		be wider than the items, to provide extra room for icons or the display of multiple items.
     		The width may be narrower than the items to account for dropdowns with very long names.
     </dl>
+    <h2>Use of IDs</h2>
+    <p>
+    	<i>Dropdown CheckList</i> generates two basic components that are inserted into the document.
+    	There is a <i>control wrapper</i> which is positioned in place of the original selector and
+    	acts like the &lt;select&gt; item on the page. And there is the <i>drop-down wrapper</i> 
+    	which is only visible when the control wrapper is 'open' and is positioned under the control.
+    </p>
+    <p>
+    	Both of these items are assigned an id, which you can use in other jQuery processing to 
+    	locate and alter the items.
+    	<dl>
+    		<dt>Control Wrapper</dt>
+    		<dd>
+    			The control wrapper has a generated id of the form "ddcl-XXX", where the XXX is
+    			either 1) the assigned id of underlying &lt;select&gt;, or 2) an incrementing 
+    			counter when the &lt;select&gt; has no id assigned.
+    		</dd>
+    		<dt>Drop-down Wrapper</dt>
+    		<dd>
+    			The drop-down wrapper has a generated id of the form "ddcl-XXX-ddw", where the
+    			XXX matches the XXX of the control wrapper.
+    		</dd>
+    	</dl>
+    	These ids must be unique and <i>Dropdown CheckList</i> assumes no only elements on the 
+    	page have an id that conflicts.
 	<h2>Have problems using the plugin?</h2>
 	<p>
 	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list">issue list</a>.

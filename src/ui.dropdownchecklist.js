@@ -11,6 +11,7 @@
     $.widget("ui.dropdownchecklist", {
     	// Some globlals
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
+    	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
     	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -18,6 +19,8 @@
             // the container is wrapped in a div
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-dropcontainer-wrapper");
             wrapper.addClass("ui-widget");
+            // assign an id
+            wrapper.attr("id",controlItem.attr("id") + '-ddw');
             // initially hidden
             wrapper.css({ position: 'absolute', left: "-33000px", top: "-33000px"  });
             
@@ -122,14 +125,25 @@
             var wrapper = $("<span/>");
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-selector-wrapper ui-widget");
             wrapper.css({ cursor: "default", overflow: "hidden" });
-
+            
+            // assign an ID 
+            var baseID = sourceSelect.attr("id");
+            if ((baseID == null) || (baseID == "")) {
+            	baseID = "ddcl-" + $.ui.dropdownchecklist.gIDCounter++;
+            } else {
+            	baseID = "ddcl-" + baseID;
+			}
+			wrapper.attr("id",baseID);
+			
             // the actual control which you can style
             // inline-block needed to enable 'width' but has interesting problems cross browser
             var control = $("<span/>");
             control.addClass("ui-dropdownchecklist-selector ui-state-default");
             control.css( { display: "inline-block", overflow: "hidden", 'white-space': 'nowrap'} );
             // Setting a tab index means we are interested in the tab sequence
-			control.attr("tabIndex", 0);
+            var tabIndex = sourceSelect.attr("tabIndex");
+            if ( tabIndex == null ) { tabIndex = 0; }
+			control.attr("tabIndex", tabIndex);
 			control.keyup(function(e) {self._handleKeyboard(e);});
 			control.focus(function(e) {self._handleFocus(e,true,true);});
 			control.blur(function(e) {self._handleFocus(e,false,true);});
@@ -184,7 +198,7 @@
         },
         // Creates a drop item that coresponds to an option element in the source select
         _createDropItem: function(index, value, text, checked, disabled, indent) {
-            var self = this;
+            var self = this, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
             // the item contains a div that contains a checkbox input and a lable for the text
             // the div
             var item = $("<div/>");
@@ -192,8 +206,9 @@
             item.css({'white-space': "nowrap"});
             var checkedString = checked ? ' checked="checked"' : '';
 			var classString = disabled ? ' class="inactive"' : ' class="active"';
-			var idBase = (self.sourceSelect.attr("id") || "ddcl");
+			
 			// generated id must be a bit unique to keep from colliding
+			var idBase = controlWrapper.attr("id");
 			var id = idBase + '-i' + index;
             var checkBox;
             
@@ -551,7 +566,9 @@
         // Initializes the plugin
         _init: function() {
             var self = this, options = this.options;
-            
+			if ( $.ui.dropdownchecklist.gIDCounter == null) {
+				$.ui.dropdownchecklist.gIDCounter = 1;
+			}
             // item blurring relies on a cancelable timer
             self.blurringItem = null;
 
