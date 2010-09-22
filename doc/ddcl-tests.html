@@ -57,7 +57,16 @@ dd { padding-bottom: 15px }
             } });
             $(".s11").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s12").dropdownchecklist( { width: 250 } );
-            $(".s13").dropdownchecklist( { width: 150 } );
+            $(".s13").dropdownchecklist( { width: 150, onComplete: function(selector) {
+			  	var values = "";
+			  	for( i=0; i < selector.options.length; i++ ) {
+			    	if (selector.options[i].selected && (selector.options[i].value != "")) {
+			      		if ( values != "" ) values += ";";
+			      		values += selector.options[i].value;
+			    	}
+			  	}
+			  	alert( values );
+            } });
             $(".s14").dropdownchecklist( { width: 150 } );
         });
     </script>
@@ -120,7 +129,8 @@ dd { padding-bottom: 15px }
     	</td>
       	<td>
 	  		<span>Nothing preselected</span><br>
-	        <select id="s1" class="s1" multiple="multiple" tabindex='3'>
+	  		<span>(but with explicit tabindex)</span><br>
+	        <select id="s1" class="s1" multiple="multiple" tabindex='8'>
 	            <option>Low</option>
 	            <option>Medium</option>
 	            <option>High</option>
@@ -703,7 +713,8 @@ dd { padding-bottom: 15px }
       	<td colspan='3'>
 		    <h3>Rebuild of the control</h3>
 		    <div>
-		        Press the button to destroy the control and rebuild it, or enable/disable it
+		        Press the appropriate button to destroy the control and rebuild it, or alter the 
+		        underlying select and refresh it, or enable/disable it
 		    </div>
 		    <blockquote>
 		    	<code>
@@ -716,33 +727,97 @@ dd { padding-bottom: 15px }
 	  	<td>
 	  		<span>Naked Selector</span><br>
 	        <select multiple="multiple">
-	        	<option>All</option>
-	            <option selected="selected">Low</option>
-	            <option selected="selected">Medium</option>
-	            <option selected="selected">High</option>
+	            <option selected>Low</option>
+	            <option disabled>Medium</option>
+	            <option selected>High</option>
+				<optgroup label="A Group">
+					<option>1</option>
+					<option disabled>2</option>
+					<option>3</option>
+				</optgroup>
 	        </select>
 	  	</td>
 	  	<td>
 			<script type="text/javascript">
+			  function rebuildItem( anItem, index ) {
+   					if ( anItem.attr("selected") ) {
+   						anItem.html( 'Selection ' + index );
+   					} else {
+   						anItem.html( 'NonSelection ' + index );
+					}			  	
+			  }
 		      function doRebuild() {
       			$("#s13").dropdownchecklist("destroy");
-    			alert('Change the underlying SELECT here');
-    			var selectOptions = $("#s13").get(0).options;
-    			for( i=0; i < selectOptions.length; i++ ) {
-            		if (selectOptions[i].selected) {
-            			selectOptions[i].text = 'Selection ' + i;
-            		} else {
-            			selectOptions[i].text = 'NonSelection ' + i;
-            		}
-            	}
+    			alert('Changing the underlying SELECT here');
+    			var aSelector = $("#s13").get(0);
+    			$(aSelector).children().each(function(index) {
+    				var anItem = $(this);
+    				if ( anItem.is("option") ) {
+    					rebuildItem( anItem, index );
+    				} else if ( anItem.is("optgroup") ) {
+						anItem.children().each(function(subindex) {
+							rebuildItem( $(this), index + subindex );
+						});
+					}
+    			});
     			$("#s13").dropdownchecklist();
 		      }
 			</script>
 	  		<input type='button' value='rebuild' onClick='doRebuild();'><br>
+	  		
+			<script type="text/javascript">
+			  function refreshItem( anItem, index ) {
+				if ( anItem.attr("disabled") ) {
+					anItem.removeAttr("disabled");
+				} else if ( anItem.attr("selected") ) {
+					anItem.removeAttr("selected");
+				} else {
+					anItem.attr("selected",true);
+				}			  	
+			  }
+		      function doRefresh() {
+    			alert('Changing the underlying SELECT here');
+    			var aSelector = $("#s13").get(0);
+    			$(aSelector).children().each(function(index) {
+    				var anItem = $(this);
+    				if ( anItem.is("option") ) {
+    					refreshItem( anItem, index );
+    				} else if ( anItem.is("optgroup") ) {
+						anItem.children().each(function(subindex) {
+							refreshItem( $(this), index + subindex );
+						});
+					}
+    			});
+      			$("#s13").dropdownchecklist("refresh");
+    		  }
+		      function doRefresh2() {
+    			alert('Changing the underlying SELECT(group) here');
+    			var aSelector = $("#s13").get(0);
+    			$(aSelector).children().each(function(index) {
+    				var anItem = $(this);
+    				if ( anItem.is("optgroup") ) {
+						if ( anItem.attr("disabled") ) {
+							anItem.removeAttr("disabled");
+						} else {
+							anItem.attr("disabled",true);
+						}
+					}
+    			});
+      			$("#s13").dropdownchecklist("refresh");
+		      }
+			</script>
+	  		<input type='button' value='refresh' onClick='doRefresh();'>
+	  		<input type='button' value='refresh(group)' onClick='doRefresh2();'>
+	  		<br>
 	        <select id="s13" class="s13" multiple="multiple">
-	            <option>Low</option>
-	            <option>Medium</option>
-	            <option>High</option>
+	            <option selected>Low</option>
+	            <option disabled>Medium</option>
+	            <option selected>High</option>
+				<optgroup label="A Group">
+					<option>1</option>
+					<option disabled>2</option>
+					<option>3</option>
+				</optgroup>
 	        </select>
 	  	</td>
 	  	<td>
@@ -758,9 +833,14 @@ dd { padding-bottom: 15px }
 	  		<input type='button' value='Enable' onClick='doEnable(true);'><br>
 	  		<input type='button' value='Disable' onClick='doEnable(false);'><br>
 	        <select id="s13a" class="s13" multiple="multiple">
-	            <option>Low</option>
-	            <option>Medium</option>
-	            <option>High</option>
+	            <option selected>Low</option>
+	            <option disabled>Medium</option>
+	            <option selected>High</option>
+				<optgroup label="A Group">
+					<option>1</option>
+					<option disabled>2</option>
+					<option>3</option>
+				</optgroup>
 	        </select>
 	  	</td>
 	  </tr>

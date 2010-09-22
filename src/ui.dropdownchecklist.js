@@ -31,6 +31,9 @@
             
             // insert the dropdown after the master control to try to keep the tab order intact
             // if you just add it to the end, tabbing out of the drop down takes focus off the page
+            // @todo 22Sept2010 - check if size calculation is thrown off if the parent of the
+            //		selector is hidden.  We may need to add it to the end of the document here, 
+            //		calculate the size, and then move it back into proper position???
 			//$(document.body).append(wrapper);
             wrapper.insertAfter(controlItem);
 
@@ -38,12 +41,16 @@
             wrapper.isOpen = false;
             return wrapper;
         },
+        // Look for browser standard 'open' on a closed selector
 		_isDropDownKeyShortcut: function(e,keycode) {
 			return e.altKey && ($.ui.keyCode.DOWN == keycode);// Alt + Down Arrow
 		},
+		// Look for key that will tell us to close the open dropdown
 		_isDropDownCloseKey: function(e,keycode) {
 			return ($.ui.keyCode.ESCAPE == keycode) || ($.ui.keyCode.ENTER == keycode);
 		},
+		// Handler to change the active focus based on a keystroke, moving some count of
+		// items from the element that has the current focus
 		_keyFocusChange: function(target,delta,limitToItems) {
 			// Find item with current focus
 			var focusables = $(":focusable");
@@ -76,7 +83,7 @@
 				// Key command to close the dropdown (but we retain focus in the control)
 				e.stopImmediatePropagation();
 				self._toggleDropContainer(false);
-				self.controlWrapper.find(".ui-dropdownchecklist-selector").focus();
+				self.controlSelector.focus();
 			} else if (self.dropWrapper.isOpen 
 					&& (e.target.type == 'checkbox')
 					&& ((keyCode == $.ui.keyCode.DOWN) || (keyCode == $.ui.keyCode.UP)) ) {
@@ -99,12 +106,12 @@
 				// if the focus changes when the control is NOT open, mark it to show where the focus is/is not
 				e.stopImmediatePropagation();
 				if (focusIn) {
-					self.controlWrapper.find(".ui-dropdownchecklist-selector").addClass("ui-state-hover");
+					self.controlSelector.addClass("ui-state-hover");
 					if ($.ui.dropdownchecklist.gLastOpened != null) {
 						$.ui.dropdownchecklist.gLastOpened._toggleDropContainer( false );
 					}
 				} else {
-					self.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
+					self.controlSelector.removeClass("ui-state-hover");
 				}
            	} else if (!forDropdown && !focusIn) {
            		// The dropdown is open, and an item (NOT the dropdown) has just lost the focus.
@@ -112,9 +119,17 @@
            		// but that mechanism does not seem to exist.  Instead we rely on a delay before
            		// posting the blur, with a focus event cancelling it before the delay expires.
 				if ( e != null ) { e.stopImmediatePropagation(); }
-				this.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-hover");
+				self.controlSelector.removeClass("ui-state-hover");
 				self._toggleDropContainer( false );	        	
            	}
+		},
+		// Clear the pending change of focus, which keeps us 'in' the control
+		_cancelBlur: function(e) {
+			var self = this;
+			if (self.blurringItem != null) {
+				clearTimeout(self.blurringItem);
+				self.blurringItem = null;
+			} 
 		},
         // Creates the control that will replace the source select and appends it to the document
         // The control resembles a regular select with single selection
@@ -142,7 +157,14 @@
             control.css( { display: "inline-block", overflow: "hidden", 'white-space': 'nowrap'} );
             // Setting a tab index means we are interested in the tab sequence
             var tabIndex = sourceSelect.attr("tabIndex");
-            if ( tabIndex == null ) { tabIndex = 0; }
+            if ( tabIndex == null ) {
+            	tabIndex = 0;
+            } else {
+            	tabIndex = parseInt(tabIndex);
+            	if ( tabIndex < 0 ) {
+            		tabIndex = 0;
+            	}
+            }
 			control.attr("tabIndex", tabIndex);
 			control.keyup(function(e) {self._handleKeyboard(e);});
 			control.focus(function(e) {self._handleFocus(e,true,true);});
@@ -181,7 +203,7 @@
             // clicking on the control toggles the drop container
             wrapper.click(function(event) {
                 if (!self.disabled) {
-                    event.stopPropagation();
+                    event.stopImmediatePropagation();
                     self._toggleDropContainer( !self.dropWrapper.isOpen );
                 }
             });
@@ -197,7 +219,7 @@
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
-        _createDropItem: function(index, value, text, checked, disabled, indent) {
+        _createDropItem: function(index, tabIndex, value, text, checked, disabled, indent) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
             // the item contains a div that contains a checkbox input and a lable for the text
             // the div
@@ -214,12 +236,13 @@
             
             // all items start out disabled to keep them out of the tab order
             if (self.isMultiple) { // the checkbox
-                checkBox = $('<input disabled type="checkbox" id="' + id + '"' + checkedString + classString + '/>');
+                checkBox = $('<input disabled type="checkbox" id="' + id + '"' + checkedString + classString + ' tabindex="' + tabIndex + '" />');
             } else { // the radiobutton
-                checkBox = $('<input disabled type="radio" id="' + id + '" name="' + idBase + '"' + checkedString + classString + '/>');
+                checkBox = $('<input disabled type="radio" id="' + id + '" name="' + idBase + '"' + checkedString + classString + ' tabindex="' + tabIndex + '" />');
             }
             checkBox = checkBox.attr("index", index).val(value);
             item.append(checkBox);
+            
             // the text
             var label = $("<label for=" + id + "/>");
             label.addClass("ui-dropdownchecklist-text");
@@ -232,76 +255,83 @@
 			if (disabled) {
 				item.addClass("ui-state-disabled");
 			}
-	        label.click(function(e) {e.stopPropagation();});
+	        label.click(function(e) {e.stopImmediatePropagation();});
             item.append(label);
             
-            var checkItem;
-            if ( !disabled ) {
-            	// active items display themselves with hover
-	            item.hover(
-	            	function() {
-	                	item.addClass("ui-state-hover");
-	            	}
-	            , 	function() {
-	                	item.removeClass("ui-state-hover");
-	            	}
-	            );
-	            // clicking on the checkbox synchronizes the source select
-		        checkBox.click(function(e) {
-					e.stopPropagation();
-					if (!disabled) {
-		                self._syncSelected($(this));
-		                self.sourceSelect.trigger("change", 'ddcl_internal');
-		                if (!self.isMultiple && options.closeRadioOnClick) {
-		                	self._toggleDropContainer(false);
-		                }
-					}
-		        });
-		        // we are interested in the focus leaving the check box
-		        // but we need to detect the focus leaving one check box but
-		        // entering another. There is no reliable way to detect who
-		        // received the focus on a blur, so post the blur in the future,
-		        // knowing we will cancel it if we capture the focus in a timely manner
-				var timerFunction = function(){ 
-					// I had a hell of a time getting setTimeout to fire this, do not try to
-					// define it within the blur function
-					try { self._handleFocus(null,false,false); } catch(ex){ alert('timer failed: '+ex);}
-				};
-				checkBox.blur(function(e) { 
-					self.blurringItem = setTimeout( timerFunction, 200 ); 
-				});
-				checkBox.focus(function(e) { 
-					if (self.blurringItem != null) {
-						clearTimeout(self.blurringItem);
-						self.blurringItem = null;
-					} 
-				});
-	            // check/uncheck the item on clicks on the entire item div
-	            checkItem = function(e) {
-	                e.stopPropagation();
-					if (!disabled) {
-		                var checked = checkBox.attr("checked");
-		                checkBox.attr("checked", !checked);
-		                self._syncSelected(checkBox);
-		                self.sourceSelect.trigger("change", 'ddcl_internal');
-		                if (!checked && !self.isMultiple && options.closeRadioOnClick) {
-		                	self._toggleDropContainer(false);
-		                }
-					}
-	            };
-	        } else {
-	        	// nothing interesting when clicking something not active
-	            checkItem = function(e) {
-	                e.stopPropagation();
-				};        
-	        }
-	        item.click(checkItem);
+           	// active items display themselves with hover
+            item.hover(
+            	function(e) {
+            		var anItem = $(this);
+                	if (!anItem.hasClass("ui-state-disabled")) { anItem.addClass("ui-state-hover"); }
+            	}
+            , 	function(e) {
+            		var anItem = $(this);
+                	anItem.removeClass("ui-state-hover");
+            	}
+            );
+            // clicking on the checkbox synchronizes the source select
+	        checkBox.click(function(e) {
+	        	var aCheckBox = $(this);
+				e.stopImmediatePropagation();
+				if (aCheckBox.hasClass("active") ) {
+					// Active checkboxes take active action
+	                self._syncSelected(aCheckBox);
+	                self.sourceSelect.trigger("change", 'ddcl_internal');
+	                if (!self.isMultiple && options.closeRadioOnClick) {
+	                	self._toggleDropContainer(false);
+	                }
+				}
+	        });
+	        // we are interested in the focus leaving the check box
+	        // but we need to detect the focus leaving one check box but
+	        // entering another. There is no reliable way to detect who
+	        // received the focus on a blur, so post the blur in the future,
+	        // knowing we will cancel it if we capture the focus in a timely manner
+			var timerFunction = function(){ 
+				// I had a hell of a time getting setTimeout to fire this, do not try to
+				// define it within the blur function
+				try { self._handleFocus(null,false,false); } catch(ex){ alert('timer failed: '+ex);}
+			};
+			checkBox.blur(function(e) { 
+				self.blurringItem = setTimeout( timerFunction, 200 ); 
+			});
+			checkBox.focus(function(e) {self._cancelBlur();});
+			
+	        // check/uncheck the item on clicks on the entire item div
+	        item.click(function(e) {
+	        	var anItem = $(this);
+                e.stopImmediatePropagation();
+				if (!anItem.hasClass("ui-state-disabled") ) {
+					// check/uncheck the underlying control
+					var aCheckBox = anItem.find("input");
+	                var checked = aCheckBox.attr("checked");
+	                aCheckBox.attr("checked", !checked);
+	                self._syncSelected(aCheckBox);
+	                self.sourceSelect.trigger("change", 'ddcl_internal');
+	                if (!checked && !self.isMultiple && options.closeRadioOnClick) {
+	                	self._toggleDropContainer(false);
+	                }
+				} else {
+					// retain the focus even if disabled
+					anItem.focus();
+					self._cancelBlur();
+				}
+	        });
+	        // do not let the focus wander around
+			item.focus(function(e) { 
+	        	var anItem = $(this);
+                e.stopImmediatePropagation();
+            });
 			item.keyup(function(e) {self._handleKeyboard(e);});
             return item;
         },
-		_createGroupItem: function(text) {
+		_createGroupItem: function(text,disabled) {
+			var self = this;
 			var group = $("<div />");
 			group.addClass("ui-dropdownchecklist-group ui-widget-header");
+			if (disabled) {
+				group.addClass("ui-state-disabled");
+			}
 			group.css({'white-space': "nowrap"});
 			
             var label = $("<span/>");
@@ -309,6 +339,20 @@
             label.css( { cursor: "default" });
             label.text(text);
 			group.append(label);
+			
+			// anything interesting when you click the group???
+	        group.click(function(e) {
+	        	var aGroup= $(this);
+                e.stopImmediatePropagation();
+                // retain the focus even if no action is taken
+                aGroup.focus();
+                self._cancelBlur();
+            });
+	        // do not let the focus wander around
+			group.focus(function(e) { 
+	        	var aGroup = $(this);
+                e.stopImmediatePropagation();
+            });
 			return group;
 		},
         // Creates the drop items and appends them to the drop container
@@ -321,12 +365,12 @@
                 if (opt.is("option")) {
                     self._appendOption(opt, dropContainerDiv, index, false, false);
                 } else if (opt.is("optgroup")) {
+					var disabled = opt.attr("disabled");
                     var text = opt.attr("label");
                     if (text != "") {
-	                    var group = self._createGroupItem(text);
+	                    var group = self._createGroupItem(text,disabled);
 	                    dropContainerDiv.append(group);
 	                }
-					var disabled = opt.attr("disabled");
                     self._appendOptions(opt, dropContainerDiv, index, true, disabled);
                 }
 			});
@@ -348,7 +392,9 @@
             var value = option.val();
             var selected = option.attr("selected");
 			var disabled = (forceDisabled || option.attr("disabled"));
-            var item = self._createDropItem(index, value, text, selected, disabled, indent);
+			// Use the same tab index as the selector replacement
+			var tabIndex = self.controlSelector.attr("tabindex");
+            var item = self._createDropItem(index, tabIndex, value, text, selected, disabled, indent);
             container.append(item);
         },
         // Synchronizes the items checked and the source select
@@ -449,7 +495,7 @@
                         top: "-33000px",
                         left: "-33000px"
                     });
-                    var aControl = instance.controlWrapper.find(".ui-dropdownchecklist-selector");
+                    var aControl = instance.controlSelector;
 	                aControl.removeClass("ui-state-active");
 	                aControl.removeClass("ui-state-hover");
 
@@ -495,7 +541,7 @@
 							zIndex: (parentZIndex+1)
 						});
 					}
-	                var aControl = instance.controlWrapper.find(".ui-dropdownchecklist-selector");
+	                var aControl = instance.controlSelector;
 	                aControl.addClass("ui-state-active");
 	                aControl.removeClass("ui-state-hover");
 	                
@@ -539,7 +585,7 @@
                     controlWidth = minWidth;
                 }
             }
-            var control = controlWrapper.find(".ui-dropdownchecklist-selector");
+            var control = this.controlSelector;
             control.css({ width: controlWidth + "px" });
             
             // if we size the text, then Firefox places icons to the right properly
@@ -594,6 +640,7 @@
             // append the control that resembles a single selection select
             var controlWrapper = self._appendControl();
             self.controlWrapper = controlWrapper;
+            self.controlSelector = controlWrapper.find(".ui-dropdownchecklist-selector");
 
             // create the drop container where the items are shown
             var dropWrapper = self._appendDropContainer(controlWrapper);
@@ -624,12 +671,72 @@
 	            }
 	        });
         },
+        // Refresh the disable and check state from the underlying control
+        _refreshOption: function(item,disabled,selected) {
+			var aParent = item.parent();
+			// account for enabled/disabled
+            if ( disabled ) {
+            	item.attr("disabled","disabled");
+            	item.removeClass("active");
+            	item.addClass("inactive");
+            	aParent.addClass("ui-state-disabled");
+            } else {
+            	item.removeAttr("disabled");
+            	item.removeClass("inactive");
+            	item.addClass("active");
+            	aParent.removeClass("ui-state-disabled");
+            }
+            // adjust the checkbox state
+            item.attr("checked",selected);
+        },
+        _refreshGroup: function(group,disabled) {
+            if ( disabled ) {
+            	group.addClass("ui-state-disabled");
+            } else {
+            	group.removeClass("ui-state-disabled");
+            }
+        },
+        refresh: function() {
+            var self = this, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
+            
+            var allCheckBoxes = dropWrapper.find("input");
+            var allGroups = dropWrapper.find(".ui-dropdownchecklist-group");
+            
+            var groupCount = 0;
+            var optionCount = 0;
+			sourceSelect.children().each(function(index) {
+				var opt = $(this);
+				var disabled = opt.attr("disabled");
+                if (opt.is("option")) {
+                	var selected = opt.attr("selected");
+                	var anItem = $(allCheckBoxes[optionCount]);
+                    self._refreshOption(anItem, disabled, selected);
+                    optionCount += 1;
+                } else if (opt.is("optgroup")) {
+                    var text = opt.attr("label");
+                    if (text != "") {
+                    	var aGroup = $(allGroups[groupCount]);
+                    	self._refreshGroup(aGroup, disabled);
+                    	groupCount += 1;
+	                }
+					opt.children("option").each(function(subindex) {
+		                var subopt = $(this);
+						var subdisabled = (disabled || subopt.attr("disabled"));
+                		var selected = subopt.attr("selected");
+                		var subItem = $(allCheckBoxes[optionCount + subindex]);
+		                self._refreshOption(subItem, subdisabled, selected );
+		            });
+                }
+			});
+        	// update the text shown in the control
+        	self._updateControlText();
+        },
         enable: function() {
-            this.controlWrapper.find(".ui-dropdownchecklist-selector").removeClass("ui-state-disabled");
+            this.controlSelector.removeClass("ui-state-disabled");
             this.disabled = false;
         },
         disable: function() {
-            this.controlWrapper.find(".ui-dropdownchecklist-selector").addClass("ui-state-disabled");
+            this.controlSelector.addClass("ui-state-disabled");
             this.disabled = true;
         },
         destroy: function() {
