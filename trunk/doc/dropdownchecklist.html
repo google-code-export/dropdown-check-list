@@ -573,13 +573,29 @@ dd { padding-bottom: 15px }
     
 	<h2>Changing the original select element content or selection</h2>
 	<p>
-	 	The plugin does not automatically syncronizes the changes to the original select to the plugin checkboxes after the initial creation. If the original select needs to change, for example by adding some options or selecting values, the plugin must be destroyed then recreated to merge the changes:
+	 	The plugin does not automatically syncronize any changes made to the original select back into the 
+	 	DDCL checkboxes after initial creation. If the original select needs to change, for example by 
+	 	adding some options, changing the text, or reordering, then the plugin must be destroyed 
+	 	and recreated to reflect the changes:
 	</p>
 	<blockquote>
   	 	<code>
 		 	$("#s1").dropdownchecklist("destroy");<br />
 			$("#s1").val(...) // do something to the original select, for example select some options or change the options<br />
 			$("#s1").dropdownchecklist();<br />
+		</code>
+	</blockquote>
+	<p>
+		<i>(pending version 1.1)</i><br>
+	 	If the changes you wish to make to the original selector are simple adjustments to the 
+	 	<i>selected</i> state or the <i>disabled</i> state (no changing the text, adding items, moving items,
+	 	or deleting items), then you have a simplier (and faster) option to refresh the DDCL control
+	 	without destroying it:
+	</p>
+	<blockquote>
+  	 	<code>
+			$("#s1").val(...) // do something to the original select, for example, changing which items are selected<br />
+			$("#s1").dropdownchecklist("refresh");<br />
 		</code>
 	</blockquote>
     <h2>Style</h2>
@@ -694,7 +710,7 @@ dd { padding-bottom: 15px }
     			XXX matches the XXX of the control wrapper.
     		</dd>
     	</dl>
-    	These ids must be unique and <i>Dropdown CheckList</i> assumes no only elements on the 
+    	These ids must be unique and <i>Dropdown CheckList</i> assumes no other elements on the 
     	page have an id that conflicts.
 	<h2>Have problems using the plugin?</h2>
 	<p>
