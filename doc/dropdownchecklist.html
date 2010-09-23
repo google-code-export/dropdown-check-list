@@ -4,7 +4,7 @@
 <head>
     <title>jQuery Dropdown CheckList</title>
     <!-- Use a JQuery ThemeRoller theme, in this case 'smoothness' -->
-    <link rel="stylesheet" type="text/css" href="smoothness/jquery-ui-1.7.3.custom.css">
+    <link rel="stylesheet" type="text/css" href="smoothness/jquery-ui-1.8.4.custom.css">
     <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.themeroller.css">
     <style>
 table td { vertical-align: top }
@@ -12,12 +12,12 @@ dd { padding-bottom: 15px }
     </style>
     
     <!-- Include the basic JQuery support (core and ui) -->
-    <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
-    <script type="text/javascript" src="jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.4.custom.min.js"></script>
     
     <!-- Include the DropDownCheckList supoprt -->
     <!--  <script type="text/javascript" src="ui.dropdownchecklist.js"></script> -->
-    <script type="text/javascript" src="ui.dropdownchecklist-1.0-min.js"></script>
+    <script type="text/javascript" src="ui.dropdownchecklist-1.1-min.js"></script>
     
     <!-- Apply dropdown check list to the selected items  -->
     <script type="text/javascript">
@@ -80,7 +80,7 @@ dd { padding-bottom: 15px }
     </p>
     <h2>Download</h2>
     <p>
-        The current version of <i>Dropdown CheckList</i> can be downloaded from 
+        The current version <b>v1.1</b> of <i>Dropdown CheckList</i> can be downloaded from 
         <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. 
         This page, including all required files to run the examples, can be downloaded as zip package 
         from the same location.
@@ -89,7 +89,7 @@ dd { padding-bottom: 15px }
     <p>
         <i>Dropdown CheckList</i> requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> 
         and <a href="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js">ui.core.js</a> and has 
-        been tested with jquery core version 1.3.2 and ui version 1.7.3.  For CSS styling, it can run
+        been tested with jquery core version 1.4.2 and ui version 1.8.4.  For CSS styling, it can run
         as a standalone with custom CSS that you provide, or the preferred method is to leverage the 
         jQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
         by ThemeRoller. This page is styled with the ThemeRoller "smoothness" theme.
@@ -102,6 +102,7 @@ dd { padding-bottom: 15px }
 	        <li>Safari 5</li>
 	        <li>Chrome 6</li>
         </ul>
+        <input type='button' value='version' onclick='$("#s1").dropdownchecklist("version");'>
     </p>
 	<h2>How does it work?</h2>
 	<p>
@@ -586,7 +587,6 @@ dd { padding-bottom: 15px }
 		</code>
 	</blockquote>
 	<p>
-		<i>(pending version 1.1)</i><br>
 	 	If the changes you wish to make to the original selector are simple adjustments to the 
 	 	<i>selected</i> state or the <i>disabled</i> state (no changing the text, adding items, moving items,
 	 	or deleting items), then you have a simplier (and faster) option to refresh the DDCL control
@@ -615,7 +615,7 @@ dd { padding-bottom: 15px }
     		I have no real idea what this does, but it is a function called during widget initialization,
     		with a comment about IE 6. You could use it as a callout to affect the widget setup.
     	</dd>
-    	<dt>closeRadioOnClick: true/false  <i>(pending version 1.1)</i></dt>
+    	<dt>closeRadioOnClick: true/false</dt>
     	<dd>
     		When true, a single selector with radio button display will close the dropdown when
     		any radio button is clicked.
@@ -687,7 +687,7 @@ dd { padding-bottom: 15px }
     		be wider than the items, to provide extra room for icons or the display of multiple items.
     		The width may be narrower than the items to account for dropdowns with very long names.
     </dl>
-    <h2>Use of IDs <i>(pending version 1.1)</i></h2>
+    <h2>Use of IDs</h2>
     <p>
     	<i>Dropdown CheckList</i> generates two basic components that are inserted into the document.
     	There is a <i>control wrapper</i> which is positioned in place of the original selector and
@@ -712,9 +712,29 @@ dd { padding-bottom: 15px }
     	</dl>
     	These ids must be unique and <i>Dropdown CheckList</i> assumes no other elements on the 
     	page have an id that conflicts.
+	<h2>History</h2>
+	<p>
+	 	The full change history (including references to issue numbers) is avaiable 
+	 	<a href="http://dropdown-check-list.googlecode.com/svn/trunk/src/changes.txt" target='_blank'>here</a>.
+	 	Some highlights are listed below:
+	</p>
+	<dl>
+		<dt>Version 1.1</dt>
+		<dd><ul>
+			<li>jQuery 1.4.2, jQuery ui 1.8.4</li>
+			<li>"refresh" function to synch DDCL control with simple selected/disabled changes made
+				to underlying &lt;select&gt;</li>
+		</ul></dd>
+		<dt>Version 1.0</dt>
+		<dd><ul>
+			<li>jQuery 1.3.2, jQuery ui 1.7.2</li>
+			<li>ThemeRoller based styling</li>
+			<li>better support for multiple controls on single page</li>
+		</ul></dd>
+	</dl>
 	<h2>Have problems using the plugin?</h2>
 	<p>
-	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list">issue list</a>.
+	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list" target='_blank'>issue list</a>.
 	</p>
 </div>
 </body>
