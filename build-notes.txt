@@ -11,6 +11,8 @@ the rest of the widget source (which may be under active development).
 	reflect the released version.
 	
 2)	The 'src' directory now contains the bare minimum needed to support the widget.
+	But it does include the jQuery support libraries explicitly named with the
+	appropriate versions.
 
 3)	References to generic versions of jQuery and jQuery-ui have been replaced
 	with explicit callouts to those versions used in development and testing.
@@ -35,7 +37,8 @@ Development for a new release:
 
 3)	When you are ready to cut the new release:
 	a)	Update the version number in build.xml
-	b)	Use ANT to create the new release 'dist' directory and new zip file
+	b)	Update the version number in the version function in the main .js
+	c)	Use ANT to create the new release 'dist' directory and new zip file
 	
 3)	MANUALLY copy the latest ui.dropdownchecklist.js and ui.dropdownchecklist-X.X-min.js into
 	the 'doc' directory.  You will want to remove the old version of the min.js file.

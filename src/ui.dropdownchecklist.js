@@ -745,6 +745,9 @@
             this.sourceSelect.attr("multiple", this.initialMultiple);
             this.controlWrapper.unbind().remove();
             this.dropWrapper.remove();
+        },
+        version: function() {
+            alert('DropDownCheckList v1.1');
         }
     });
 
