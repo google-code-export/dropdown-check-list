@@ -105,6 +105,7 @@ dd { padding-bottom: 15px }
 	        <li>Safari 5</li>
 	        <li>Chrome 6</li>
         </ul>
+        <input type='button' value='version' onclick='$("#s1").dropdownchecklist("version");'>
     </p>
     <table>
       <tr>
@@ -603,7 +604,16 @@ dd { padding-bottom: 15px }
 	     </td>
       	<td>
 	  		<span>With values and an alert on complete</span><br>
-	        <select id="s10" class="s10">
+	        <select id="s10" class="s10" multiple>
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
+	        </select>
+	     </td>
+      	<td>
+	  		<span>Forced Multiple (not on IE6)</span><br>
+	        <select id="s10a" class="s10">
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>
@@ -810,13 +820,13 @@ dd { padding-bottom: 15px }
 	  		<input type='button' value='refresh(group)' onClick='doRefresh2();'>
 	  		<br>
 	        <select id="s13" class="s13" multiple="multiple">
-	            <option selected>Low</option>
-	            <option disabled>Medium</option>
-	            <option selected>High</option>
+	            <option selected value='L'>Low</option>
+	            <option disabled value='M'>Medium</option>
+	            <option selected value='H'>High</option>
 				<optgroup label="A Group">
-					<option>1</option>
-					<option disabled>2</option>
-					<option>3</option>
+					<option value='1'>1</option>
+					<option value='2' disabled>2</option>
+					<option value='3'>3</option>
 				</optgroup>
 	        </select>
 	  	</td>
@@ -833,13 +843,13 @@ dd { padding-bottom: 15px }
 	  		<input type='button' value='Enable' onClick='doEnable(true);'><br>
 	  		<input type='button' value='Disable' onClick='doEnable(false);'><br>
 	        <select id="s13a" class="s13" multiple="multiple">
-	            <option selected>Low</option>
-	            <option disabled>Medium</option>
-	            <option selected>High</option>
+	            <option selected value='L'>Low</option>
+	            <option disabled value='M'>Medium</option>
+	            <option selected value='H'>High</option>
 				<optgroup label="A Group">
-					<option>1</option>
-					<option disabled>2</option>
-					<option>3</option>
+					<option value='1'>1</option>
+					<option value='2' disabled>2</option>
+					<option value='3'>3</option>
 				</optgroup>
 	        </select>
 	  	</td>

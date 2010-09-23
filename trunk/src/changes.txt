@@ -1,4 +1,4 @@
-1.1 (PENDING, not yet released)
+1.1
 - updated jquery to 1.4.2, ui to 1.8.4 (which fixes the 'destroy' problem: #94, #114, #115, #121)
 - if firstItemChecksAll is true and all items EXCEPT the first are checked, then autocheck the first (#62)
 - treat maxDropHeight as a 'max', not as 'fixed' (#77)
@@ -11,6 +11,7 @@
 - if optgroup is disabled, all child items are disabled (#72)
 - optgroup without a label (#59)
 - 'refresh' function to resynch with selected and disabled state of underlying <select> items (#99,#116,#121)
+- 'version' function to identify DDCL version number
 
 1.0
 - rework CSS tagging to utilize jQuery ThemeRoller settings
