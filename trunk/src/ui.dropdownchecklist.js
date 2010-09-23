@@ -12,7 +12,9 @@
     	// Some globlals
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
-    	
+        version: function() {
+            alert('DropDownCheckList v1.1');
+        },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
             var wrapper = $("<div/>");
@@ -287,6 +289,13 @@
 	        // entering another. There is no reliable way to detect who
 	        // received the focus on a blur, so post the blur in the future,
 	        // knowing we will cancel it if we capture the focus in a timely manner
+	        // 23Sept2010 - unfortunately, IE 7+ and Chrome like to post a blur
+	        // 				event to the current item with focus when the user
+	        //				clicks in the scroll bar. So if you have a scrollable
+	        //				dropdown with focus on an item, clicking in the scroll
+	        //				will close the drop down.
+	        //				I have no solution for blur processing at this time.
+/*********
 			var timerFunction = function(){ 
 				// I had a hell of a time getting setTimeout to fire this, do not try to
 				// define it within the blur function
@@ -296,7 +305,7 @@
 				self.blurringItem = setTimeout( timerFunction, 200 ); 
 			});
 			checkBox.focus(function(e) {self._cancelBlur();});
-			
+**********/	
 	        // check/uncheck the item on clicks on the entire item div
 	        item.click(function(e) {
 	        	var anItem = $(this);
@@ -745,9 +754,6 @@
             this.sourceSelect.attr("multiple", this.initialMultiple);
             this.controlWrapper.unbind().remove();
             this.dropWrapper.remove();
-        },
-        version: function() {
-            alert('DropDownCheckList v1.1');
         }
     });
 
