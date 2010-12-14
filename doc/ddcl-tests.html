@@ -717,7 +717,7 @@ dd { padding-bottom: 15px }
 		</td>
 	  </tr>
 	  <tr>
-	  	<td colspan='3'>
+	  	<td colspan='2'>
 			<script type="text/javascript">
 		      function handleSubmit( theForm ) {
 		         theForm.action=theForm.elements['postwhere'].value;
@@ -749,6 +749,28 @@ dd { padding-bottom: 15px }
 		            <option value='m' selected="selected">Medium</option>
 		            <option value='h' selected="selected">High</option>
 		        </select>
+		    <br>
+		    	<input type='submit' value='post'>
+		    </form>
+	  	</td>
+	  	<td>
+      		<form onsubmit="return handleSubmit(this);" method="POST">
+	  			<span>Post to: </span>
+	  			<input id='postwhere' type='text' style='width: 250px'>
+	  			<label for='s12a'>A Label (independent)</label>
+		        <select multiple="multiple" class='s12' id='s12a'>
+		            <option value='l' selected="selected">Low</option>
+		            <option value='m' selected="selected">Medium</option>
+		            <option value='h' selected="selected">High</option>
+		        </select>
+		    <br>
+	  			<label>A Label (wrapper)
+			        <select multiple="multiple" class='s12' id='s12b'>
+			            <option value='l' selected="selected">Low</option>
+			            <option value='m' selected="selected">Medium</option>
+			            <option value='h' selected="selected">High</option>
+			        </select>
+			    </label>
 		    <br>
 		    	<input type='submit' value='post'>
 		    </form>
