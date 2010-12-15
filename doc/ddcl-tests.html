@@ -717,7 +717,7 @@ dd { padding-bottom: 15px }
 		</td>
 	  </tr>
 	  <tr>
-	  	<td colspan='2'>
+	  	<td colspan='3'>
 			<script type="text/javascript">
 		      function handleSubmit( theForm ) {
 		         theForm.action=theForm.elements['postwhere'].value;
@@ -753,14 +753,19 @@ dd { padding-bottom: 15px }
 		    	<input type='submit' value='post'>
 		    </form>
 	  	</td>
+	  </tr>
+      <tr>
+      	<td colspan='3'>
+		    <h3>LABELS just do not work</h3>
+		    <div>
+		        DDCL has not been designed to operate with &lt;LABEL&gt; tags.
+		</td>
+	  </tr>
+	  <tr>
 	  	<td>
-      		<form onsubmit="return handleSubmit(this);" method="POST">
-	  			<span>Post to: </span>
-	  			<input id='postwhere' type='text' style='width: 250px'>
-		    <br>
 	  			<label for='s12a'>A Label (independent)</label>
 		        <select multiple="multiple" id='s12a'>
-		            <option value='l' selected="selected">Low</option>
+		            <option value='l'>Low</option>
 		            <option value='m' selected="selected">Medium</option>
 		            <option value='h' selected="selected">High</option>
 		        </select>
@@ -768,14 +773,15 @@ dd { padding-bottom: 15px }
 	  			<label>A Label (wrapper)
 			        <select multiple="multiple" id='s12b'>
 			            <option value='l' selected="selected">Low</option>
-			            <option value='m' selected="selected">Medium</option>
-			            <option value='h' selected="selected">High</option>
+			            <option value='m'>Medium</option>
+			            <option value='h'>High</option>
 			        </select>
 			    </label>
-		    <br>
+		</td>
+		<td>
 	  			<label for='s12c'>A Label (independent)</label>
 		        <select multiple="multiple" class='s12' id='s12c'>
-		            <option value='l' selected="selected">Low</option>
+		            <option value='l'>Low</option>
 		            <option value='m' selected="selected">Medium</option>
 		            <option value='h' selected="selected">High</option>
 		        </select>
@@ -783,13 +789,10 @@ dd { padding-bottom: 15px }
 	  			<label>A Label (wrapper)
 			        <select multiple="multiple" class='s12' id='s12d'>
 			            <option value='l' selected="selected">Low</option>
-			            <option value='m' selected="selected">Medium</option>
-			            <option value='h' selected="selected">High</option>
+			            <option value='m'>Medium</option>
+			            <option value='h'>High</option>
 			        </select>
 			    </label>
-		    <br>
-		    	<input type='submit' value='post'>
-		    </form>
 	  	</td>
 	  </tr>
       <tr>
