@@ -415,9 +415,9 @@
             var selectOptions = sourceSelect.get(0).options;
             var allCheckboxes = dropWrapper.find("input.active");
             if (options.firstItemChecksAll) {
-            	if ((senderCheckbox == null) && (selectOptions[0]).attr("selected")!=null) {
+            	if ((senderCheckbox == null) && (selectOptions[0].attr("selected")!=null)) {
             		// Initialization call with first item active so force all to be active
-                    allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
+                    allCheckboxes.attr("checked", true);
                 } else if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
                 	// Check all checkboxes if the first one is checked
                     allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
