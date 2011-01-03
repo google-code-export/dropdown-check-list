@@ -930,6 +930,39 @@ dd { padding-bottom: 15px }
 	        </select>
 	  	</td>
 	  </tr>
+      <tr>
+      	<td colspan='3'>
+		    <h3>Relative Positioned Parent Item</h3>
+		    <div>
+		        The parent item of the SELECT is relatively positioned, which causes
+		        positioniong problems for the dropdown in version 1.1 and before
+		    </div>
+		</td>
+	  </tr>
+	  <tr>
+	  	<td>
+	  		<div>Outside the relative parent</div>
+	  		<div style='position:relative'>
+	  			<span>In the relative parent</span><br>
+		        <select multiple="multiple">
+		            <option selected="selected">Low</option>
+		            <option selected="selected">Medium</option>
+		            <option selected="selected">High</option>
+		        </select>
+		    </div>
+	  	</td>
+	  	<td>
+	  		<div>Outside the relative parent</div>
+	  		<div style='position:relative'>
+	  			<span>In the relative parent</span><br>
+		        <select id="s14" class="s14" multiple="multiple">
+		            <option selected="selected">Low</option>
+		            <option selected="selected">Medium</option>
+		            <option selected="selected">High</option>
+		        </select>
+		    </div>
+	  	</td>
+	  </tr>
     </table>
 </div>
 </body>
