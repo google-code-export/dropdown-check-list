@@ -23,7 +23,8 @@
             wrapper.addClass("ui-widget");
             // assign an id
             wrapper.attr("id",controlItem.attr("id") + '-ddw');
-            // initially hidden
+            // initially positioned way off screen to prevent it from displaying
+            // NOTE absolute position to enable width/height calculation
             wrapper.css({ position: 'absolute', left: "-33000px", top: "-33000px"  });
             
             var container = $("<div/>"); // the actual container
@@ -535,10 +536,26 @@
 	                $.ui.dropdownchecklist.gLastOpened = instance;
 
 	            	var config = instance.options;
+/**** Issue127 (and the like) to correct positioning when parent element is relative
+ ****	This positioning only worked with simple, non-relative parent position
 	                instance.dropWrapper.css({
 	                    top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
 	                    left: instance.controlWrapper.offset().left + "px"
 	                });
+ ****	This positioning works when the parent is relative, but NOT within a scrolling parent frame
+	                instance.dropWrapper.css({
+	                    position: 'absolute'
+	                ,   top: instance.controlWrapper.position().top + instance.controlWrapper.outerHeight() + "px"
+	                ,   left: instance.controlWrapper.position().left + "px"
+	                });
+*****/
+/***** 	This positioning seems to work best */
+	                instance.dropWrapper.css({
+	                    position: 'relative'
+	                ,   top: "0px"
+	                ,   left: "0px"
+	                });
+
 					var ancestorsZIndexes = instance.controlWrapper.parents().map(
 						function() {
 							var zIndex = $(this).css("z-index");
