@@ -142,7 +142,7 @@
             // the control is wrapped in a basic container
             var wrapper = $("<span/>");
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-selector-wrapper ui-widget");
-            wrapper.css({ cursor: "default", overflow: "hidden" });
+            wrapper.css( { display: "inline-block", cursor: "default", overflow: "hidden" } );
             
             // assign an ID 
             var baseID = sourceSelect.attr("id");
