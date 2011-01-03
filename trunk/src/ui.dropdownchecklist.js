@@ -543,7 +543,7 @@
 	                    left: instance.controlWrapper.offset().left + "px"
 	                });
 ****/
-             		if (config.positionHow == 'absolute') {
+             		if ((config.positionHow == null) || (config.positionHow == 'absolute')) {
              			/** Floats above subsequent content, but does NOT scroll */
 		                instance.dropWrapper.css({
 		                    position: 'absolute'
