@@ -982,8 +982,18 @@ dd { padding-bottom: 15px }
 		    <h3>Parent Item that Scrolls</h3>
 		    <div>
 		        The parent item of the SELECT inherently scrolls, which causes
-		        positioniong problems for the dropdown in version 1.1 and before
+		        positioniong problems for the dropdown in version 1.1 and before.
 		    </div>
+		    <div>
+		    	NOTE that the positioning fix applied with V1.2 causes the dropdown
+		    		 popup to position properly in all cases.  However, if you use
+		    		 absolute positioning (the default), then the parent scrolls 
+		    		 without dragging the popup along. You can set the popup to
+		    		 position relative to the parent, which will then scroll along
+		    		 with the parent.<br>
+		    	HOWEVER when the popup is relative, it consumes 'space' in the document
+		    		 and does not fly above subsequent content, but rather pushes the
+		    		 subsequent content further down the page.
 		</td>
 	  </tr>
 	  <tr>

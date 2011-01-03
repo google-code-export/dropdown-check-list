@@ -412,10 +412,14 @@
         // senderCheckbox parameters is the checkbox input that generated the synchronization
         _syncSelected: function(senderCheckbox) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
+            var selectOptions = sourceSelect.get(0).options;
             var allCheckboxes = dropWrapper.find("input.active");
             if (options.firstItemChecksAll) {
-                // if firstItemChecksAll is true, check all checkboxes if the first one is checked
-                if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
+            	if ((senderCheckbox == null) && (selectOptions[0]).attr("selected")!=null) {
+            		// Initialization call with first item active so force all to be active
+                    allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
+                } else if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
+                	// Check all checkboxes if the first one is checked
                     allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
                 } else  {
                     // check the first checkbox if all the other checkboxes are checked
@@ -436,7 +440,6 @@
             }
             // do the actual synch with the source select
             allCheckboxes = dropWrapper.find("input");
-            var selectOptions = sourceSelect.get(0).options;
             allCheckboxes.each(function(index) {
                 $(selectOptions[index]).attr("selected", $(this).attr("checked"));
             });
