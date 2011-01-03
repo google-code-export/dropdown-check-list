@@ -13,7 +13,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.1');
+            alert('DropDownCheckList v1.2qa');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -542,20 +542,22 @@
 	                    top: instance.controlWrapper.offset().top + instance.controlWrapper.outerHeight() + "px",
 	                    left: instance.controlWrapper.offset().left + "px"
 	                });
- ****	This positioning works when the parent is relative, but NOT within a scrolling parent frame
-	                instance.dropWrapper.css({
-	                    position: 'absolute'
-	                ,   top: instance.controlWrapper.position().top + instance.controlWrapper.outerHeight() + "px"
-	                ,   left: instance.controlWrapper.position().left + "px"
-	                });
-*****/
-/***** 	This positioning seems to work best */
-	                instance.dropWrapper.css({
-	                    position: 'relative'
-	                ,   top: "0px"
-	                ,   left: "0px"
-	                });
-
+****/
+             		if (config.positionHow == 'absolute') {
+             			/** Floats above subsequent content, but does NOT scroll */
+		                instance.dropWrapper.css({
+		                    position: 'absolute'
+		                ,   top: instance.controlWrapper.position().top + instance.controlWrapper.outerHeight() + "px"
+		                ,   left: instance.controlWrapper.position().left + "px"
+		                });
+		            } else if (config.positionHow == 'relative') {
+		            	/** Scrolls with the parent but does NOT float above subsequent content */
+		                instance.dropWrapper.css({
+		                    position: 'relative'
+		                ,   top: "0px"
+		                ,   left: "0px"
+		                });
+					}
 					var ancestorsZIndexes = instance.controlWrapper.parents().map(
 						function() {
 							var zIndex = $(this).css("z-index");
@@ -776,12 +778,13 @@
 
     $.extend($.ui.dropdownchecklist, {
         defaults: {
-            width: null,
-            maxDropHeight: null,
-            firstItemChecksAll: false,
-            closeRadioOnClick: false,
-            minWidth: 50,
-            bgiframe: false
+            width: null
+        ,   maxDropHeight: null
+        ,   firstItemChecksAll: false
+        ,   closeRadioOnClick: false
+        ,   minWidth: 50
+        ,   positionHow: 'absolute'
+        ,   bgiframe: false
         }
     });
 

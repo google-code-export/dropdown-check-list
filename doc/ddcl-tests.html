@@ -68,7 +68,8 @@ dd { padding-bottom: 15px }
 			  	}
 			  	alert( values );
             } });
-            $(".s14").dropdownchecklist( { width: 150 } );
+            $("#s14").dropdownchecklist( );
+            $("#s14a").dropdownchecklist( { positionHow: 'relative' } );
         });
     </script>
     <meta name="description" 
@@ -952,10 +953,21 @@ dd { padding-bottom: 15px }
 		    </div>
 	  	</td>
 	  	<td>
-	  		<div>Outside the relative parent</div>
+	  		<div>Outside the relative parent (absolute dropdown)</div>
 	  		<div style='position:relative'>
 	  			<span>In the relative parent</span><br>
 		        <select id="s14" class="s14" multiple="multiple">
+		            <option selected="selected">Low</option>
+		            <option selected="selected">Medium</option>
+		            <option selected="selected">High</option>
+		        </select>
+		    </div>
+	  	</td>
+	  	<td>
+	  		<div>Outside the relative parent (relative dropdown)</div>
+	  		<div style='position:relative'>
+	  			<span>In the relative parent</span><br>
+		        <select id="s14a" class="s14" multiple="multiple">
 		            <option selected="selected">Low</option>
 		            <option selected="selected">Medium</option>
 		            <option selected="selected">High</option>
