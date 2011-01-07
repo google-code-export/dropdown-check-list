@@ -2,7 +2,7 @@
     /*
     * ui.dropdownchecklist
     *
-    * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010 Ittrium LLC
+    * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010-2011 Ittrium LLC
     * Dual licensed under the MIT (MIT-LICENSE.txt)
     * and GPL (GPL-LICENSE.txt) licenses.
     *
@@ -140,6 +140,7 @@
             var self = this, sourceSelect = this.sourceSelect, options = this.options;
 
             // the control is wrapped in a basic container
+            // inline-block at this level seems to give us better size control
             var wrapper = $("<span/>");
             wrapper.addClass("ui-dropdownchecklist ui-dropdownchecklist-selector-wrapper ui-widget");
             wrapper.css( { display: "inline-block", cursor: "default", overflow: "hidden" } );
@@ -174,7 +175,7 @@
 			control.blur(function(e) {self._handleFocus(e,false,true);});
             wrapper.append(control);
 
-			// the optional icon (which is inherently a block)
+			// the optional icon (which is inherently a block) which we can float
 			if (options.icon != null) {
 				var iconPlacement = (options.icon.placement == null) ? "left" : options.icon.placement;
 	            var anIcon = $("<div/>");
@@ -184,7 +185,7 @@
 	            control.append(anIcon);
 			}
             // the text container keeps the control text that is built from the selected (checked) items
-            // inline-block needed to enable 'width' but has interesting problems cross browser
+            // inline-block needed to prevent long text from wrapping to next line when icon is active
             var textContainer = $("<span/>");
             textContainer.addClass("ui-dropdownchecklist-text");
             textContainer.css( {  display: "inline-block", 'white-space': "nowrap", overflow: "hidden" } );
@@ -365,10 +366,41 @@
             });
 			return group;
 		},
+		_createCloseItem: function(text) {
+			var self = this;
+			var closeItem = $("<div />");
+			closeItem.addClass("ui-state-default ui-dropdownchecklist-close ui-dropdownchecklist-item");
+			closeItem.css({'white-space': 'nowrap', 'text-align': 'right'});
+			
+            var label = $("<span/>");
+            label.addClass("ui-dropdownchecklist-text");
+            label.css( { cursor: "default" });
+            label.text(text);
+			closeItem.append(label);
+			
+			// close the control on click
+	        closeItem.click(function(e) {
+	        	var aGroup= $(this);
+                e.stopImmediatePropagation();
+                // retain the focus even if no action is taken
+                aGroup.focus();
+                self._toggleDropContainer( false );
+            });
+            closeItem.hover(
+            	function(e) { $(this).addClass("ui-state-hover"); }
+            , 	function(e) { $(this).removeClass("ui-state-hover"); }
+            );
+	        // do not let the focus wander around
+			closeItem.focus(function(e) { 
+	        	var aGroup = $(this);
+                e.stopImmediatePropagation();
+            });
+			return closeItem;
+		},
         // Creates the drop items and appends them to the drop container
         // Also calculates the size needed by the drop container and returns it
         _appendItems: function() {
-            var self = this, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
+            var self = this, config = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             var dropContainerDiv = dropWrapper.find(".ui-dropdownchecklist-dropcontainer");
 			sourceSelect.children().each(function(index) { // when the select has groups
 				var opt = $(this);
@@ -384,6 +416,10 @@
                     self._appendOptions(opt, dropContainerDiv, index, true, disabled);
                 }
 			});
+			if ( config.explicitClose != null ) {
+				var closeItem = self._createCloseItem(config.explicitClose);
+				dropContainerDiv.append(closeItem);
+			}
             var divWidth = dropContainerDiv.outerWidth();
             var divHeight = dropContainerDiv.outerHeight();
             return { width: divWidth, height: divHeight };
@@ -624,8 +660,9 @@
             var controlText = control.find(".ui-dropdownchecklist-text");
             var controlIcon = control.find(".ui-icon");
             if ( controlIcon != null ) {
-            	// Must be an inner/outer/border problem, but IE6 needs an extra bit of space
-            	controlWidth -= (controlIcon.outerWidth() + 6);
+            	// Must be an inner/outer/border problem, but IE6 needs an extra bit of space,
+            	// otherwise you can get text pushed down into a second line when icons are active
+            	controlWidth -= (controlIcon.outerWidth() + 4);
             	controlText.css( { width: controlWidth + "px" } );
             }
             // Account for padding, borders, etc
@@ -727,6 +764,11 @@
             	group.removeClass("ui-state-disabled");
             }
         },
+        // External command to explicitly close the dropdown
+        close: function() {
+			this._toggleDropContainer(false);
+        },
+        // External command to refresh the ddcl from the underlying selector
         refresh: function() {
             var self = this, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             
@@ -762,14 +804,17 @@
         	// update the text shown in the control
         	self._updateControlText();
         },
+        // External command to enable the ddcl control
         enable: function() {
             this.controlSelector.removeClass("ui-state-disabled");
             this.disabled = false;
         },
+        // External command to disable the ddcl control
         disable: function() {
             this.controlSelector.addClass("ui-state-disabled");
             this.disabled = true;
         },
+        // External command to destroy all traces of the ddcl control
         destroy: function() {
             $.Widget.prototype.destroy.apply(this, arguments);
             this.sourceSelect.css("display", this.initialDisplay);
@@ -788,6 +833,7 @@
         ,   minWidth: 50
         ,   positionHow: 'absolute'
         ,   bgiframe: false
+        ,	explicitClose: null
         }
     });
 

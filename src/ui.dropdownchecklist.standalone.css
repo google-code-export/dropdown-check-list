@@ -2,7 +2,7 @@
     We highly recommend using JQuery ThemeRoller instead  
 */
 .ui-dropdownchecklist {
-	font-size: 14px;
+	font-size: medium;
 	color: black;
 }
 .ui-dropdownchecklist-selector {
@@ -12,9 +12,6 @@
 }
 .ui-state-hover, .ui-state-active {
 	border-color: #5794bf;
-}
-.ui-dropdownchecklist-text {
-	line-height: 20px;
 }
 .ui-dropdownchecklist-dropcontainer {
 	background-color: #fff;
@@ -33,14 +30,22 @@
 	font-style: italic;
 }
 .ui-dropdownchecklist-indent {
-	padding-left: 10px;
+	padding-left: 7px;
 }
+/* Font size of 0 on the -selector and an explicit medium on -text required to eliminate 
+   descender problems within the containers and still have a valid size for the text */
 .ui-dropdownchecklist-selector-wrapper {
 	vertical-align: middle;
+	font-size: 0px;
 }
 .ui-dropdownchecklist-selector {
-	padding: 1px 1px 1px 3px;
+	padding: 1px 2px 2px 2px;
+	font-size: 0px;
+}
+.ui-dropdownchecklist-text {
+	font-size: medium;
+	/* line-height: 20px; */
 }
 .ui-dropdownchecklist-group {
-	padding: 1px 1px 1px 3px;
+	padding: 1px 2px 2px 2px;
 }
