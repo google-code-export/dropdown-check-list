@@ -29,8 +29,8 @@ dd { padding-bottom: 15px }
             $(".s4a").dropdownchecklist( { icon: { placement: 'right', toOpen: 'ui-icon-arrowthick-1-s'
                                             , toClose: 'ui-icon-arrowthick-1-n' }
             								, maxDropHeight: 150, width: 150 } );
-            $(".s5").dropdownchecklist( { firstItemChecksAll: true } );
-            $(".s5a").dropdownchecklist( { firstItemChecksAll: true } );
+            $("#s5").dropdownchecklist( { firstItemChecksAll: true } );
+            $("#s5a").dropdownchecklist( { firstItemChecksAll: true, explicitClose: '...close' } );
             $(".s6").dropdownchecklist();
             $("#s7").dropdownchecklist();
             $("#s7a").dropdownchecklist( { closeRadioOnClick: true } );
@@ -96,9 +96,14 @@ dd { padding-bottom: 15px }
     	<br>
     	<b>Please Note</b> that this page directly references the latest version checked into SVN, not
     	the current release point contained in the download .zip. It is used to test pending changes 
-    	and the samples here may not work on the stable release.
+    	and the samples here may not work on the stable release. Click on the <b>version</b> button 
+    	below to see the active version.
     	<br>
     	<b>Please Note</b> that this page is using jQuery 1.4.2, ui 1.8.4.
+    	<br>
+    	<b>Please Note</b> as of Version 1.2, all testing will be done with html pages defined for
+    	<i>strict</i> mode (DOCTYPE http://www.w3.org/TR/html4/strict.dtd). This is to better reflect
+    	modern standards and browsers.
     </p>
     <p>
         The widget has been tested with browsers
@@ -334,7 +339,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
-	  		<span>All as first option, prechecked</span><br>
+	  		<span>All as first option, prechecked (with explicit close)</span><br>
 	        <select id="s5a" class="s5" multiple="multiple">
 	            <option selected='selected'>(all)</option>
 	            <option>Banana Nut</option>
@@ -389,7 +394,7 @@ dd { padding-bottom: 15px }
 				<optgroup label="Letters">
 					<option>A</option>
 					<option>B</option>
-					<option selected="selected">C</option>
+					<option selected="selected">C & D</option>
 				</optgroup>
 	            <optgroup label="Numbers">
 					<option>1</option>
@@ -413,7 +418,7 @@ dd { padding-bottom: 15px }
 				<optgroup label="Letters">
 					<option>A</option>
 					<option>B</option>
-					<option selected="selected">C</option>
+					<option selected="selected">C & D</option>
 				</optgroup>
 	            <optgroup label="Numbers">
 					<option>1</option>
@@ -428,7 +433,7 @@ dd { padding-bottom: 15px }
 				<optgroup label="Letters">
 					<option>A</option>
 					<option>B</option>
-					<option selected="selected">C</option>
+					<option selected="selected">C & D</option>
 				</optgroup>
 	            <optgroup label="Numbers">
 					<option>1</option>
@@ -917,9 +922,11 @@ dd { padding-bottom: 15px }
 	      			$("#s13a").dropdownchecklist("disable");		        
 		        }
 		      }
+		      function doClose() { $("#s13a").dropdownchecklist("close"); }
 			</script>
 	  		<input type='button' value='Enable' onClick='doEnable(true);'><br>
 	  		<input type='button' value='Disable' onClick='doEnable(false);'><br>
+	  		<input type='button' value='Close' onClick='doClose();'><br>
 	        <select id="s13a" class="s13" multiple="multiple">
 	            <option selected value='L'>Low</option>
 	            <option disabled value='M'>Medium</option>
