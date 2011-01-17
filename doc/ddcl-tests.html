@@ -71,6 +71,23 @@ dd { padding-bottom: 15px }
             $("#s14a").dropdownchecklist( { positionHow: 'relative' } );
             $("#s15").dropdownchecklist( );
             $("#s15a").dropdownchecklist( { positionHow: 'relative' } );
+            
+            $("#s16").dropdownchecklist( { } );
+            $("#s16a").dropdownchecklist( { } );
+			$("#show16a").click(function() { 
+				$("#div16a").show(); 
+			} );
+			$("#hide16a").click(function() { 
+				$("#div16a").hide(); 
+			} );
+			$("#show16b").click(function() { 
+				$("#div16b").show(); 
+				$("#s16b").dropdownchecklist( { } ); 
+			} );
+			$("#hide16b").click(function() { 
+      			$("#s16b").dropdownchecklist("destroy");
+				$("#div16b").hide(); 
+			} );
         });
     </script>
     <meta name="description" 
@@ -1042,6 +1059,61 @@ dd { padding-bottom: 15px }
 		        <p>Even more content to force scroling.</p>
 		    </div>
 	  	</td>
+	  </tr>
+      <tr>
+      	<td colspan='3'>
+		    <h3>DDCL within a hidden parent</h3>
+		    <div>
+		        Initializing a ddcl within a Hidden parent causes the width/height calculation of
+		        the dynamic controls to fails
+		    </div>
+		    <div>
+		    	DDCL could be made smarter in a future version to handle this.
+		    	<br>For now, you can try moving the ddcl initialization into the 'show' processing,
+		    	but watch out for multiple initialization calls.
+		</td>
+	  </tr>
+	  <tr>
+		<td>Standard Example
+			<div id="div16">
+				<select id='s16' class="s16" multiple="multiple">
+					<option>Item One</option>
+					<option selected="selected">Item Two</option>
+					<option>Item Three</option>
+					<option>Item Four</option>
+					<option selected="selected">Item Five</option>
+					<option>Item Six</option>
+				</select>
+			</div>
+		</td>
+		<td>Hidden Example (early ddcl init)
+		 	<input type="button" id="show16a" value="Show" />
+		 	<input type="button" id="hide16a" value="Hide" />
+			<div style="display:none;" id="div16a">
+				<select id='s16a' class="s16a" multiple="multiple">
+					<option>Item One</option>
+					<option selected="selected">Item Two</option>
+					<option>Item Three</option>
+					<option>Item Four</option>
+					<option selected="selected">Item Five</option>
+					<option>Item Six</option>
+				</select>
+			</div>
+		</td>
+		<td>Hidden Example (late ddcl init)
+		 	<input type="button" id="show16b" value="Show" />
+		 	<input type="button" id="hide16b" value="Hide" />
+			<div style="display:none;" id="div16b">
+				<select id='s16b' class="s16b" multiple="multiple">
+					<option>Item One</option>
+					<option selected="selected">Item Two</option>
+					<option>Item Three</option>
+					<option>Item Four</option>
+					<option selected="selected">Item Five</option>
+					<option>Item Six</option>
+				</select>
+			</div>
+		</td>
 	  </tr>
     </table>
 </div>
