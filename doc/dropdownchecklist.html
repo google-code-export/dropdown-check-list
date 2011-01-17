@@ -25,7 +25,7 @@ dd { padding-bottom: 15px }
             $("#s2").dropdownchecklist( {icon: {}, width: 150 } );
             $("#s3").dropdownchecklist( { width: 150 } );
             $("#s4").dropdownchecklist( { maxDropHeight: 150 } );
-            $("#s5").dropdownchecklist( { firstItemChecksAll: true } );
+            $("#s5").dropdownchecklist( { firstItemChecksAll: true, explicitClose: '...close' } );
             $("#s6").dropdownchecklist();
             $("#s7").dropdownchecklist();
             $("#s8").dropdownchecklist( { emptyText: "Please Select...", width: 150 } );
@@ -274,10 +274,13 @@ dd { padding-bottom: 15px }
 		    <div>
 		        The 'firstItemChecksAll' option allows you to attach a special behavior to the first item 
 		        in the list. If the item is checked, all items in the list are checked. 
+		    <br>
+		    	The 'explicitClose' option allows you to include a special close action as the last
+		    	item in the list.
 		    </div>
 		    <blockquote>
 		    	<code>
-		            $("#s5").dropdownchecklist({ firstItemChecksAll: true });
+		            $("#s5").dropdownchecklist({ firstItemChecksAll: true, explicitClose: '...close' });
 		        </code>
 		    </blockquote>
     	</td>
@@ -369,8 +372,8 @@ dd { padding-bottom: 15px }
 	        <select multiple="multiple">
 				<optgroup label="Letters">
 					<option>A</option>
-					<option>B</option>
-					<option selected="selected">C</option>
+					<option>B & C</option>
+					<option selected="selected">D&F</option>
 				</optgroup>
 	            <optgroup label="Numbers">
 					<option>1</option>
@@ -383,8 +386,8 @@ dd { padding-bottom: 15px }
 	        <select id="s6" multiple="multiple">
 				<optgroup label="Letters">
 					<option>A</option>
-					<option>B</option>
-					<option selected="selected">C</option>
+					<option>B & C</option>
+					<option selected="selected">D&F</option>
 				</optgroup>
 	            <optgroup label="Numbers">
 					<option>1</option>
@@ -614,6 +617,7 @@ dd { padding-bottom: 15px }
     		I have no real idea what this does, but it is a function called during widget initialization,
     		with a comment about IE 6. You could use it as a callout to affect the widget setup.
     	</dd>
+    	
     	<dt>closeRadioOnClick: true/false</dt>
     	<dd>
     		When true, a single selector with radio button display will close the dropdown when
@@ -622,22 +626,32 @@ dd { padding-bottom: 15px }
     		For backwards compatibility, the default is 'false' so you must explicitly include this
     		option in your configuration as 'true' if you want the control to auto-close.
     	</dd>
+    	
     	<dt>emptyText: 'string'</dt>
     	<dd>
-    		The <b>emptyText</b> options supplies the string to display if no options are currently
+    		The <b>emptyText</b> option supplies the string to display if no options are currently
     		selected.
     	</dd>
+    	
+    	<dt>explicitClose: 'string'</dt>
+    	<dd>
+    		The <b>explicitClose</b> option creates a special item at the end of the list that
+    		the user can click on to close the control.
+    	</dd>
+    	
     	<dt>firstItemChecksAll: true/false</dt>
     	<dd>
     		The <b>firstItemChecksAll</b> option is a boolean that indicates if the first item in 
     		the list acts as the all/nothing option.
     	</dd>
+    	
     	<dt>forceMultiple: true/false</dt>
     	<dd>
     		The <b>forceMultiple</b> option, when true, will treat the selector as having multiple selections
     		even if the underlying html is not so marked.
     		<br><i>This option does NOT work with IE 6</i>
     	</dd>
+    	
     	<dt>icon: { keyed-list }</dt>
     	<dd>
     		The <b>icon</b> option allows you to include a ThemeRoller icon in the text display area.
@@ -649,6 +663,7 @@ dd { padding-bottom: 15px }
     			<li>toClose: 'string name of ThemeRoller icon' (default is 'ui-icon-triangle-1-s')
     		</ul>
     	</dd>
+    	
     	<dt>maxDropHeight: integerValue</dt>
     	<dd>
     		The <b>maxDropHeight</b> option specifies the maximum height in pixels that the dropdown
@@ -658,12 +673,14 @@ dd { padding-bottom: 15px }
     		NOTE that it is best to include a 'width' when using maxDropHeight to leave space for
     	    vertical scroll bars.
     	</dd>
+    	
     	<dt>minWidth: integerVaue</dt>
     	<dd>
     		The <b>minWidth</b> option specifies the minimum width in pixels of the text display area.
     		The width is only applied if there is no explicit 'width' value and if the calculated
     		width of the option items is less than the minimum.
     	</dd>
+    	
     	<dt>onComplete: function(selector) {}</dt>
     	<dd>
     		The <b>onComplete</b> option defines a callback function invoked when the user is 
@@ -674,11 +691,22 @@ dd { padding-bottom: 15px }
     		have not been able to get blur to fire. If anyone has insight into this issue, please
     		post an issue to help me out.
     	</dd>
+    	
+    	<dt>positionHow: 'absolute' or 'relative'</dt>
+    	<dd>
+    		The <b>positionHow</b> option controls how the pop-up is positioned on the page.  If
+    		'absolute' (the default), then the pop-up is positioned absolutely to ride over the
+    		normal page contents.  If 'relative', then the pop-up is included within the page 
+    		contents, relative to its parent container.  It consumes space on the page rather
+    		than flying over it, but it will scroll if the parent element is scrolled.
+    	</dd>
+    	
     	<dt>textFormatFunction: function(options) { return 'string'; }</dt>
     	<dd>
     		The <b>textFormatFunction</b> option defines a callback function used to format the display
     		text. It is called with a single argument that is the list selector options.
     	</dd>
+    	
     	<dt>width: integerValue</dt>
     	<dd>
     		The <b>width</b> option specifies the desired width in pixels of the text display area.
@@ -718,6 +746,11 @@ dd { padding-bottom: 15px }
 	 	Some highlights are listed below:
 	</p>
 	<dl>
+		<dt>Version 1.2 (still in QA)</dt>
+		<dd><ul>
+			<li>Correct positioning problems with relative parent</li>
+			<li>explicitClose option</li>
+		</ul></dd>
 		<dt>Version 1.1</dt>
 		<dd><ul>
 			<li>jQuery 1.4.2, jQuery ui 1.8.4</li>
