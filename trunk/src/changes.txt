@@ -4,6 +4,7 @@
 - added external 'close' function that can be called to close the pop-up (#137)
 - added 'explicitClose' option (#129)
 - fixed 'firstItemChecksAll' if only the first item is initially checked (#133)
+- added 'zIndex' option (#92)
 
 1.1
 - updated jquery to 1.4.2, ui to 1.8.4 (which fixes the 'destroy' problem: #94, #114, #115, #121)
