@@ -597,17 +597,23 @@
 		                ,   left: "0px"
 		                });
 					}
-					var ancestorsZIndexes = instance.controlWrapper.parents().map(
-						function() {
-							var zIndex = $(this).css("z-index");
-							return isNaN(zIndex) ? 0 : zIndex; }
-						).get();
-					var parentZIndex = Math.max.apply(Math, ancestorsZIndexes);
-					if (parentZIndex > 0) {
-						instance.dropWrapper.css({
-							zIndex: (parentZIndex+1)
-						});
+					var zIndex = 0;
+					if (config.zIndex == null) {
+						var ancestorsZIndexes = instance.controlWrapper.parents().map(
+							function() {
+								var zIndex = $(this).css("z-index");
+								return isNaN(zIndex) ? 0 : zIndex; }
+							).get();
+						var parentZIndex = Math.max.apply(Math, ancestorsZIndexes);
+						if ( parentZIndex >= 0) zIndex = parentZIndex+1;
+					} else {
+						/* Explicit set from the optins */
+						zIndex = parseInt(config.zIndex);
 					}
+					if (zIndex > 0) {
+						instance.dropWrapper.css( { 'z-index': zIndex } );
+					}
+
 	                var aControl = instance.controlSelector;
 	                aControl.addClass("ui-state-active");
 	                aControl.removeClass("ui-state-hover");
