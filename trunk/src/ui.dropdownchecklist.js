@@ -521,7 +521,7 @@
                 selectOptions.each(function() {
                     if ($(this).attr("selected")) {
                         if ( text != "" ) { text += ", "; }
-                        text += $(this).text();
+                        text += $(this).html();		/* NOTE not .text(), which screws up ampersands for IE */
                     }
                 });
                 if ( text == "" ) {
