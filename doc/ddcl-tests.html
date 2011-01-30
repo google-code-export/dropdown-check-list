@@ -106,7 +106,7 @@ dd { padding-bottom: 15px }
             
             
             $("#s20a").dropdownchecklist( { width: 150 } );
-            $("#s20b").dropdownchecklist( { width: 150, maxDropHeight: 200 } );
+            $("#s20b").dropdownchecklist( { width: 150, maxDropHeight: 200, firstItemChecksAll: true } );
 			
         });
     </script>
@@ -183,7 +183,7 @@ dd { padding-bottom: 15px }
 	        </select>
     	</td>
 	  	<td>
-	  		<span>Medium and High are preselectedr</span><br>
+	  		<span>Medium and High are preselected</span><br>
 	        <select id="s1a" class="s1" multiple="multiple">
 	            <option>Low</option>
 	            <option selected="selected">Medium</option>
@@ -1544,8 +1544,9 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
-	  		<span>Large number of options (with maxHeight)</span><br>
+	  		<span>Large number of options (with maxHeight/firstSelectsAll)</span><br>
 	        <select id="s20b" class="s20b" multiple="multiple">
+	            <option>Select All</option>
 				<optgroup label="Group 00">
 					<option>0</option>
 					<option>1</option>
@@ -1727,6 +1728,54 @@ dd { padding-bottom: 15px }
 					<option>9</option>
 				</optgroup>
 				<optgroup label="Group 150">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+				</optgroup>
+				<optgroup label="Group 160">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+				</optgroup>
+				<optgroup label="Group 170">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+				</optgroup>
+				<optgroup label="Group 180">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>9</option>
+				</optgroup>
+				<optgroup label="Group 190">
 					<option>0</option>
 					<option>1</option>
 					<option>2</option>
