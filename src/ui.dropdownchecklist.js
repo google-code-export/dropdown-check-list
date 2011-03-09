@@ -798,12 +798,13 @@
                     	self._refreshGroup(aGroup, disabled);
                     	groupCount += 1;
 	                }
-					opt.children("option").each(function(subindex) {
+					opt.children("option").each(function() {
 		                var subopt = $(this);
 						var subdisabled = (disabled || subopt.attr("disabled"));
                 		var selected = subopt.attr("selected");
-                		var subItem = $(allCheckBoxes[optionCount + subindex]);
+                		var subItem = $(allCheckBoxes[optionCount]);
 		                self._refreshOption(subItem, subdisabled, selected );
+		                optionCount += 1;
 		            });
                 }
 			});
