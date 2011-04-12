@@ -1,12 +1,11 @@
 ;(function($) {
-    /*
+/*
     * ui.dropdownchecklist
     *
     * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010-2011 Ittrium LLC
-    * Dual licensed under the MIT (MIT-LICENSE.txt)
-    * and GPL (GPL-LICENSE.txt) licenses.
+    * Dual licensed under the MIT (MIT-LICENSE.txt) OR GPL (GPL-LICENSE.txt) licenses.
     *
-    */
+*/
     // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list.
     $.widget("ui.dropdownchecklist", {
     	// Some globlals
@@ -500,7 +499,8 @@
             var text = self._formatText(selectOptions, options.firstItemChecksAll, firstOption);
             var controlLabel = controlWrapper.find(".ui-dropdownchecklist-text");
             controlLabel.html(text);
-            controlLabel.attr("title", text);
+            // the attribute needs naked text, not html
+            controlLabel.attr("title", controlLabel.text());
         },
         // Formats the text that is shown in the control
         _formatText: function(selectOptions, firstItemChecksAll, firstOption) {
