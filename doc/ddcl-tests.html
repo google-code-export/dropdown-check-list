@@ -35,7 +35,7 @@ dd { padding-bottom: 15px }
             $("#s7").dropdownchecklist();
             $("#s7a").dropdownchecklist( { closeRadioOnClick: true } );
             $("#s8").dropdownchecklist( { emptyText: "Please Select...", width: 150 } );
-            $("#a").dropdownchecklist( { emptyText: "<i>please select...</i>", width: 150 } );
+            $("#s8a").dropdownchecklist( { emptyText: "<i>please select...</i>", width: 150 } );
             $(".s9").dropdownchecklist( { textFormatFunction: function(options) {
                 var selectedOptions = options.filter(":selected");
                 var countOfSelected = selectedOptions.size();
@@ -595,7 +595,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
     	<td>
-	  		<span>Explicit empty text</span><br>
+	  		<span>Explicit empty text (styled)</span><br>
 	        <select id="s8a" class="s8" multiple="multiple">
 	            <option>Low</option>
 	            <option>Medium</option>
