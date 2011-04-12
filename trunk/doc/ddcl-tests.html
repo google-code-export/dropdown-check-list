@@ -568,11 +568,14 @@ dd { padding-bottom: 15px }
 	  	<td colspan='3'>
 		    <h3>Empty default text</h3>
 		    <div>
-		        The 'emptyText' options allows you to set the text can be displayed when no items are selected
+		        The 'emptyText' option allows you to set the text that is displayed when no 
+		        items are selected. You can include html markup in the string, which allows
+		        you full control over any special styling you may want
 		    </div>
 		    <blockquote>
 		    	<code>
-		            $(".s8").dropdownchecklist({ emptyText: "Please select ...", width: 150 });
+		            $("#s8").dropdownchecklist({ emptyText: "Please select ...", width: 150 });
+		            $("#s8").dropdownchecklist({ emptyText: "&lt;i&gt;please select ...&lt;/i&gt;", width: 150 });
 		        </code>
 		    </blockquote>
 		</td>
