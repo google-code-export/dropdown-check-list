@@ -222,7 +222,7 @@
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
-        _createDropItem: function(index, tabIndex, value, text, checked, disabled, indent) {
+        _createDropItem: function(index, tabIndex, value, text, optCss, checked, disabled, indent) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
             // the item contains a div that contains a checkbox input and a lable for the text
             // the div
@@ -249,8 +249,9 @@
             // the text
             var label = $("<label for=" + id + "/>");
             label.addClass("ui-dropdownchecklist-text");
+            if ( optCss != null ) label.attr('style',optCss);
             label.css({ cursor: "default" });
-            label.text(text);
+            label.html(text);
 			if (indent) {
 				item.addClass("ui-dropdownchecklist-indent");
 			}
@@ -433,13 +434,15 @@
 		},
         _appendOption: function(option, container, index, indent, forceDisabled) {
             var self = this;
-            var text = option.text();
+            // Note that the browsers destroy any html structure within the OPTION
+            var text = option.html();
             var value = option.val();
+            var optCss = option.attr('style');
             var selected = option.attr("selected");
 			var disabled = (forceDisabled || option.attr("disabled"));
 			// Use the same tab index as the selector replacement
 			var tabIndex = self.controlSelector.attr("tabindex");
-            var item = self._createDropItem(index, tabIndex, value, text, selected, disabled, indent);
+            var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
             container.append(item);
         },
         // Synchronizes the items checked and the source select
@@ -514,14 +517,23 @@
                 }
             } else if (firstItemChecksAll && (firstOption != null) && firstOption.attr("selected")) {
                 // just set the text from the first item
-                text = firstOption.text();
+                text = firstOption.html();
             } else {
                 // concatenate the text from the checked items
                 text = "";
                 selectOptions.each(function() {
                     if ($(this).attr("selected")) {
                         if ( text != "" ) { text += ", "; }
-                        text += $(this).html();		/* NOTE not .text(), which screws up ampersands for IE */
+                        /* NOTE use of .html versus .text, which can screw up ampersands for IE */
+                        var optCss = $(this).attr('style');
+                        var tempspan = $('<span/>');
+                        tempspan.html( $(this).html() );
+                        if ( optCss == null ) {
+                        	text += tempspan.html();
+                        } else {
+                        	tempspan.attr('style',optCss);
+                        	text += $("<span/>").append(tempspan).html();
+                        }
                     }
                 });
                 if ( text == "" ) {
