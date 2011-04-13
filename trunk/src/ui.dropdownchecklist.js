@@ -279,6 +279,14 @@
 				e.stopImmediatePropagation();
 				if (aCheckBox.hasClass("active") ) {
 					// Active checkboxes take active action
+	                var callback = self.options.onItemClick;
+	                if ($.isFunction(callback)) try {
+                        callback.call(self,aCheckBox);
+                    } catch (ex) {
+                        // reject the change on any error
+                        aCheckBox.attr("checked",!aCheckBox.attr("checked"));
+                        return;
+                    } 
 	                self._syncSelected(aCheckBox);
 	                self.sourceSelect.trigger("change", 'ddcl_internal');
 	                if (!self.isMultiple && options.closeRadioOnClick) {
@@ -317,6 +325,15 @@
 					var aCheckBox = anItem.find("input");
 	                var checked = aCheckBox.attr("checked");
 	                aCheckBox.attr("checked", !checked);
+	                
+	                var callback = self.options.onItemClick;
+	                if ($.isFunction(callback)) try {
+                        callback.call(self,aCheckBox);
+                    } catch (ex) {
+                        // reject the change on any error
+                        aCheckBox.attr("checked",checked);
+                        return;
+                    } 
 	                self._syncSelected(aCheckBox);
 	                self.sourceSelect.trigger("change", 'ddcl_internal');
 	                if (!checked && !self.isMultiple && options.closeRadioOnClick) {
@@ -820,8 +837,8 @@
 		            });
                 }
 			});
-        	// update the text shown in the control
-        	self._updateControlText();
+			// sync will handle firstItemChecksAll and updateControlText
+			self._syncSelected(null);
         },
         // External command to enable the ddcl control
         enable: function() {

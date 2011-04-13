@@ -65,6 +65,14 @@ dd { padding-bottom: 15px }
 			  	}
 			  	alert( values );
             } });
+            $("#s10b").dropdownchecklist( { onItemClick: function(checkbox) {
+			  	alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
+            } });
+            $("#s10c").dropdownchecklist( { onItemClick: function(checkbox) {
+			  	alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
+			  	throw 'rejected';
+            } });
+            
             $(".s11").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s12").dropdownchecklist( { width: 250 } );
             $(".s13").dropdownchecklist( { width: 150, onComplete: function(selector) {
@@ -735,6 +743,57 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>Forced Multiple (not on IE6)</span><br>
 	        <select id="s10a" class="s10">
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
+	        </select>
+	     </td>
+	   </tr>
+      <tr>
+      	<td colspan='3'>
+		    <h3>Callback handling when user clicks any item</h3>
+		    <div>
+		        The 'onItemClick' option allows you to supply a callback function that is invoked
+		        when the user clicks on an item. It is passed a single argument which is the 
+		        generated checkbox element.
+		    </div>
+		    <div>
+		    	You can reject the click by throwing any error from within your callback function.
+		    </div>
+		    <blockquote>
+		    	<code>
+<pre>
+    $(".s10b").dropdownchecklist( { onItemClick: function(checkbox) {
+	    alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
+    } });
+</pre>
+		        </code>
+		    </blockquote>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+	  		<span>Naked Selector</span><br>
+	        <select multiple>
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
+	        </select>
+	     </td>
+      	<td>
+	  		<span>Alert on change</span><br>
+	        <select id="s10b" class="s10b" multiple>
+	            <option value='a'>Alice</option>
+	            <option value='b'>Bob</option>
+	            <option value='c'>Christian</option>
+	            <option value='d'>Daniel</option>
+	        </select>
+	     </td>
+      	<td>
+	  		<span>Alert on change(rejected)</span><br>
+	        <select id="s10c" class="s10c" multiple>
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>
