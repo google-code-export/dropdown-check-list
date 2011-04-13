@@ -496,10 +496,10 @@ dd { padding-bottom: 15px }
         var countOfSelected = selectedOptions.size();
         var size = options.size();
         switch(countOfSelected) {
-            case 0: return "Nobody";
-            case 1: return selectedOptions.text();
-            case size: return "Everybody";
-            default: return countOfSelected + " People";
+           case 0: return "<i>Nobody<i>";
+           case 1: return selectedOptions.text();
+           case options.size(): return "<b>Everybody</b>";
+           default: return countOfSelected + " People";
         }
     } });
 </pre>
