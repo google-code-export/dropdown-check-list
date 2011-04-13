@@ -12,7 +12,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.2qa');
+            alert('DropDownCheckList v1.3');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -392,7 +392,7 @@
             var label = $("<span/>");
             label.addClass("ui-dropdownchecklist-text");
             label.css( { cursor: "default" });
-            label.text(text);
+            label.html(text);
 			closeItem.append(label);
 			
 			// close the control on click
