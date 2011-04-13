@@ -10,6 +10,10 @@ the rest of the widget source (which may be under active development).
 	part of pending development, but the on-line documentation will continue to
 	reflect the released version.
 	
+	The 'testing' page within the doc directory references the active, non-minimized
+	component within source.  This allows you to use the testing page to check on
+	work-in-progress.
+	
 2)	The 'src' directory now contains the bare minimum needed to support the widget.
 	But it does include the jQuery support libraries explicitly named with the
 	appropriate versions.
@@ -28,12 +32,12 @@ Development for a new release:
 
 1)	Leave the 'doc' and its corresponding .zip file alone while you are in active
 	development of the new release.
-	Make a local copy of 'doc' to serve as your test environment.
+	You can use the testing page as your test environment.
 	
 2)	Document your changes in 'src/changes.txt'
 
 3)	You can check your work-in-progress changes into SVN within the 'src' 
-	directory. But do NOT touch 'doc' until you are ready for a new release.
+	directory. But do NOT touch the core 'doc' until you are ready for a new release.
 
 3)	When you are ready to cut the new release:
 	a)	Update the version number in build.xml
@@ -41,7 +45,7 @@ Development for a new release:
 	c)	Use ANT to create the new release 'dist' directory and new zip file
 	
 3)	MANUALLY copy the latest ui.dropdownchecklist.js and ui.dropdownchecklist-X.X-min.js into
-	the 'doc' directory.  You will want to remove the old version of the min.js file.
+	the 'doc' directory.
 	
 	**** IMPORTANT ****
 		At this point, the uncompressed and minimized .js files in the 'doc' section of 

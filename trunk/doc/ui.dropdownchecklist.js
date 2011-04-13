@@ -1,19 +1,18 @@
 ;(function($) {
-    /*
+/*
     * ui.dropdownchecklist
     *
     * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010-2011 Ittrium LLC
-    * Dual licensed under the MIT (MIT-LICENSE.txt)
-    * and GPL (GPL-LICENSE.txt) licenses.
+    * Dual licensed under the MIT (MIT-LICENSE.txt) OR GPL (GPL-LICENSE.txt) licenses.
     *
-    */
+*/
     // The dropdown check list jQuery plugin transforms a regular select html element into a dropdown check list.
     $.widget("ui.dropdownchecklist", {
     	// Some globlals
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.2qa');
+            alert('DropDownCheckList v1.3');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -223,7 +222,7 @@
             return wrapper;
         },
         // Creates a drop item that coresponds to an option element in the source select
-        _createDropItem: function(index, tabIndex, value, text, checked, disabled, indent) {
+        _createDropItem: function(index, tabIndex, value, text, optCss, checked, disabled, indent) {
             var self = this, options = this.options, sourceSelect = this.sourceSelect, controlWrapper = this.controlWrapper;
             // the item contains a div that contains a checkbox input and a lable for the text
             // the div
@@ -250,8 +249,9 @@
             // the text
             var label = $("<label for=" + id + "/>");
             label.addClass("ui-dropdownchecklist-text");
+            if ( optCss != null ) label.attr('style',optCss);
             label.css({ cursor: "default" });
-            label.text(text);
+            label.html(text);
 			if (indent) {
 				item.addClass("ui-dropdownchecklist-indent");
 			}
@@ -279,6 +279,14 @@
 				e.stopImmediatePropagation();
 				if (aCheckBox.hasClass("active") ) {
 					// Active checkboxes take active action
+	                var callback = self.options.onItemClick;
+	                if ($.isFunction(callback)) try {
+                        callback.call(self,aCheckBox);
+                    } catch (ex) {
+                        // reject the change on any error
+                        aCheckBox.attr("checked",!aCheckBox.attr("checked"));
+                        return;
+                    } 
 	                self._syncSelected(aCheckBox);
 	                self.sourceSelect.trigger("change", 'ddcl_internal');
 	                if (!self.isMultiple && options.closeRadioOnClick) {
@@ -317,6 +325,15 @@
 					var aCheckBox = anItem.find("input");
 	                var checked = aCheckBox.attr("checked");
 	                aCheckBox.attr("checked", !checked);
+	                
+	                var callback = self.options.onItemClick;
+	                if ($.isFunction(callback)) try {
+                        callback.call(self,aCheckBox);
+                    } catch (ex) {
+                        // reject the change on any error
+                        aCheckBox.attr("checked",checked);
+                        return;
+                    } 
 	                self._syncSelected(aCheckBox);
 	                self.sourceSelect.trigger("change", 'ddcl_internal');
 	                if (!checked && !self.isMultiple && options.closeRadioOnClick) {
@@ -375,7 +392,7 @@
             var label = $("<span/>");
             label.addClass("ui-dropdownchecklist-text");
             label.css( { cursor: "default" });
-            label.text(text);
+            label.html(text);
 			closeItem.append(label);
 			
 			// close the control on click
@@ -434,13 +451,15 @@
 		},
         _appendOption: function(option, container, index, indent, forceDisabled) {
             var self = this;
-            var text = option.text();
+            // Note that the browsers destroy any html structure within the OPTION
+            var text = option.html();
             var value = option.val();
+            var optCss = option.attr('style');
             var selected = option.attr("selected");
 			var disabled = (forceDisabled || option.attr("disabled"));
 			// Use the same tab index as the selector replacement
 			var tabIndex = self.controlSelector.attr("tabindex");
-            var item = self._createDropItem(index, tabIndex, value, text, selected, disabled, indent);
+            var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
             container.append(item);
         },
         // Synchronizes the items checked and the source select
@@ -500,7 +519,8 @@
             var text = self._formatText(selectOptions, options.firstItemChecksAll, firstOption);
             var controlLabel = controlWrapper.find(".ui-dropdownchecklist-text");
             controlLabel.html(text);
-            controlLabel.attr("title", text);
+            // the attribute needs naked text, not html
+            controlLabel.attr("title", controlLabel.text());
         },
         // Formats the text that is shown in the control
         _formatText: function(selectOptions, firstItemChecksAll, firstOption) {
@@ -514,14 +534,23 @@
                 }
             } else if (firstItemChecksAll && (firstOption != null) && firstOption.attr("selected")) {
                 // just set the text from the first item
-                text = firstOption.text();
+                text = firstOption.html();
             } else {
                 // concatenate the text from the checked items
                 text = "";
                 selectOptions.each(function() {
                     if ($(this).attr("selected")) {
                         if ( text != "" ) { text += ", "; }
-                        text += $(this).text();
+                        /* NOTE use of .html versus .text, which can screw up ampersands for IE */
+                        var optCss = $(this).attr('style');
+                        var tempspan = $('<span/>');
+                        tempspan.html( $(this).html() );
+                        if ( optCss == null ) {
+                        	text += tempspan.html();
+                        } else {
+                        	tempspan.attr('style',optCss);
+                        	text += $("<span/>").append(tempspan).html();
+                        }
                     }
                 });
                 if ( text == "" ) {
@@ -597,17 +626,23 @@
 		                ,   left: "0px"
 		                });
 					}
-					var ancestorsZIndexes = instance.controlWrapper.parents().map(
-						function() {
-							var zIndex = $(this).css("z-index");
-							return isNaN(zIndex) ? 0 : zIndex; }
-						).get();
-					var parentZIndex = Math.max.apply(Math, ancestorsZIndexes);
-					if (parentZIndex > 0) {
-						instance.dropWrapper.css({
-							zIndex: (parentZIndex+1)
-						});
+					var zIndex = 0;
+					if (config.zIndex == null) {
+						var ancestorsZIndexes = instance.controlWrapper.parents().map(
+							function() {
+								var zIndex = $(this).css("z-index");
+								return isNaN(zIndex) ? 0 : zIndex; }
+							).get();
+						var parentZIndex = Math.max.apply(Math, ancestorsZIndexes);
+						if ( parentZIndex >= 0) zIndex = parentZIndex+1;
+					} else {
+						/* Explicit set from the optins */
+						zIndex = parseInt(config.zIndex);
 					}
+					if (zIndex > 0) {
+						instance.dropWrapper.css( { 'z-index': zIndex } );
+					}
+
 	                var aControl = instance.controlSelector;
 	                aControl.addClass("ui-state-active");
 	                aControl.removeClass("ui-state-hover");
@@ -792,17 +827,18 @@
                     	self._refreshGroup(aGroup, disabled);
                     	groupCount += 1;
 	                }
-					opt.children("option").each(function(subindex) {
+					opt.children("option").each(function() {
 		                var subopt = $(this);
 						var subdisabled = (disabled || subopt.attr("disabled"));
                 		var selected = subopt.attr("selected");
-                		var subItem = $(allCheckBoxes[optionCount + subindex]);
+                		var subItem = $(allCheckBoxes[optionCount]);
 		                self._refreshOption(subItem, subdisabled, selected );
+		                optionCount += 1;
 		            });
                 }
 			});
-        	// update the text shown in the control
-        	self._updateControlText();
+			// sync will handle firstItemChecksAll and updateControlText
+			self._syncSelected(null);
         },
         // External command to enable the ddcl control
         enable: function() {
