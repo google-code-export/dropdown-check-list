@@ -1,9 +1,20 @@
-1.2
-- changed positioning calculations (addresses: #147, #142, #138, #137, #127, #126, #119?? )
-- added 'positionHow' option (addresses: #138, #137)
+1.3
+- change of licensing to explicitly state "MIT or GPL", rather than "MIT and GPL"
+- copy styling from OPTION into generated checkbox and display text
+- option for onItemClick (#162)
+- handle firstItemChecksAll in refresh (#163)
+- fix title attribute display to use raw text, not html, which allows html styling to
+  apply to the empty text (#170, #171)
+
+1.2 (qa)  NOTE that I never did release a non-qa variant of 1.2, and enough other
+               changes went in that I decided to call it 1.3
+- fix 'refrsh' when multiple option groups used (#161)
+- changed positioning calculations (#147, #142, #138, #137, #127, #126, #119?? )
+- added 'positionHow' option (#138, #137)
 - added external 'close' function that can be called to close the pop-up (#137)
 - added 'explicitClose' option (#129)
 - fixed 'firstItemChecksAll' if only the first item is initially checked (#133)
+- fixed ampersands within option text (#130)
 - added 'zIndex' option (#92)
 
 1.1

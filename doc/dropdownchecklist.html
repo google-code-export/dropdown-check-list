@@ -16,7 +16,7 @@ dd { padding-bottom: 15px }
     
     <!-- Include the DropDownCheckList supoprt -->
     <!--  <script type="text/javascript" src="ui.dropdownchecklist.js"></script> -->
-    <script type="text/javascript" src="ui.dropdownchecklist-1.1-min.js"></script>
+    <script type="text/javascript" src="ui.dropdownchecklist-1.3-min.js"></script>
     
     <!-- Apply dropdown check list to the selected items  -->
     <script type="text/javascript">
@@ -33,9 +33,9 @@ dd { padding-bottom: 15px }
                 var selectedOptions = options.filter(":selected");
                 var countOfSelected = selectedOptions.size();
                 switch(countOfSelected) {
-                    case 0: return "Nobody";
+                    case 0: return "<i>Nobody<i>";
                     case 1: return selectedOptions.text();
-                    case options.size(): return "Everybody";
+                    case options.size(): return "<b>Everybody</b>";
                     default: return countOfSelected + " People";
                 }
             } });
@@ -79,7 +79,7 @@ dd { padding-bottom: 15px }
     </p>
     <h2>Download</h2>
     <p>
-        The current version <b>v1.1</b> of <i>Dropdown CheckList</i> can be downloaded from 
+        The current version <b>v1.3</b> of <i>Dropdown CheckList</i> can be downloaded from 
         <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. 
         This page, including all required files to run the examples, can be downloaded as zip package 
         from the same location.
@@ -451,7 +451,10 @@ dd { padding-bottom: 15px }
 	  	<td colspan='2'>
 		    <h3>Empty default text</h3>
 		    <div>
-		        The 'emptyText' options allows you to set the text can be displayed when no items are selected
+		        The 'emptyText' options allows you to set the text can be displayed when no items 
+		        are selected.<br>
+		        Note also that styling attributes applied to the OPTIONs are copied into the
+		        generated label components.
 		    </div>
 		    <blockquote>
 		    	<code>
@@ -463,16 +466,16 @@ dd { padding-bottom: 15px }
 	  <tr>
     	<td>
 	        <select multiple="multiple">
-	            <option>Low</option>
-	            <option>Medium</option>
-	            <option>High</option>
+	            <option style='color:green'>Low</option>
+	            <option style='color:orange'>Medium</option>
+	            <option style='color:red'>High</option>
 	        </select>
 	    </td>
     	<td>
 	        <select id="s8" multiple="multiple">
-	            <option>Low</option>
-	            <option>Medium</option>
-	            <option>High</option>
+	            <option style='color:green'>Low</option>
+	            <option style='color:orange'>Medium</option>
+	            <option style='color:red'>High</option>
 	        </select>
 	    </td>
 	  </tr>
@@ -530,7 +533,9 @@ dd { padding-bottom: 15px }
 		        when the user completes their selection and closes the dropdown. It is passed
 		        a single argument which is the original selector element.
 		    </div>
-		    <div></div>
+		    <div>The 'onItemClick' callback function can be defined to respond every
+		    	 time a user clicks on an item.
+		    </div>
 		    <div>
 		    	Also, you can force the target selector into <i>multiple</i> selection mode
 		    	by using the 'forceMultiple' option, even if the underlying &lt;SELECT&gt; is
@@ -630,13 +635,13 @@ dd { padding-bottom: 15px }
     	<dt>emptyText: 'string'</dt>
     	<dd>
     		The <b>emptyText</b> option supplies the string to display if no options are currently
-    		selected.
+    		selected. This string can include html formatting.
     	</dd>
     	
     	<dt>explicitClose: 'string'</dt>
     	<dd>
     		The <b>explicitClose</b> option creates a special item at the end of the list that
-    		the user can click on to close the control.
+    		the user can click on to close the control. This string can include html formatting.
     	</dd>
     	
     	<dt>firstItemChecksAll: true/false</dt>
@@ -647,8 +652,8 @@ dd { padding-bottom: 15px }
     	
     	<dt>forceMultiple: true/false</dt>
     	<dd>
-    		The <b>forceMultiple</b> option, when true, will treat the selector as having multiple selections
-    		even if the underlying html is not so marked.
+    		The <b>forceMultiple</b> option, when true, will treat the selector as having 
+    		multiple selections even if the underlying html is not so marked.
     		<br><i>This option does NOT work with IE 6</i>
     	</dd>
     	
@@ -692,19 +697,30 @@ dd { padding-bottom: 15px }
     		post an issue to help me out.
     	</dd>
     	
+    	<dt>onItemClick: function(checkbox) {}</dt>
+    	<dd>
+    		The <b>onItemClick</b> option defines a callback function invoked when the user clicks
+    		on any item.  It is called with a single argument which is the dynamically generated
+    		checkbox element.
+    		<br>
+    		The callback can 'reject' the click by throwing any error.
+    	</dd>
+    	
     	<dt>positionHow: 'absolute' or 'relative'</dt>
     	<dd>
     		The <b>positionHow</b> option controls how the pop-up is positioned on the page.  If
     		'absolute' (the default), then the pop-up is positioned absolutely to ride over the
     		normal page contents.  If 'relative', then the pop-up is included within the page 
     		contents, relative to its parent container.  It consumes space on the page rather
-    		than flying over it, but it will scroll if the parent element is scrolled.
+    		than flying over it, but it will scroll if the parent element is scrolled (<i>Except
+    		for IE6 and IE7</i>).
     	</dd>
     	
     	<dt>textFormatFunction: function(options) { return 'string'; }</dt>
     	<dd>
     		The <b>textFormatFunction</b> option defines a callback function used to format the display
-    		text. It is called with a single argument that is the list selector options.
+    		text. It is called with a single argument that is the list selector options. The return
+    		string can include html formatting.
     	</dd>
     	
     	<dt>width: integerValue</dt>
@@ -713,6 +729,14 @@ dd { padding-bottom: 15px }
     		If not given, the width is calculated from the width of the option items. The width may
     		be wider than the items, to provide extra room for icons or the display of multiple items.
     		The width may be narrower than the items to account for dropdowns with very long names.
+    	</dd>
+    	    	
+    	<dt>zIndex: integerValue</dt>
+    	<dd>
+    		The <b>zIndex</b> option specifies the explict z-index value to apply to the pop-up
+    		container, to help it display properly with other components on the page. This is of
+    		particular value if you have other active jQuery widgets.
+    	</dd>
     </dl>
     <h2>Use of IDs</h2>
     <p>
@@ -739,6 +763,21 @@ dd { padding-bottom: 15px }
     	</dl>
     	These ids must be unique and <i>Dropdown CheckList</i> assumes no other elements on the 
     	page have an id that conflicts.
+    </p>
+    <h2>Limitations</h2>
+    <ul>
+    	<li>Keyboard / Tab processing is iffy at best. I have found no reliable way of detecting 
+    	loss of focus to another component in order to force an auto-close of the dropdown.</li>
+    	<li>&lt;LABEL&gt; tags associated with the underlying &lt;SELECT&gt; just do not work, 
+    	since the &lt;LABEL&gt; is wired to the original &lt;SELECT&gt;, not the DDCL component. 
+    	In particular, do not include the original &lt;SELECT&gt; within the span of the 
+    	&lt;LABEL&gt; tag itself.</li>
+		<li>IFrame support is questionable</li>
+		<li>DDCL calculates size and position on widget initialization.  This only operates 
+		properly if the wrapper elements containing the &lt;SELECT&gt; are <b>not</b> hidden.
+		Therefore, the use of DDCL within dynamic components that hide/show the wrapper element
+		is problematic.</li>
+	</ul>
 	<h2>History</h2>
 	<p>
 	 	The full change history (including references to issue numbers) is avaiable 
@@ -746,10 +785,16 @@ dd { padding-bottom: 15px }
 	 	Some highlights are listed below:
 	</p>
 	<dl>
-		<dt>Version 1.2 (still in QA)</dt>
+		<dt>Version 1.3</dt>
+		<dd><ul>
+			<li>Recognize 'styled' options and other explicit text</li>
+			<li>onItemClick support</li>
+		</ul></dd>
+		<dt>Version 1.2 (never made it out of QA)</dt>
 		<dd><ul>
 			<li>Correct positioning problems with relative parent</li>
 			<li>explicitClose option</li>
+			<li>zIndex option</li>
 		</ul></dd>
 		<dt>Version 1.1</dt>
 		<dd><ul>
@@ -766,7 +811,9 @@ dd { padding-bottom: 15px }
 	</dl>
 	<h2>Have problems using the plugin?</h2>
 	<p>
-	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list" target='_blank'>issue list</a>.
+	 	Have a look at the <a href="http://code.google.com/p/dropdown-check-list/issues/list" 
+	 	target='_blank'>issue list</a>. You may want to search through 'closed' as well as 'open' issues
+	 	in case an issue has been identified as something we choose not to fix.
 	</p>
 </div>
 </body>

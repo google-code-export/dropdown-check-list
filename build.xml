@@ -1,6 +1,6 @@
 <project name="dropdown-check-list" default="zip" basedir=".">
 
-	<property name="version" value="1.1"/>
+	<property name="version" value="1.3"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="yui-compressor.jar" location="ant_lib/yuicompressor-2.4.2.jar" />
 	<property name="yui-compressor-ant-task.jar" location="ant_lib/yui-compressor-ant-task-0.4.jar"/>
@@ -43,6 +43,7 @@
 			<!-- Exclude the older versions when doing the build -->
 			<exclude name="ui.dropdownchecklist-1.0-min.js"/>
 			<exclude name="ui.dropdownchecklist-1.1-min.js"/>
+			<exclude name="ui.dropdownchecklist-1.2qa-min.js"/>
 		</fileset>
 		</copy>
 	</target>
