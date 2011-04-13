@@ -24,7 +24,6 @@ dd { padding-bottom: 15px }
         $(document).ready(function() {
             $(".s1").dropdownchecklist();
             $(".s3").dropdownchecklist( { icon: {}, width: 150 } );
-            $(".s3a").dropdownchecklist( { width: 150 } );
             $(".s4").dropdownchecklist( { icon: {}, maxDropHeight: 150, width: 150 } );
             $(".s4a").dropdownchecklist( { icon: { placement: 'right', toOpen: 'ui-icon-arrowthick-1-s'
                                             , toClose: 'ui-icon-arrowthick-1-n' }
@@ -52,7 +51,7 @@ dd { padding-bottom: 15px }
                 switch(countOfSelected) {
                     case 0: return "<i>Nobody</i>";
                     case 1: return selectedOptions.text();
-                    case options.size(): return "<b>Everybody</b>";
+                    case options.size(): return "<span style='color:red;font-weight:bold'>Everybody</span>";
                     default: return countOfSelected + " People";
                 }
             } });
@@ -238,6 +237,16 @@ dd { padding-bottom: 15px }
 	            <option disabled>Floccinaucinihilipilification</option>
 	            <option>Antidisestablishmentarianism</option>
 	            <option>Honorificabilitudinitatibus</option>
+	        </select>
+	  	</td>
+	  	<td>
+	  		<span>Narrow text, Wide items(styled)</span><br>
+	        <select id="s3" class="s3" multiple="multiple">
+	            <option><span style='color:green'>Pneumonoultramicroscopicsilicovolcanoconiosis</span></option>
+	            <option><span style='color:blue'>Pseudopseudohypoparathyroidism</span></option>
+	            <option disabled>Floccinaucinihilipilification</option>
+	            <option><span style='color:cyan'>Antidisestablishmentarianism</span></option>
+	            <option><span style='color:orange'>Honorificabilitudinitatibus</span></option>
 	        </select>
 	  	</td>
 	  </tr>
