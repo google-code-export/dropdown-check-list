@@ -3,20 +3,21 @@
 <head>
     <title>jQuery Dropdown CheckList</title>
     <!-- Use a JQuery ThemeRoller theme, in this case 'smoothness' -->
-    <link rel="stylesheet" type="text/css" href="smoothness/jquery-ui-1.8.4.custom.css">
-    <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.themeroller.css">
+    <link rel="stylesheet" type="text/css" href="smoothness-1.8.13/jquery-ui-1.8.13.custom.css">
+    <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.themeroller.css">
+    <!--  <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.standalone.css">  -->
     <style>
 table td { vertical-align: top }
 dd { padding-bottom: 15px }
     </style>
     
     <!-- Include the basic JQuery support (core and ui) -->
-    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="jquery-ui-1.8.4.custom.min.js"></script>
+    <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.13.custom.min.js"></script>
     
     <!-- Include the DropDownCheckList supoprt -->
     <!-- <script type="text/javascript" src="ui.dropdownchecklist.js"></script> -->
-    <script type="text/javascript" src="ui.dropdownchecklist-1.3-min.js"></script>
+    <script type="text/javascript" src="ui.dropdownchecklist-1.4-min.js"></script>
     
     <!-- Apply dropdown check list to the selected items  -->
     <script type="text/javascript">
@@ -39,21 +40,35 @@ dd { padding-bottom: 15px }
                     default: return countOfSelected + " People";
                 }
             } });
-            $("#s10").dropdownchecklist( { forceMultiple: true, onComplete: function(selector) {
-			  	var values = "";
-			  	for( i=0; i < selector.options.length; i++ ) {
-			    	if (selector.options[i].selected && (selector.options[i].value != "")) {
-			      		if ( values != "" ) values += ";";
-			      		values += selector.options[i].value;
-			    	}
-			  	}
-			  	alert( values );
-            } });
+            $("#s10").dropdownchecklist( { forceMultiple: true
+, onComplete: function(selector) {
+	var values = "";
+  	for( i=0; i < selector.options.length; i++ ) {
+    	if (selector.options[i].selected && (selector.options[i].value != "")) {
+      		if ( values != "" ) values += ";";
+      		values += selector.options[i].value;
+    	}
+  	}
+  	alert( values );
+} 
+, onItemClick: function(checkbox, selector){
+	var justChecked = checkbox.prop("checked");
+	var checkCount = (justChecked) ? 1 : -1;
+	for( i = 0; i < selector.options.length; i++ ){
+		if ( selector.options[i].selected ) checkCount += 1;
+	}
+    if ( checkCount > 3 ) {
+		alert( "Limit is 3" );
+		throw "too many";
+	}
+}
+            });
         });
     </script>
     <meta name="description" 
-    content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
-    <meta name="keywords" content="dropdown, checkbox list, jquery, widget, themeroller, plugin, html multiple select">
+        content="The Dropdown Check List jQuery widget transforms a regular select html element into a dropdown checkbox list">
+    <meta name="keywords" 
+        content="dropdown, checkbox list, jquery, widget, themeroller, plugin, html multiple select">
 </head>
 <body>
 <div id="content">
@@ -79,16 +94,16 @@ dd { padding-bottom: 15px }
     </p>
     <h2>Download</h2>
     <p>
-        The current version <b>v1.3</b> of <i>Dropdown CheckList</i> can be downloaded from 
+        The current version <b>v1.4</b> of <i>Dropdown CheckList</i> can be downloaded from 
         <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. 
         This page, including all required files to run the examples, can be downloaded as zip package 
         from the same location.
     </p>
     <h2>Requirements/Environments</h2>
     <p>
-        <i>Dropdown CheckList</i> requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> 
+        <i>Dropdown CheckList 1.4</i> requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> 
         and <a href="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js">ui.core.js</a>(both core and 
-        widget) and has been tested with jquery core version 1.4.2 and ui version 1.8.4.  For CSS styling, 
+        widget) and requires <i>jquery</i> core version 1.6.1 and <i>ui</i> version 1.8.13.  For CSS styling, 
         it can run as a standalone with custom CSS that you provide, or the preferred method is to leverage the 
         jQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
         by ThemeRoller. This page is styled with the ThemeRoller "smoothness" theme.
@@ -527,7 +542,7 @@ dd { padding-bottom: 15px }
 	   </tr>
       <tr>
       	<td colspan='2'>
-		    <h3>Callback handling when user completes their selection</h3>
+		    <h3>Callback handling for both single item click and when the user completes their selection</h3>
 		    <div>
 		        The 'onComplete' option allows you to supply a callback function that is invoked
 		        when the user completes their selection and closes the dropdown. It is passed
@@ -544,7 +559,8 @@ dd { padding-bottom: 15px }
 		    <blockquote>
 		    	<code>
 <pre>
-    $("#s10").dropdownchecklist( { forceMultiple: true, onComplete: function(selector) {
+    $("#s10").dropdownchecklist( { forceMultiple: true
+    , onComplete: function(selector) {
         var values = "";
         for( i=0; i < selector.options.length; i++ ) {
             if (selector.options[i].selected && (selector.options[i].value != "")) {
@@ -553,7 +569,19 @@ dd { padding-bottom: 15px }
             }
         }
 	  	alert( values );
-    } });
+    } 
+	, onItemClick: function(checkbox, selector){
+		var justChecked = checkbox.prop("checked");
+		var checkCount = (justChecked) ? 1 : -1;
+		for( i = 0; i < selector.options.length; i++ ){
+			if ( selector.options[i].selected ) checkCount += 1;
+		}
+	    if ( checkCount > 3 ) {
+			alert( "Limit is 3" );
+			throw "too many";
+		}
+	}
+        });
 </pre>
 		        </code>
 		    </blockquote>
@@ -566,6 +594,7 @@ dd { padding-bottom: 15px }
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>
 	            <option value='d'>Daniel</option>
+	            <option value='e'>Elizabeth</option>
 	        </select>
 	     </td>
       	<td>
@@ -574,6 +603,7 @@ dd { padding-bottom: 15px }
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>
 	            <option value='d'>Daniel</option>
+	            <option value='e'>Elizabeth</option>
 	        </select>
 	     </td>
 	   </tr>
@@ -645,10 +675,11 @@ dd { padding-bottom: 15px }
     		the user can click on to close the control. This string can include html formatting.
     	</dd>
     	
-    	<dt>firstItemChecksAll: true/false</dt>
+    	<dt>firstItemChecksAll: true/false/'exclusive'</dt>
     	<dd>
-    		The <b>firstItemChecksAll</b> option is a boolean that indicates if the first item in 
-    		the list acts as the all/nothing option.
+    		The <b>firstItemChecksAll</b> option indicates if the first item in 
+    		the list acts as the all/nothing option.  If set to 'exclusive', then when the
+    		first item is checked, than all others are automatically unchecked.
     	</dd>
     	
     	<dt>forceMultiple: true/false</dt>
@@ -698,7 +729,7 @@ dd { padding-bottom: 15px }
     		post an issue to help me out.
     	</dd>
     	
-    	<dt>onItemClick: function(checkbox) {}</dt>
+    	<dt>onItemClick: function(checkbox,selector) {}</dt>
     	<dd>
     		The <b>onItemClick</b> option defines a callback function invoked when the user clicks
     		on any item.  It is called with a single argument which is the dynamically generated
@@ -786,6 +817,12 @@ dd { padding-bottom: 15px }
 	 	Some highlights are listed below:
 	</p>
 	<dl>
+		<dt>Version 1.4</dt>
+		<dd><ul>
+			<li>Compatibility with jQuery 1.6</li>
+			<li>Expancded onItemClick support</li>
+			<li>'exclusive' first item checks all</li>
+		</ul></dd>
 		<dt>Version 1.3</dt>
 		<dd><ul>
 			<li>Recognize 'styled' options and other explicit text</li>
