@@ -732,9 +732,12 @@ dd { padding-bottom: 15px }
     	<dt>onItemClick: function(checkbox,selector) {}</dt>
     	<dd>
     		The <b>onItemClick</b> option defines a callback function invoked when the user clicks
-    		on any item.  It is called with a single argument which is the dynamically generated
-    		checkbox element.
+    		on any item.  It is called with two arguments:
+    		<ol><li>the dynamically generated checkbox element</li>
+    		<li>the original html selector</li></ol>
     		<br>
+    		<blockquote>Note that when the callback is invoked, the checkbox has been set
+    		by user action, but the underlying selector option has not yet been adjusted.</blockquote>
     		The callback can 'reject' the click by throwing any error.
     	</dd>
     	
