@@ -12,7 +12,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.3');
+            alert('DropDownCheckList v1.4');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -281,10 +281,11 @@
 					// Active checkboxes take active action
 	                var callback = self.options.onItemClick;
 	                if ($.isFunction(callback)) try {
-                        callback.call(self,aCheckBox);
+                        callback.call(self,aCheckBox,sourceSelect.get(0));
                     } catch (ex) {
                         // reject the change on any error
-                        aCheckBox.attr("checked",!aCheckBox.attr("checked"));
+                        aCheckBox.prop("checked",!aCheckBox.prop("checked"));
+	                	self._syncSelected(aCheckBox);
                         return;
                     } 
 	                self._syncSelected(aCheckBox);
@@ -323,15 +324,16 @@
 				if (!anItem.hasClass("ui-state-disabled") ) {
 					// check/uncheck the underlying control
 					var aCheckBox = anItem.find("input");
-	                var checked = aCheckBox.attr("checked");
-	                aCheckBox.attr("checked", !checked);
+	                var checked = aCheckBox.prop("checked");
+	                aCheckBox.prop("checked", !checked);
 	                
 	                var callback = self.options.onItemClick;
 	                if ($.isFunction(callback)) try {
-                        callback.call(self,aCheckBox);
+                        callback.call(self,aCheckBox,sourceSelect.get(0));
                     } catch (ex) {
                         // reject the change on any error
-                        aCheckBox.attr("checked",checked);
+                        aCheckBox.prop("checked",checked);
+	                	self._syncSelected(aCheckBox);
                         return;
                     } 
 	                self._syncSelected(aCheckBox);
@@ -424,7 +426,7 @@
                 if (opt.is("option")) {
                     self._appendOption(opt, dropContainerDiv, index, false, false);
                 } else if (opt.is("optgroup")) {
-					var disabled = opt.attr("disabled");
+					var disabled = opt.prop("disabled");
                     var text = opt.attr("label");
                     if (text != "") {
 	                    var group = self._createGroupItem(text,disabled);
@@ -453,14 +455,16 @@
             var self = this;
             // Note that the browsers destroy any html structure within the OPTION
             var text = option.html();
-            var value = option.val();
-            var optCss = option.attr('style');
-            var selected = option.attr("selected");
-			var disabled = (forceDisabled || option.attr("disabled"));
-			// Use the same tab index as the selector replacement
-			var tabIndex = self.controlSelector.attr("tabindex");
-            var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
-            container.append(item);
+            if ( (text != null) && (text != '') ) {
+            	var value = option.val();
+            	var optCss = option.attr('style');
+            	var selected = option.prop("selected");
+				var disabled = (forceDisabled || option.prop("disabled"));
+				// Use the same tab index as the selector replacement
+				var tabIndex = self.controlSelector.attr("tabindex");
+            	var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
+            	container.append(item);
+            }
         },
         // Synchronizes the items checked and the source select
         // When firstItemChecksAll option is active also synchronizes the checked items
@@ -469,34 +473,71 @@
             var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             var selectOptions = sourceSelect.get(0).options;
             var allCheckboxes = dropWrapper.find("input.active");
-            if (options.firstItemChecksAll) {
-            	if ((senderCheckbox == null) && $(selectOptions[0]).attr("selected") ) {
-            		// Initialization call with first item active so force all to be active
-                    allCheckboxes.attr("checked", true);
+            if (options.firstItemChecksAll == 'exclusive') {
+            	if ((senderCheckbox == null) && $(selectOptions[0]).prop("selected") ) {
+            		// Initialization call with first item active
+                    allCheckboxes.prop("checked", false);
+                    $(allCheckboxes[0]).prop("checked", true);
                 } else if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
-                	// Check all checkboxes if the first one is checked
-                    allCheckboxes.attr("checked", senderCheckbox.attr("checked"));
+                	// Action on the first, so all other checkboxes NOT active
+                	var firstIsActive = senderCheckbox.prop("checked");
+                    allCheckboxes.prop("checked", false);
+                    $(allCheckboxes[0]).prop("checked", firstIsActive);
                 } else  {
                     // check the first checkbox if all the other checkboxes are checked
                     var allChecked = true;
                     var firstCheckbox = null;
                     allCheckboxes.each(function(index) {
                         if (index > 0) {
-                            var checked = $(this).attr("checked");
+                            var checked = $(this).prop("checked");
                             if (!checked) { allChecked = false; }
                         } else {
                         	firstCheckbox = $(this);
                         }
                     });
                     if ( firstCheckbox != null ) {
-                    	firstCheckbox.attr("checked", allChecked );
+                    	if ( allChecked ) {
+                    		// when all are checked, only the first left checked
+                    		allCheckboxes.prop("checked", false);
+                    	}
+                    	firstCheckbox.prop("checked", allChecked );
+                    }
+                }
+            } else if (options.firstItemChecksAll) {
+            	if ((senderCheckbox == null) && $(selectOptions[0]).prop("selected") ) {
+            		// Initialization call with first item active so force all to be active
+                    allCheckboxes.prop("checked", true);
+                } else if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
+                	// Check all checkboxes if the first one is checked
+                    allCheckboxes.prop("checked", senderCheckbox.prop("checked"));
+                } else  {
+                    // check the first checkbox if all the other checkboxes are checked
+                    var allChecked = true;
+                    var firstCheckbox = null;
+                    allCheckboxes.each(function(index) {
+                        if (index > 0) {
+                            var checked = $(this).prop("checked");
+                            if (!checked) { allChecked = false; }
+                        } else {
+                        	firstCheckbox = $(this);
+                        }
+                    });
+                    if ( firstCheckbox != null ) {
+                    	firstCheckbox.prop("checked", allChecked );
                     }
                 }
             }
             // do the actual synch with the source select
+            var empties = 0;
             allCheckboxes = dropWrapper.find("input");
             allCheckboxes.each(function(index) {
-                $(selectOptions[index]).attr("selected", $(this).attr("checked"));
+            	var anOption = $(selectOptions[index + empties]);
+            	var optionText = anOption.html();
+            	if ( (optionText == null) || (optionText == '') ) {
+                    empties += 1;
+                    anOption = $(selectOptions[index + empties]);
+            	}
+                anOption.prop("selected", $(this).prop("checked"));
             });
             // update the text shown in the control
             self._updateControlText();
@@ -532,14 +573,14 @@
                 } catch(ex) {
                 	alert( 'textFormatFunction failed: ' + ex );
                 }
-            } else if (firstItemChecksAll && (firstOption != null) && firstOption.attr("selected")) {
+            } else if (firstItemChecksAll && (firstOption != null) && firstOption.prop("selected")) {
                 // just set the text from the first item
                 text = firstOption.html();
             } else {
                 // concatenate the text from the checked items
                 text = "";
                 selectOptions.each(function() {
-                    if ($(this).attr("selected")) {
+                    if ($(this).prop("selected")) {
                         if ( text != "" ) { text += ", "; }
                         /* NOTE use of .html versus .text, which can screw up ampersands for IE */
                         var optCss = $(this).attr('style');
@@ -585,7 +626,7 @@
                     $(document).unbind("click", hide);
                     
                     // keep the items out of the tab order by disabling them
-                    instance.dropWrapper.find("input.active").attr("disabled","disabled");
+                    instance.dropWrapper.find("input.active").prop("disabled",true);
                     
                     // the following blur just does not fire???  because it is hidden???  because it does not have focus???
 			  		//instance.sourceSelect.trigger("blur");
@@ -656,7 +697,7 @@
 	                
                     // insert the items back into the tab order by enabling all active ones
                     var activeItems = instance.dropWrapper.find("input.active");
-                    activeItems.removeAttr("disabled");
+                    activeItems.prop("disabled",false);
                     
                     // we want the focus on the first active input item
                     var firstActiveItem = activeItems.get(0);
@@ -734,10 +775,10 @@
             var sourceSelect = self.element;
             self.initialDisplay = sourceSelect.css("display");
             sourceSelect.css("display", "none");
-            self.initialMultiple = sourceSelect.attr("multiple");
+            self.initialMultiple = sourceSelect.prop("multiple");
             self.isMultiple = self.initialMultiple;
             if (options.forceMultiple != null) { self.isMultiple = options.forceMultiple; }
-            sourceSelect.attr("multiple", true);
+            sourceSelect.prop("multiple", true);
             self.sourceSelect = sourceSelect;
 
             // append the control that resembles a single selection select
@@ -779,18 +820,18 @@
 			var aParent = item.parent();
 			// account for enabled/disabled
             if ( disabled ) {
-            	item.attr("disabled","disabled");
+            	item.prop("disabled",true);
             	item.removeClass("active");
             	item.addClass("inactive");
             	aParent.addClass("ui-state-disabled");
             } else {
-            	item.removeAttr("disabled");
+            	item.prop("disabled",false);
             	item.removeClass("inactive");
             	item.addClass("active");
             	aParent.removeClass("ui-state-disabled");
             }
             // adjust the checkbox state
-            item.attr("checked",selected);
+            item.prop("checked",selected);
         },
         _refreshGroup: function(group,disabled) {
             if ( disabled ) {
@@ -814,9 +855,9 @@
             var optionCount = 0;
 			sourceSelect.children().each(function(index) {
 				var opt = $(this);
-				var disabled = opt.attr("disabled");
+				var disabled = opt.prop("disabled");
                 if (opt.is("option")) {
-                	var selected = opt.attr("selected");
+                	var selected = opt.prop("selected");
                 	var anItem = $(allCheckBoxes[optionCount]);
                     self._refreshOption(anItem, disabled, selected);
                     optionCount += 1;
@@ -829,8 +870,8 @@
 	                }
 					opt.children("option").each(function() {
 		                var subopt = $(this);
-						var subdisabled = (disabled || subopt.attr("disabled"));
-                		var selected = subopt.attr("selected");
+						var subdisabled = (disabled || subopt.prop("disabled"));
+                		var selected = subopt.prop("selected");
                 		var subItem = $(allCheckBoxes[optionCount]);
 		                self._refreshOption(subItem, subdisabled, selected );
 		                optionCount += 1;
@@ -854,7 +895,7 @@
         destroy: function() {
             $.Widget.prototype.destroy.apply(this, arguments);
             this.sourceSelect.css("display", this.initialDisplay);
-            this.sourceSelect.attr("multiple", this.initialMultiple);
+            this.sourceSelect.prop("multiple", this.initialMultiple);
             this.controlWrapper.unbind().remove();
             this.dropWrapper.remove();
         }

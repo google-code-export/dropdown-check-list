@@ -1,6 +1,6 @@
 <project name="dropdown-check-list" default="zip" basedir=".">
 
-	<property name="version" value="1.3"/>
+	<property name="version" value="1.4"/>
 	<property name="dist.dir" value="dist"/>
 	<property name="yui-compressor.jar" location="ant_lib/yuicompressor-2.4.2.jar" />
 	<property name="yui-compressor-ant-task.jar" location="ant_lib/yui-compressor-ant-task-0.4.jar"/>
@@ -29,7 +29,10 @@
 		<copy todir="${dist.dir}/src">
 			<fileset dir="src">
 				<exclude name="jquery-1.3.2.min.js"/>
+				<exclude name="jquery-1.4.2.min.js"/>
+				<exclude name="jquery-1.5.1.min.js"/>
 				<exclude name="jquery-ui-1.7.2.custom.min.js"/>
+				<exclude name="jquery-ui-1.8.4.custom.min.js"/>
 			</fileset>
 		</copy>
 		<copy todir="${dist.dir}/css">
@@ -37,14 +40,20 @@
 		</copy>
 		<copy todir="${dist.dir}/doc">
 			<fileset dir="doc">
-			<exclude name="jquery-1.3.2.min.js"/>
-			<exclude name="jquery-ui-1.7.2.custom.min.js"/>
-				
-			<!-- Exclude the older versions when doing the build -->
-			<exclude name="ui.dropdownchecklist-1.0-min.js"/>
-			<exclude name="ui.dropdownchecklist-1.1-min.js"/>
-			<exclude name="ui.dropdownchecklist-1.2qa-min.js"/>
-		</fileset>
+				<exclude name="smoothness"/>
+
+				<exclude name="jquery-1.3.2.min.js"/>
+				<exclude name="jquery-1.4.2.min.js"/>
+				<exclude name="jquery-1.5.1.min.js"/>
+				<exclude name="jquery-ui-1.7.2.custom.min.js"/>
+				<exclude name="jquery-ui-1.8.4.custom.min.js"/>
+					
+				<!-- Exclude the older versions when doing the build -->
+				<exclude name="ui.dropdownchecklist-1.0-min.js"/>
+				<exclude name="ui.dropdownchecklist-1.1-min.js"/>
+				<exclude name="ui.dropdownchecklist-1.2qa-min.js"/>
+				<exclude name="ui.dropdownchecklist-1.3-min.js"/>
+			</fileset>
 		</copy>
 	</target>
 

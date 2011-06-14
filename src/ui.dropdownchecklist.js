@@ -12,7 +12,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.4dev01');
+            alert('DropDownCheckList v1.4');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
