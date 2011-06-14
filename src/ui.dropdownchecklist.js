@@ -281,10 +281,11 @@
 					// Active checkboxes take active action
 	                var callback = self.options.onItemClick;
 	                if ($.isFunction(callback)) try {
-                        callback.call(self,aCheckBox);
+                        callback.call(self,aCheckBox,sourceSelect.get(0));
                     } catch (ex) {
                         // reject the change on any error
                         aCheckBox.prop("checked",!aCheckBox.prop("checked"));
+	                	self._syncSelected(aCheckBox);
                         return;
                     } 
 	                self._syncSelected(aCheckBox);
@@ -328,10 +329,11 @@
 	                
 	                var callback = self.options.onItemClick;
 	                if ($.isFunction(callback)) try {
-                        callback.call(self,aCheckBox);
+                        callback.call(self,aCheckBox,sourceSelect.get(0));
                     } catch (ex) {
                         // reject the change on any error
                         aCheckBox.prop("checked",checked);
+	                	self._syncSelected(aCheckBox);
                         return;
                     } 
 	                self._syncSelected(aCheckBox);
@@ -471,7 +473,37 @@
             var self = this, options = this.options, sourceSelect = this.sourceSelect, dropWrapper = this.dropWrapper;
             var selectOptions = sourceSelect.get(0).options;
             var allCheckboxes = dropWrapper.find("input.active");
-            if (options.firstItemChecksAll) {
+            if (options.firstItemChecksAll == 'exclusive') {
+            	if ((senderCheckbox == null) && $(selectOptions[0]).prop("selected") ) {
+            		// Initialization call with first item active
+                    allCheckboxes.prop("checked", false);
+                    $(allCheckboxes[0]).prop("checked", true);
+                } else if ((senderCheckbox != null) && (senderCheckbox.attr("index") == 0)) {
+                	// Action on the first, so all other checkboxes NOT active
+                	var firstIsActive = senderCheckbox.prop("checked");
+                    allCheckboxes.prop("checked", false);
+                    $(allCheckboxes[0]).prop("checked", firstIsActive);
+                } else  {
+                    // check the first checkbox if all the other checkboxes are checked
+                    var allChecked = true;
+                    var firstCheckbox = null;
+                    allCheckboxes.each(function(index) {
+                        if (index > 0) {
+                            var checked = $(this).prop("checked");
+                            if (!checked) { allChecked = false; }
+                        } else {
+                        	firstCheckbox = $(this);
+                        }
+                    });
+                    if ( firstCheckbox != null ) {
+                    	if ( allChecked ) {
+                    		// when all are checked, only the first left checked
+                    		allCheckboxes.prop("checked", false);
+                    	}
+                    	firstCheckbox.prop("checked", allChecked );
+                    }
+                }
+            } else if (options.firstItemChecksAll) {
             	if ((senderCheckbox == null) && $(selectOptions[0]).prop("selected") ) {
             		// Initialization call with first item active so force all to be active
                     allCheckboxes.prop("checked", true);
