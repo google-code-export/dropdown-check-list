@@ -30,6 +30,8 @@ dd { padding-bottom: 15px }
             								, maxDropHeight: 150, width: 150 } );
             $("#s5").dropdownchecklist( { firstItemChecksAll: true } );
             $("#s5a").dropdownchecklist( { firstItemChecksAll: true, explicitClose: '<i>...close</i>' } );
+            $("#s5b").dropdownchecklist( { firstItemChecksAll: 'exclusive' } );
+            $("#s5c").dropdownchecklist( { firstItemChecksAll: 'exclusive', explicitClose: '<i>...close</i>' } );
             $(".s6").dropdownchecklist();
             $("#s7").dropdownchecklist();
             $("#s7a").dropdownchecklist( { closeRadioOnClick: true } );
@@ -65,13 +67,22 @@ dd { padding-bottom: 15px }
 			  	}
 			  	alert( values );
             } });
-            $("#s10b").dropdownchecklist( { onItemClick: function(checkbox) {
-			  	alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
+            $("#s10b").dropdownchecklist( { onItemClick: function(checkbox,selector) {
+			  	alert("value " + checkbox.val() + ", is checked: " + checkbox.prop("checked"));
             } });
-            $("#s10c").dropdownchecklist( { onItemClick: function(checkbox) {
-			  	alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
-			  	throw 'rejected';
-            } });
+            $("#s10c").dropdownchecklist( {
+onItemClick: function(checkbox, selector){
+	var justChecked = checkbox.prop("checked");
+	var checkCount = (justChecked) ? 1 : -1;
+	for( i = 0; i < selector.options.length; i++ ){
+		if ( selector.options[i].selected ) checkCount += 1;
+	}
+    if ( checkCount > 3 ) {
+		alert( "Limit is 3" );
+		throw "too many";
+	}
+}
+            });
             
             $(".s11").dropdownchecklist( { firstItemChecksAll: true } );
             $(".s12").dropdownchecklist( { width: 250 } );
@@ -124,7 +135,7 @@ dd { padding-bottom: 15px }
             
             
             $("#s20a").dropdownchecklist( { width: 150 } );
-            $("#s20b").dropdownchecklist( { width: 150, maxDropHeight: 200, firstItemChecksAll: true } );			
+            $("#s20b").dropdownchecklist( { width: 150, maxDropHeight: 200, firstItemChecksAll: 'exclusive' } );			
         });
     </script>
     <meta name="description" 
@@ -401,10 +412,24 @@ dd { padding-bottom: 15px }
 	            <option>Turkish Coffee</option>
 	            <option>Vanilla</option>
 	        </select>
+	        <br>
+	         <span>All as first option, EXCLUSIVE </span><br>
+	        <select id="s5b" class="s5" multiple="multiple">
+	            <option>(all)</option>
+	            <option>Banana Nut</option>
+	            <option disabled>Black Walnut</option>
+	            <option disabled>Burgundy Cherry</option>
+	            <option>Butter Pecan</option>
+	            <option>Chocolate Chip</option>
+	            <option>Chocolate Fudge Truffle</option>
+	            <option>Chocolate Mint Chip</option>
+	            <option>Chocolate Peanut Butter</option>
+	        </select>
+	        
 	    </td>
       	<td>
 	  		<span>All as first option, prechecked (with explicit close)</span><br>
-	        <select id="s5a" class="s5" multiple="multiple">
+	        <select id="s5a" class="s5a" multiple="multiple">
 	            <option selected='selected'>(all)</option>
 	            <option>Banana Nut</option>
 	            <option disabled>Black Walnut</option>
@@ -434,6 +459,19 @@ dd { padding-bottom: 15px }
 	            <option>Strawberry Cheesecake</option>
 	            <option>Turkish Coffee</option>
 	            <option>Vanilla</option>
+	        </select>
+	        <br>
+	  		<span>All as first option EXCLUSIVE, prechecked (with explicit close)</span><br>
+	        <select id="s5c" class="s5a" multiple="multiple">
+	            <option selected='selected'>(all)</option>
+	            <option>Banana Nut</option>
+	            <option disabled>Black Walnut</option>
+	            <option disabled>Burgundy Cherry</option>
+	            <option>Butter Pecan</option>
+	            <option>Chocolate Chip</option>
+	            <option>Chocolate Fudge Truffle</option>
+	            <option>Chocolate Mint Chip</option>
+	            <option>Chocolate Peanut Butter</option>
 	        </select>
 	    </td>
 	  </tr>
@@ -762,17 +800,21 @@ dd { padding-bottom: 15px }
 		    <h3>Callback handling when user clicks any item</h3>
 		    <div>
 		        The 'onItemClick' option allows you to supply a callback function that is invoked
-		        when the user clicks on an item. It is passed a single argument which is the 
-		        generated checkbox element.
+		        when the user clicks on an item. It is passed two arguments, the generated checkbox 
+		        element and the underlying html selector.
+		        <blockquote>NOTE that the checkbox "checked" property reflects the user action 
+		        already taken, BUT the underlying selector option state has not yet been updated.
+		        </blockquote>
 		    </div>
 		    <div>
 		    	You can reject the click by throwing any error from within your callback function.
+		    	You can also modify the underlying selector option(s) state.
 		    </div>
 		    <blockquote>
 		    	<code>
 <pre>
-    $(".s10b").dropdownchecklist( { onItemClick: function(checkbox) {
-	    alert("value " + checkbox.val() + " checked: " + checkbox.attr("checked"));
+    $(".s10b").dropdownchecklist( { onItemClick: function(checkbox,selector) {
+	    alert("value " + checkbox.val() + ", is checked: " + checkbox.prop("checked"));
     } });
 </pre>
 		        </code>
@@ -790,7 +832,7 @@ dd { padding-bottom: 15px }
 	        </select>
 	     </td>
       	<td>
-	  		<span>Alert on change</span><br>
+	  		<span>Callback on change</span><br>
 	        <select id="s10b" class="s10b" multiple>
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
@@ -799,12 +841,13 @@ dd { padding-bottom: 15px }
 	        </select>
 	     </td>
       	<td>
-	  		<span>Alert on change(rejected)</span><br>
+	  		<span>Callback on change(limit)</span><br>
 	        <select id="s10c" class="s10c" multiple>
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>
 	            <option value='d'>Daniel</option>
+	            <option value='e'>Elizabeth</option>
 	        </select>
 	     </td>
 	   </tr>
@@ -1664,9 +1707,9 @@ dd { padding-bottom: 15px }
 	        </select>
 	    </td>
       	<td>
-	  		<span>Large number of options (with maxHeight/firstSelectsAll)</span><br>
+	  		<span>Large number of options (with maxHeight/firstSelectsAll exclusive)</span><br>
 	        <select id="s20b" class="s20b" multiple="multiple">
-	            <option>Select All</option>
+	            <option>All</option>
 				<optgroup label="Group 00">
 					<option>0</option>
 					<option>1</option>

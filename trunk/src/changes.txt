@@ -1,6 +1,8 @@
 1.4 
-- compatible with/requires jQuery 1.6 (#180)
+- compatible with/requires jQuery 1.6, ui 1.8.13 (#180, #188)
 - suppress checkbox generation for options with no text display (#169)
+- support firstItemChecksAll: 'exclusive' (#135)
+- enhanced onItemClick callback support (#185, #184)
 
 1.3
 - change of licensing to explicitly state "MIT or GPL", rather than "MIT and GPL"
