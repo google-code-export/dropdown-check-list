@@ -20,6 +20,10 @@
 .ui-dropdownchecklist-text {
 	font-size: medium;
 }
+.ui-dropdownchecklist-item
+, .ui-dropdownchecklist-item input {
+    vertical-align: middle;
+}
 .ui-dropdownchecklist-group {
 	padding: 1px 2px 2px 2px;
 }
