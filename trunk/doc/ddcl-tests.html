@@ -525,6 +525,9 @@ dd { padding-bottom: 15px }
 		    <div>
 		        If the select element does not have an multiple attribute then the plugin will 
 		        display radiobuttons in the list.
+		        <br>
+		        Note that you can include an empty placeholder as the first item to
+		        suppress the browser auto-select.
 		    </div>
 		    <blockquote>
 		    	<code>
@@ -538,6 +541,7 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>Naked Selector</span><br>
 	        <select>
+	            <option></option>
 	            <option>Aries</option>
 	            <option>Taurus</option>
 	            <option>Gemini</option>
@@ -556,6 +560,7 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>As radio buttons</span><br>
 	        <select id="s7" class="s7">
+	            <option></option>
 	            <option>Aries</option>
 	            <option>Taurus</option>
 	            <option>Gemini</option>
@@ -574,6 +579,7 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>Close on Click</span><br>
 	        <select id="s7a" class="s7">
+	            <option></option>
 	            <option>Aries</option>
 	            <option>Taurus</option>
 	            <option>Gemini</option>
@@ -743,6 +749,7 @@ dd { padding-bottom: 15px }
       	<td>
 	  		<span>Forced Multiple (not on IE6)</span><br>
 	        <select id="s10a" class="s10">
+	            <option></option><!-- empty placeholder -->
 	            <option value='a'>Alice</option>
 	            <option value='b'>Bob</option>
 	            <option value='c'>Christian</option>

@@ -453,14 +453,16 @@
             var self = this;
             // Note that the browsers destroy any html structure within the OPTION
             var text = option.html();
-            var value = option.val();
-            var optCss = option.attr('style');
-            var selected = option.prop("selected");
-			var disabled = (forceDisabled || option.prop("disabled"));
-			// Use the same tab index as the selector replacement
-			var tabIndex = self.controlSelector.attr("tabindex");
-            var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
-            container.append(item);
+            if ( (text != null) && (text != '') ) {
+            	var value = option.val();
+            	var optCss = option.attr('style');
+            	var selected = option.prop("selected");
+				var disabled = (forceDisabled || option.prop("disabled"));
+				// Use the same tab index as the selector replacement
+				var tabIndex = self.controlSelector.attr("tabindex");
+            	var item = self._createDropItem(index, tabIndex, value, text, optCss, selected, disabled, indent);
+            	container.append(item);
+            }
         },
         // Synchronizes the items checked and the source select
         // When firstItemChecksAll option is active also synchronizes the checked items
@@ -494,9 +496,16 @@
                 }
             }
             // do the actual synch with the source select
+            var empties = 0;
             allCheckboxes = dropWrapper.find("input");
             allCheckboxes.each(function(index) {
-                $(selectOptions[index]).prop("selected", $(this).prop("checked"));
+            	var anOption = $(selectOptions[index + empties]);
+            	var optionText = anOption.html();
+            	if ( (optionText == null) || (optionText == '') ) {
+                    empties += 1;
+                    anOption = $(selectOptions[index + empties]);
+            	}
+                anOption.prop("selected", $(this).prop("checked"));
             });
             // update the text shown in the control
             self._updateControlText();
