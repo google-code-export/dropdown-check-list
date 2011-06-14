@@ -12,7 +12,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.4dev');
+            alert('DropDownCheckList v1.4dev01');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {
@@ -656,7 +656,7 @@
 	                
                     // insert the items back into the tab order by enabling all active ones
                     var activeItems = instance.dropWrapper.find("input.active");
-                    activeItems.removeAttr("disabled");
+                    activeItems.prop("disabled",false);
                     
                     // we want the focus on the first active input item
                     var firstActiveItem = activeItems.get(0);
@@ -784,7 +784,7 @@
             	item.addClass("inactive");
             	aParent.addClass("ui-state-disabled");
             } else {
-            	item.removeAttr("disabled");
+            	item.prop("disabled",false);
             	item.removeClass("inactive");
             	item.addClass("active");
             	aParent.removeClass("ui-state-disabled");
