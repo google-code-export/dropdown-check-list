@@ -2,7 +2,9 @@
 /*
     * ui.dropdownchecklist
     *
-    * Copyright (c) 2008-2010 Adrian Tosca, Copyright (c) 2010-2011 Ittrium LLC
+    * Copyright (c) 2008-2010 Adrian Tosca, 
+    * Copyright (c) 2010-2011 Ittrium LLC
+    * Copyright (c) 2015-     W.C.Omohundro
     * Dual licensed under the MIT (MIT-LICENSE.txt) OR GPL (GPL-LICENSE.txt) licenses.
     *
 */
@@ -12,7 +14,7 @@
     	// $.ui.dropdownchecklist.gLastOpened - keeps track of last opened dropdowncheck list so we can close it
     	// $.ui.dropdownchecklist.gIDCounter - simple counter to provide a unique ID as needed
         version: function() {
-            alert('DropDownCheckList v1.4');
+            alert('DropDownCheckList v1.5');
         },    	
         // Creates the drop container that keeps the items and appends it to the document
         _appendDropContainer: function( controlItem ) {

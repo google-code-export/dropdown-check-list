@@ -3,21 +3,24 @@
 <head>
     <title>jQuery Dropdown CheckList</title>
     <!-- Use a JQuery ThemeRoller theme, in this case 'smoothness' -->
-    <link rel="stylesheet" type="text/css" href="smoothness-1.8.13/jquery-ui-1.8.13.custom.css">
-    <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.themeroller.css">
-    <!--  <link rel="stylesheet" type="text/css" href="../src/ui.dropdownchecklist.standalone.css">  -->
+    <link rel="stylesheet" type="text/css" href="smoothness-1.11.2/jquery-ui-1.11.2.custom.css">
+    <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.themeroller.css">
+    <!-- or use standalone -->
+    <!-- <link rel="stylesheet" type="text/css" href="ui.dropdownchecklist.standalone.css"> -->
     <style>
 table td { vertical-align: top }
 dd { padding-bottom: 15px }
     </style>
     
     <!-- Include the basic JQuery support (core and ui) -->
-    <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
-    <script type="text/javascript" src="jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.11.2.custom.min.js"></script>
     
-    <!-- Include the DropDownCheckList supoprt -->
+    <!-- Include the DropDownCheckList support -->
+    <!-- <script type="text/javascript" src="../src/ui.dropdownchecklist.js"></script> -->
     <!-- <script type="text/javascript" src="ui.dropdownchecklist.js"></script> -->
-    <script type="text/javascript" src="ui.dropdownchecklist-1.4-min.js"></script>
+    <!-- <script type="text/javascript" src="ui.dropdownchecklist-1.4-min.js"></script> -->
+    <script type="text/javascript" src="ui.dropdownchecklist-1.5-min.js"></script>
     
     <!-- Apply dropdown check list to the selected items  -->
     <script type="text/javascript">
@@ -87,34 +90,35 @@ dd { padding-bottom: 15px }
     	<i>radio buttons</i> for single-select elements. Option groups are supported as well.
     </p>
     <p>
-        Copyright &copy; Adrian Tosca &lt;adrian.tosca@gmail.com&gt;, Ittrium, LLC &lt;womohundro@ittrium.com&gt;
+        Copyright &copy; Adrian Tosca; Ittrium, LLC; W.C.Omohundro
     </p>
     <p>
         Licensed like jQuery, see <a href="http://docs.jquery.com/Licensing">http://docs.jquery.com/Licensing</a>.
     </p>
     <h2>Download</h2>
     <p>
-        The current version <b>v1.4</b> of <i>Dropdown CheckList</i> can be downloaded from 
+        The current version <b>v1.5</b> of <i>Dropdown CheckList</i> can be downloaded from 
         <a href="http://code.google.com/p/dropdown-check-list/downloads/list">google code Downloads</a>. 
         This page, including all required files to run the examples, can be downloaded as zip package 
         from the same location.
     </p>
     <h2>Requirements/Environments</h2>
     <p>
-        <i>Dropdown CheckList 1.4</i> requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> 
+        <i>Dropdown CheckList 1.5</i> requires <a href="http://code.jquery.com/jquery-latest.js">jquery.js</a> 
         and <a href="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js">ui.core.js</a>(both core and 
-        widget) and requires <i>jquery</i> core version 1.6.1 and <i>ui</i> version 1.8.13.  For CSS styling, 
-        it can run as a standalone with custom CSS that you provide, or the preferred method is to leverage the 
-        jQuery ThemeRoller support. <i>Dropdown CheckList</i> uses element tags that match those definded
-        by ThemeRoller. This page is styled with the ThemeRoller "smoothness" theme.
+        widget) and requires <i>jquery</i> core version 1.11.2 and <i>ui</i> version 1.11.2.  
+        <br>For CSS styling, it can run as a stand-alone with custom CSS that you provide, or the 
+        preferred method is to leverage the jQuery ThemeRoller support. <i>Dropdown CheckList</i> uses 
+        element tags that match those defined by ThemeRoller. This page is styled with the 
+        ThemeRoller "smoothness" theme.
     </p>
     <p>
-        The widget has been tested with brosers
+        The widget has been tested with browsers
         <ul>
-	        <li>IE 6 / 7 / 8</li>
-	        <li>Firefox 3</li>
+	        <li>IE 11</li>
+	        <li>Firefox 34</li>
 	        <li>Safari 5</li>
-	        <li>Chrome 6</li>
+	        <li>Chrome 39</li>
         </ul>
         <input type='button' value='version' onclick='$("#s1").dropdownchecklist("version");'>
     </p>
@@ -132,8 +136,8 @@ dd { padding-bottom: 15px }
         The new widget will keep the replaced select options synchronized with the checkbox list so 
         the postback is not affected.
         The text of the control is composed on the concatenated text of selected options in the list.
-        Because the width of the control will not allways accomodate all selected options, the control 
-        will show the full text on hover by setting its title attribute.
+        Because the width of the control will not always accommodate all selected options, the control 
+        will show the full text on hover by updating its title attribute.
     </p>
     <h2>Examples</h2>
     <table>
@@ -237,7 +241,7 @@ dd { padding-bottom: 15px }
 		    <h3>Long list of options, with scroll and disabled items</h3>
     		<div>
         		The 'maxDropHeight' option allows you to set a height for the dropdown list.
-        		This is usefull when there is a big number of items. The dropdown list is scrollable 
+        		This is useful when there is a big number of items. The dropdown list is scrollable 
         		to allow selection of all the items. Some select options have been disabled.
 		    </div>
 		    <blockquote>
@@ -611,7 +615,7 @@ dd { padding-bottom: 15px }
     
 	<h2>Changing the original select element content or selection</h2>
 	<p>
-	 	The plugin does not automatically syncronize any changes made to the original select back into the 
+	 	The plugin does not automatically synchronize any changes made to the original select back into the 
 	 	DDCL checkboxes after initial creation. If the original select needs to change, for example by 
 	 	adding some options, changing the text, or reordering, then the plugin must be destroyed 
 	 	and recreated to reflect the changes:
@@ -815,11 +819,15 @@ dd { padding-bottom: 15px }
 	</ul>
 	<h2>History</h2>
 	<p>
-	 	The full change history (including references to issue numbers) is avaiable 
+	 	The full change history (including references to issue numbers) is available 
 	 	<a href="http://dropdown-check-list.googlecode.com/svn/trunk/src/changes.txt" target='_blank'>here</a>.
 	 	Some highlights are listed below:
 	</p>
 	<dl>
+		<dt>Version 1.5</dt>
+		<dd><ul>
+			<li>Compatibility with jQuery 1.11</li>
+		</ul></dd>
 		<dt>Version 1.4</dt>
 		<dd><ul>
 			<li>Compatibility with jQuery 1.6</li>
