@@ -745,17 +745,21 @@
             }
             // Account for padding, borders, etc
             controlWidth = controlWrapper.outerWidth();
+            // ensure the drop container is not less than the control width (would be ugly)
+            var dropWidth = dropCalculatedSize.width < controlWidth ? controlWidth : dropCalculatedSize.width;
             
             // the drop container height can be set from options
             var maxDropHeight = (options.maxDropHeight != null)
             					? parseInt(options.maxDropHeight)
             					: -1;
-            var dropHeight = ((maxDropHeight > 0) && (dropCalculatedSize.height > maxDropHeight))
-            					? maxDropHeight 
-            					: dropCalculatedSize.height;
-            // ensure the drop container is not less than the control width (would be ugly)
-            var dropWidth = dropCalculatedSize.width < controlWidth ? controlWidth : dropCalculatedSize.width;
-
+            var dropHeight = dropCalculatedSize.height;
+            if ((maxDropHeight > 0) && (dropCalculatedSize.height > maxDropHeight)) {
+            	// Limit to the max
+            	dropHeight = maxDropHeight;
+            	
+            	// Account for vertical scroll
+            	dropWidth += 20;
+            }
             $(dropWrapper).css({
                 height: dropHeight + "px",
                 width: dropWidth + "px"
