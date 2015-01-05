@@ -1,5 +1,5 @@
 1.5
-- compatible with/requires jQuery 1.1
+- compatible with/requires jQuery 1.11
 - add arbitrary width to account for vertical scroll bar if no explicit width specified
 
 1.4 
